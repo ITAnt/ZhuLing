@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--CollapsingToolbarLayout折叠时的渐变效果-->
+    <!--gradient节点中angle的值270是从上到下，0是从左到右，90是从下到上。
+    起始颜色#33000000是20%不透明度的黑色，#00000000表示全透明。-->
+    <gradient
+        android:startColor="#33000000"
+        android:endColor="#00000000"
+        android:angle="270" />
+
+</shape>

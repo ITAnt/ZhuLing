@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <me.henrytao.smoothappbarlayout.widget.NestedScrollView
+        android:id="@+id/nsv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"这个属性要设置，否则会撑到顶部上去。而且这个属性要放在会滚动的View里，
+        而且与ToolBar交互的话，必须用NestedScrollView和新的RecyclerView，不能使用普通的ScrollView。-->
+
+        <!--===使用smoothappbarlayout时需要去掉该属性，
+        并且NestedScrollView必须是CoordinatorLayout的第一个子元素===-->
+        <LinearLayout
+            android:id="@+id/ll_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="250dp">
+            <!--===使用smoothappbarlayout时padding需和SmoothAppBarLayout的高度一致，一致的时候，
+            默认有paddingtop和paddingbottom，其高度正是默认activity_horizontal_margin高度===-->
+
+            <ImageView
+                android:id="@+id/iv_top"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher"
+                android:transitionName="@string/transition_name_news_to_detail" />
+            <!-- 定义android:transitionName="..."实现共享元素动画，必须和Fragment那边的item相同-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="4fsdfdsfsdf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="10.0dip"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="Events"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+            </LinearLayout>
+        </LinearLayout>
+    </me.henrytao.smoothappbarlayout.widget.NestedScrollView>
+
+    <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!--scroll:所有想滚动出屏幕的view都需要设置为这个属性，没有设置这个flag的view将被固定在屏幕顶部。-->
+        <!--enterAlways:这个属性让任意向下的滚动都会导致该view变为可见，启用快速“返回模式”。-->
+        <!--enterAlwaysCollapsed: 当你的视图已经设置minHeight属性又使用此属性时，你的视图只能以最小高度进入，
+        只有当滚动视图到达顶部时才扩大到完整高度。-->
+        <!--exitUntilCollapsed:滚动退出屏幕，最后折叠在顶端。-->
+
+        <!--app:contentScrim="#1dcdef" 设置当完全CollapsingToolbarLayout折叠(收缩)后的背景颜色-->
+        <!--app:expandedTitleMarginStart="48dp" 设置扩张时候(还没有收缩时)title向左填充的距离-->
+        <!--app:layout_collapseMode="parallax" 设置为这个模式时，在内容滚动时，
+        CollapsingToolbarLayout中的View（比如ImageView)也可以同时滚动，实现视差滚动效果，
+        通常和layout_collapseParallaxMultiplier(设置视差因子)搭配使用-->
+        <!--app:layout_collapseParallaxMultiplier="0.7" 设置视差滚动因子，值为：0~1-->
+        <!--app:layout_collapseMode="pin" pin设置为这个模式时，当CollapsingToolbarLayout
+        完全收缩后，Toolbar还可以保留在屏幕上-->
+        <!--TabLayout没有设置app:layout_collapseMode，在CollapsingToolbarLayout收缩时就不会消失。-->
+
+        <!--和TabLayout结合使用时：CollapsingToolbarLayout收缩时的高度是Toolbar的高度，所以我们需要把Toolbar的高度
+        增加，给TabLayout留出位置，这样收缩后TabLayout就不会和Toolbar重叠。
+        Toolbar的高度增加，title会相应下移。android:gravity="top"方法使Toolbar的title
+        位于Toolbar的上方，然后通过app:titleMarginTop调整下title距顶部高度，
+        这样Toolbar就和原来显示的一样了。-->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="20dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <!--CollapsingToolbarLayout可以通过app:contentScrim设置折叠时工具栏布局的颜色，
+            通过app:statusBarScrim设置折叠时状态栏的颜色。默认contentScrim是colorPrimary的色值，
+            statusBarScrim是colorPrimaryDark的色值。-->
+            <!--app:collapsedTitleTextAppearance 这是在收缩时Title文字特点外形的设置
+            app:expandedTitleTextAppearance 同理这是在展开时Title文字特点外形的设置
+            app:contentScrim 这是toolbar 标题工具栏停留在顶部时候背景的设置
+            app:expandedTitleMarginStart 设置扩张时候(还没有收缩时)title向左填充的距离
+            app:expandedTitleMarginEnd 这个同理是收缩结束时向左填空的距离-->
+
+            <ImageView
+                android:id="@+id/iv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/test_image"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7" />
+
+            <!--为了避免视频封面图片颜色过浅影响状态栏信息的显示，加了一个渐变的不透明层。
+            一般状态栏的高度大概在20dp左右，为了让渐变效果比较自然，并且不过多影响图（mei）片（zi）,把高度设置成了40dp。-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/gradient"
+                android:fitsSystemWindows="true" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+</android.support.design.widget.CoordinatorLayout>
+
+    <!--app:layout_anchor="@id/appbar"
+    提供了一个layout_anchor的属性，连同layout_anchorGravity一起，可以用来放置与其他视图关联在一起的悬浮视图（如FloatingActionButton）。
+    与某一个AppBarLayout控件相关联
+    app:layout_anchorGravity="bottom | right | end"
+    悬浮视图的位置
+    注意：
+    使用CollapsingToolbarLayout实现折叠效果，需要注意3点
+    1. AppBarLayout的高度固定
+    2. CollapsingToolbarLayout的子视图设置layout_collapseMode属性
+    3.关联悬浮视图设置app:layout_anchor，app:layout_anchorGravity属性-->

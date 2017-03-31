@@ -1,0 +1,22 @@
+<resources>
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="AppThemeRed" parent="CustomTheme">
+        <item name="colorPrimary">@color/color_primary_red</item>
+        <item name="colorPrimaryDark">@color/color_primary_red_dark</item>
+    </style>
+
+    <style name="AppThemeGreen" parent="CustomTheme">
+        <item name="colorPrimary">@color/color_primary_green</item>
+        <item name="colorPrimaryDark">@color/color_primary_green_dark</item>
+    </style>
+
+    <style name="AppThemeBlue" parent="CustomTheme">
+        <item name="colorPrimary">@color/color_primary_blue</item>
+        <item name="colorPrimaryDark">@color/color_primary_blue_dark</item>
+        <item name="colorAccent">@color/color_accent_pink</item>
+    </style>
+
+</resources>
