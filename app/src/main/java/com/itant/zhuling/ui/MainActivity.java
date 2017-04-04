@@ -4,31 +4,28 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.View;
 
 import com.itant.zhuling.R;
-import com.itant.zhuling.event.AppEvent;
-import com.itant.zhuling.event.ToolBarMoveEvent;
-import com.itant.zhuling.ui.fragment.music.MusicFragment;
-import com.itant.zhuling.ui.fragment.news.NewsFragment;
-import com.itant.zhuling.utils.UIUtils;
+import com.itant.zhuling.ui.maintab.csdn.CsdnFragment;
+import com.itant.zhuling.ui.maintab.github.GithubFragment;
+import com.itant.zhuling.ui.maintab.music.MusicFragment;
+import com.itant.zhuling.ui.maintab.news.NewsFragment;
+import com.itant.zhuling.ui.maintab.weibo.WeiboFragment;
+import com.itant.zhuling.ui.navigation.SettingActivity;
+import com.itant.zhuling.utils.ToastUtils;
 import com.itant.zhuling.utils.smarttab.v4.FragmentPagerItemAdapter;
 import com.itant.zhuling.utils.smarttab.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -38,64 +35,11 @@ import com.yalantis.contextmenu.lib.MenuParams;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener {
 
-    /*********************************隐藏ToolBar开始********************************/
-    // 上拉隐藏ToolBar
-    private int mToolbarHeight;
-    private AppBarLayout abl_toolbar_container;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ToolBarMoveEvent event) {
-        abl_toolbar_container.setTranslationY(-event.getDistance());
-
-        if (event.getDistance() >= UIUtils.getToolbarHeight(MainActivity.this)) {
-            ((NewsFragment)adapter.getPage(1)).setRefresh(false);
-        } else if (event.getDistance() == 0) {
-            ((NewsFragment)adapter.getPage(1)).setRefresh(true);
-        }
-        Log.d("distance", UIUtils.getToolbarHeight(MainActivity.this)+"");
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(AppEvent event) {
-        switch (event) {
-            case EVENT_HIDE_TOOL_BAR:
-                // 隐藏ToolBar
-                if (abl_toolbar_container != null) {
-                    abl_toolbar_container.animate().translationY(-mToolbarHeight).setInterpolator(new AccelerateInterpolator(2)).start();
-                }
-
-                break;
-
-            case EVENT_SHOW_TOOL_BAR:
-                // 显示ToolBar
-                if (abl_toolbar_container != null) {
-                    abl_toolbar_container.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-                }
-                break;
-        }
-    }
-    /*********************************隐藏ToolBar结束********************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -212,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 长按右侧菜单
 
     }
+
     /**************************************** 右侧菜单结束*************************************************/
 
     private ViewPager vp_main;
@@ -219,9 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentPagerItemAdapter adapter;
 
     private void initView() {
-        // 获取ToolBar高度
-        mToolbarHeight = UIUtils.getToolbarHeight(this);
-        abl_toolbar_container = (AppBarLayout) findViewById(R.id.abl_toolbar_container);
+
 
         fragmentManager = getSupportFragmentManager();
 
@@ -230,16 +173,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         stl_main = (SmartTabLayout) findViewById(R.id.stl_main);
 
 
-         adapter = new FragmentPagerItemAdapter(
+        adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("音乐", MusicFragment.class)
-                .add("新闻", NewsFragment.class)
+                .add("资讯", MusicFragment.class)
+                .add("悦听", NewsFragment.class)
                 .add("妹纸", NewsFragment.class)
-                .add("博客", NewsFragment.class)
-                .add("笑话", NewsFragment.class)
-                .add("开源", NewsFragment.class)
+                .add("博客", CsdnFragment.class)
+                .add("微博", WeiboFragment.class)
+                .add("开源", GithubFragment.class)
                 .create());
-
 
 
         vp_main.setAdapter(adapter);
@@ -295,21 +237,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // 处理左侧导航栏的点击事件
         switch (item.getItemId()) {
-            case R.id.nav_camera:
+
+            case R.id.nav_download:
                 break;
-            case R.id.nav_gallery:
+            case R.id.nav_about:
                 break;
 
-            case R.id.nav_slideshow:
+            case R.id.nav_update:
+                ToastUtils.showShort(this, "我是自定义的Toast哦");
                 break;
 
-            case R.id.nav_manage:
+            case R.id.nav_setting:
+                // 打开设置界面
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
+
+            case R.id.nav_comment:
+                // 跳转到应用市场，评论应用
+                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
 
             case R.id.nav_share:
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, "我发现了一款非常有趣的应用，你也来下载吧！它的下载地址是www.qianxueya.com");
+                startActivity(Intent.createChooser(share, "分享竹翎"));
                 break;
 
-            case R.id.nav_send:
+            case R.id.nav_feedback:
                 break;
         }
 

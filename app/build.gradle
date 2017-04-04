@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.itant.github"
         minSdkVersion 15
@@ -30,6 +30,7 @@ dependencies {
     })
 
     testCompile 'junit:junit:4.12'
+
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -47,7 +48,7 @@ dependencies {
     compile 'com.yalantis:contextmenu:1.0.7'
 
     /*可以隐藏toolbar的RecyclerView，可以用，但不够流畅，用系统监听代替了*/
-   /* compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'*/
+    /* compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'*/
 
     /*EventBus*/
     compile 'org.greenrobot:eventbus:3.0.0'
@@ -55,6 +56,15 @@ dependencies {
     /*Material风格的下拉刷新*/
     compile 'com.cjj.materialrefeshlayout:library:1.3.0'
 
-    /*解决滑动卡顿的CoordinatorLayout*/
+    /*解决滑动卡顿的CoordinatorLayout，这个库很坑，如果只使用它的NestedScrollView可以很好解决
+    原生NestedScrollView卡顿问题，但如果用到RecyclerView或者ViewPager和多个Fragment，
+    集成smarttablayout简直是折磨，而且还要为RecyclerView设置一个header。不如直接用原生的来得快。*/
     compile 'me.henrytao:smooth-app-bar-layout:25.1.0.0'
+
+    /*compile 'com.github.bumptech.glide:glide:3.6.0'*/
+    /*圆形头像*/
+    compile 'de.hdodenhof:circleimageview:1.3.0'
+
+    /*列表滚动动画*/
+    compile 'jp.wasabeef:recyclerview-animators:2.2.6'
 }

@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 public abstract class BaseFragment extends Fragment {
 
     private View mView;
+
     public abstract int getLayoutId();
+
     public abstract void initViews(View view);
 
     @Nullable

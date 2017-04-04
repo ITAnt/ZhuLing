@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015 ogaclejapan
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,56 +25,56 @@ import com.itant.zhuling.utils.smarttab.PagerItems;
 
 public class FragmentPagerItems extends PagerItems<FragmentPagerItem> {
 
-  public FragmentPagerItems(Context context) {
-    super(context);
-  }
-
-  public static Creator with(Context context) {
-    return new Creator(context);
-  }
-
-  public static class Creator {
-
-    private final FragmentPagerItems items;
-
-    public Creator(Context context) {
-      items = new FragmentPagerItems(context);
+    public FragmentPagerItems(Context context) {
+        super(context);
     }
 
-    public Creator add(@StringRes int title, Class<? extends Fragment> clazz) {
-      return add(FragmentPagerItem.of(items.getContext().getString(title), clazz));
+    public static Creator with(Context context) {
+        return new Creator(context);
     }
 
-    public Creator add(@StringRes int title, Class<? extends Fragment> clazz, Bundle args) {
-      return add(FragmentPagerItem.of(items.getContext().getString(title), clazz, args));
-    }
+    public static class Creator {
 
-    public Creator add(@StringRes int title, float width, Class<? extends Fragment> clazz) {
-      return add(FragmentPagerItem.of(items.getContext().getString(title), width, clazz));
-    }
+        private final FragmentPagerItems items;
 
-    public Creator add(@StringRes int title, float width, Class<? extends Fragment> clazz,
-        Bundle args) {
-      return add(FragmentPagerItem.of(items.getContext().getString(title), width, clazz, args));
-    }
+        public Creator(Context context) {
+            items = new FragmentPagerItems(context);
+        }
 
-    public Creator add(CharSequence title, Class<? extends Fragment> clazz) {
-      return add(FragmentPagerItem.of(title, clazz));
-    }
+        public Creator add(@StringRes int title, Class<? extends Fragment> clazz) {
+            return add(FragmentPagerItem.of(items.getContext().getString(title), clazz));
+        }
 
-    public Creator add(CharSequence title, Class<? extends Fragment> clazz, Bundle args) {
-      return add(FragmentPagerItem.of(title, clazz, args));
-    }
+        public Creator add(@StringRes int title, Class<? extends Fragment> clazz, Bundle args) {
+            return add(FragmentPagerItem.of(items.getContext().getString(title), clazz, args));
+        }
 
-    public Creator add(FragmentPagerItem item) {
-      items.add(item);
-      return this;
-    }
+        public Creator add(@StringRes int title, float width, Class<? extends Fragment> clazz) {
+            return add(FragmentPagerItem.of(items.getContext().getString(title), width, clazz));
+        }
 
-    public FragmentPagerItems create() {
-      return items;
-    }
+        public Creator add(@StringRes int title, float width, Class<? extends Fragment> clazz,
+                           Bundle args) {
+            return add(FragmentPagerItem.of(items.getContext().getString(title), width, clazz, args));
+        }
 
-  }
+        public Creator add(CharSequence title, Class<? extends Fragment> clazz) {
+            return add(FragmentPagerItem.of(title, clazz));
+        }
+
+        public Creator add(CharSequence title, Class<? extends Fragment> clazz, Bundle args) {
+            return add(FragmentPagerItem.of(title, clazz, args));
+        }
+
+        public Creator add(FragmentPagerItem item) {
+            items.add(item);
+            return this;
+        }
+
+        public FragmentPagerItems create() {
+            return items;
+        }
+
+    }
 
 }

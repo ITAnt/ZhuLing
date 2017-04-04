@@ -13,7 +13,7 @@
         android:scaleType="centerCrop"
         android:transitionName="@string/transition_name_news_to_detail"
         tools:src="@mipmap/ic_launcher"
-        tools:targetApi="lollipop"/>
+        tools:targetApi="lollipop" />
     <!-- 定义android:transitionName="..."实现共享元素动画-->
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@+id/news_summary_photo_iv"
         android:lines="2"
-        tools:text="习近平:吹响建设科技强国号角国号角国号角"/>
+        tools:text="习近平:吹响建设科技强国号角国号角国号角" />
 
     <TextView
         android:id="@+id/news_summary_digest_tv"
@@ -37,7 +37,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        tools:text="科技是国之利器，中国人民生活要好，必须有强大科技。"/>
+        tools:text="科技是国之利器，中国人民生活要好，必须有强大科技。" />
 
     <TextView
         android:id="@+id/news_summary_ptime_tv"
@@ -47,6 +47,6 @@
         android:layout_below="@id/news_summary_digest_tv"
         android:layout_marginBottom="4dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        tools:text="05-28 20:09"/>
+        tools:text="05-28 20:09" />
 
 </RelativeLayout>

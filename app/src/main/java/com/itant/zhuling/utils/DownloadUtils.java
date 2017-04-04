@@ -10,9 +10,9 @@ public class DownloadUtils {
   
     *//**
      * 定义下载方法，使用rx的编程思想 
-     * 
-     * @param url 
-     * @return 
+     *
+     * @param url
+     * @return
      *//*
     public Observable<byte[]> downloadImage(final String url, final RequestBody requestBody) {
         //创建被观察者  

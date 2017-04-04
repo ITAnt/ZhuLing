@@ -4,7 +4,7 @@ package com.itant.zhuling.api;
  
 /* Retrofit 2.0 */
 
-import com.itant.zhuling.ui.fragment.music.MusicBean;
+import com.itant.zhuling.ui.maintab.music.MusicBean;
 
 import java.util.List;
 import java.util.Map;
@@ -19,9 +19,8 @@ public interface APIService {
 
     @GET("nc/article/{type}/{id}/{startPage}-20.html")
     Call<List<MusicBean>> loadRepository(
-                                  @Path("type") String type, @Path("id") String id,
-                                  @Path("startPage") int startPage);
-
+            @Path("type") String type, @Path("id") String id,
+            @Path("startPage") int startPage);
 
 
     @GET("nc/article/{type}/{id}/{startPage}-20.html")

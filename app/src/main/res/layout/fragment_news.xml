@@ -10,31 +10,17 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_repo"
+            android:id="@+id/rv_music"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <!--<TextView
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:drawablePadding="@dimen/item_margin"
-        android:drawableTop="@drawable/ic_news_empty"
-        android:gravity="center"
-        android:text="@string/retry_refresh_news"
-        android:textColor="@color/secondary_text"
-        android:textSize="@dimen/big_medium"
-        android:visibility="gone"
-        tools:visibility="visible"/>-->
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </FrameLayout>

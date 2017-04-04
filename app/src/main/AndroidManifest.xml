@@ -13,20 +13,27 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name="com.itant.zhuling.ui.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.itant.zhuling.ui.LoginActivity"
-            android:theme="@style/BaseAppTheme.NoTrans"/>
 
-        <!--欢迎界面-->
+        <!-- 防止与lib包中的属性冲突 -->
+
+
+        <!-- 开启硬件加速，加快WebView等界面速度 -->
         <activity
-            android:name="com.itant.zhuling.WelcomeActivity"
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:theme="@style/BaseAppTheme.NoTrans" />
+
+        <!-- 欢迎界面 -->
+        <activity
+            android:name=".WelcomeActivity"
             android:theme="@style/BaseAppTheme.Trans">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,11 +42,17 @@
             </intent-filter>
         </activity>
 
+        <!-- 设置详情 -->
+        <activity
+            android:name=".ui.navigation.SettingActivity"
+            android:theme="@style/AppTheme" />
 
-        <!--新闻详情-->
-        <activity android:name="com.itant.zhuling.ui.fragment.news.detail.NewsDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <!--需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错-->
+        <!-- 新闻详情 -->
+        <activity
+            android:name=".ui.maintab.news.detail.NewsDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
+
 
     </application>
 

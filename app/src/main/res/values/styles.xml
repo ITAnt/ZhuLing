@@ -37,8 +37,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="BaseAppTheme.NoTrans">
-    </style>
+    <style name="BaseAppTheme.NoTrans"></style>
 
     <!--新闻频道-->
     <style name="news_summary_card_view">
@@ -55,7 +54,6 @@
     <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
     </style>
-
 
 
 </resources>
