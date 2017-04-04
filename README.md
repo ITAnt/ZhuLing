@@ -62,3 +62,5 @@ compile 'de.hdodenhof:circleimageview:1.3.0'
 compile 'jp.wasabeef:recyclerview-animators:2.2.6'
 ```
 [ContextMenu](https://github.com/Yalantis/Context-Menu.Android)
+
+不建议直接在代码上面修改哦，因为我的国际化没有做完善，导致打包会有错误提示，还有针对Android6.0的权限申请也还没完善。。。有时间一定补上，现在好累，要先睡觉啦。
