@@ -1,2 +1,2 @@
 # ZhuLing
-竹翎，一个有个性的APP
+竹翎，一个Material风格的APP
