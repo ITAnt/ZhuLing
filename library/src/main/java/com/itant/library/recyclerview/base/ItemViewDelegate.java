@@ -2,7 +2,7 @@ package com.itant.library.recyclerview.base;
 
 
 /**
- * Created by duxikuan on 2017/1/15.
+ * Created by iTant on 2017/1/15.
  */
 public interface ItemViewDelegate<T>
 {

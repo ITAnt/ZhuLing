@@ -9,7 +9,7 @@ import com.itant.library.recyclerview.base.ViewHolder;
 import java.util.List;
 
 /**
- * Created by duxikuan on 2017/1/15.
+ * Created by iTant on 2017/1/15.
  */
 public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
 {

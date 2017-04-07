@@ -12,15 +12,31 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_music"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_empty"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/empty"
+            android:paddingBottom="@dimen/size_micro"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下拉试试"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/size_small"/>
+    </LinearLayout>
+
 </FrameLayout>

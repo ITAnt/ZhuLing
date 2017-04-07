@@ -66,4 +66,105 @@
     <color name="green">#00e676</color>
     <color name="red">#ff5252</color>
     <color name="light_grey">#E0E0E0</color>
+
+
+
+
+
+
+
+
+
+    <!-- 主体文字,标题/标签 -->
+    <color name="txt_black">#212121</color>
+    <!-- 内容文字,正文 -->
+    <color name="txt_gray">#808080</color>
+    <!-- 辅助文字,提示 -->
+    <color name="txt_light_gray">#CCCCCC</color>
+    <!-- 背景色 -->
+    <color name="bg_gray">#f1f1f1</color>
+    <!-- 按下灰色 -->
+    <color name="bg_gray_pressed">#e8e8e8</color>
+    <!-- 高亮,红棕色 -->
+    <color name="brown">#d54c1c</color>
+    <!-- 分割线 -->
+    <color name="divider_gray">#cbcbcb</color>
+    <!-- other -->
+    <color name="txt_link_blue">#1ea5ff</color>
+
+    <!-- wheel -->
+    <color name="province_line_border">#C7C7C7</color>
+
+    <color name="drop_down_selected">#8BC34A</color>
+    <color name="drop_down_unselected">#808080</color>
+
+    <color name="mask_color">#88888888</color>
+    <color name="check_bg">#f1f1f1</color>
+    <color name="un_press_color">#8BC34A</color>
+
+    <!-- position bar -->
+    <color name="bg_position_bar_up">#0D8BC34A</color>
+    <color name="bg_position_bar_down">#1A8BC34A</color>
+
+    <color name="sliding_switch_default">#00ee00</color>
+
+
+    ////////////////////////////////////////////////////////////
+    <color name="activity_bg">#f7f8f8</color>
+    <color name="topbar_bg">#33cc99</color>
+    <color name="topbar_bg_white">#ffffffff</color>
+    <color name="topbar_bg_black">#272e2a</color>
+    <color name="divider">#dddddd</color>
+    <color name="indicator_enter">#999999</color>
+    <color name="red_interest">#eb002f</color>
+    <color name="white_selected">#ffffff</color>
+    <color name="green_bright">#33cc66</color>
+    <color name="green_deep">#33cc99</color>
+    <color name="gray_interest">#d2d2d2</color>
+    <color name="gray_unslected">#999999</color>
+    <color name="gray_4">#333333</color>
+    <color name="gray_3">#666666</color>
+    <color name="gray_2">#999999</color>
+    <color name="gray_1">#b5b5b5</color>
+    <color name="pink">#ff6666</color>
+    <color name="yellow">#ffd400</color>
+
+    <color name="alpha_complete">#0000</color>
+    <color name="alpha_9">#9000</color>
+    <color name="alpha_6">#6000</color>
+    <color name="alpha_3">#3000</color>
+    <color name="alpha_1">#1000</color>
+    <color name="white_slight">#eeeeee</color>
+    <color name="white_alpha">#ddffffff</color>
+    <color name="white_alpha_6">#bbdddddd</color>
+    <color name="black_transparent">#66000000</color>
+    <color name="black">#000000</color>
+    <color name="black_slight">#666666</color>
+    <color name="blue">#009ed3</color>
+    <color name="blue_btn">#2c6ed2</color>
+    <color name="blue_sky">#62c8f9</color>
+    <color name="orangered">#ff5900</color>
+    <color name="gray_deep">#999999</color>
+    <color name="gray_bold">#303133</color>
+    <color name="gray">#666666</color>
+    <color name="gray_slight">#dcdcdc</color>
+    <color name="red_text">#eb002f</color>
+    <color name="red_line">#eb002f</color>
+    <color name="silver">#c0c0c0</color>
+    <color name="readed">#ffc05500</color>
+    <color name="noread">#ff4b4b4b</color>
+    <color name="transparent01">#9000</color>
+    <color name="window_bg">#fff0f3f6</color>
+    <color name="title_bg">#ff54acea</color>
+    <color name="button_unselected">#ff54acea</color>
+    <color name="button_selected">#ff419de4</color>
+    <color name="green_btn">#33b422</color>
+    <color name="orange_btn">#e87a22</color>
+
+    <color name="btn_blue_normal">#34dbaf</color>
+    <color name="btn_blue_pressed">#36c197</color>
+    <color name="btn_gray_pressed_status">#b5b5b6</color>
+    <color name="btn_gray_pressed">#666667</color>
+    <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="btn_red_normal">#eb002f</color>
 </resources>

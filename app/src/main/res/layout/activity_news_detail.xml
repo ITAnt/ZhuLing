@@ -36,52 +36,34 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="4fsdfdsfsdf" />
+                android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" /><TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="4fsdfdsfsdf" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -226,7 +208,7 @@
                 android:fitsSystemWindows="true" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/tb_main"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"

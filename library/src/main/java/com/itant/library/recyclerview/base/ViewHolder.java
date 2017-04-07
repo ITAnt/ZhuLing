@@ -23,7 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class ViewHolder extends RecyclerView.ViewHolder
+public class ViewHolder extends RecyclerView.ViewHolder/* implements AnimateViewHolder*/
 {
     private SparseArray<View> mViews;
     private View mConvertView;
@@ -273,4 +273,38 @@ public class ViewHolder extends RecyclerView.ViewHolder
     }
 
 
+    /*----------------------------------动画----------------------------------*/
+    /*@Override
+    public void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+        ViewCompat.setTranslationY(itemView, -itemView.getHeight() * 0.3f);
+        ViewCompat.setAlpha(itemView, 0);
+    }
+
+    @Override
+    public void preAnimateRemoveImpl(RecyclerView.ViewHolder holder) {
+
+    }
+
+    @Override
+    public void animateAddImpl(RecyclerView.ViewHolder holder, ViewPropertyAnimatorListener listener) {
+        // 添加的动画
+        ViewCompat.animate(itemView)
+                .translationY(0)
+                .alpha(1)
+                .setDuration(300)
+                .setListener(listener)
+                .start();
+    }
+
+    @Override
+    public void animateRemoveImpl(RecyclerView.ViewHolder holder, ViewPropertyAnimatorListener listener) {
+        // 移除的动画
+        ViewCompat.animate(itemView)
+                .translationY(-itemView.getHeight() * 0.3f)
+                .alpha(0)
+                .setDuration(300)
+                .setListener(listener)
+                .start();
+    }*/
+    /*----------------------------------动画----------------------------------*/
 }

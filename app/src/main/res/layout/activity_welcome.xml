@@ -10,7 +10,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_outer" />
+        android:src="@mipmap/ic_launcher_outer"/>
 
     <TextView
         android:id="@+id/tv_app_name"
@@ -22,13 +22,13 @@
         android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="@dimen/size_large"
-        tools:alpha="1" />
+        tools:alpha="1"/>
 
     <ImageView
         android:id="@+id/iv_launcher_inner"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_inner"
-        tools:alpha="1" />
+        android:src="@mipmap/ic_launcher_inner"
+        tools:alpha="1"/>
 </FrameLayout>

@@ -3,7 +3,7 @@ package com.itant.zhuling.listener;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.itant.zhuling.utils.UIUtils;
+import com.itant.zhuling.tools.UITool;
 
 
 /*
@@ -21,7 +21,7 @@ public abstract class HidingScrollListener extends RecyclerView.OnScrollListener
     private int mTotalScrolledDistance;
 
     public HidingScrollListener(Context context) {
-        mToolbarHeight = UIUtils.getToolbarHeight(context);
+        mToolbarHeight = UITool.getToolbarHeight(context);
     }
 
     @Override

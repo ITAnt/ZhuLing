@@ -9,7 +9,7 @@ import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.library.recyclerview.utils.WrapperUtils;
 
 /**
- * Created by duxikuan on 2017/1/15.
+ * Created by iTant on 2017/1/15.
  */
 public class EmptyWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {

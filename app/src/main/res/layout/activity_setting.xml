@@ -25,10 +25,7 @@
         android:layout_height="wrap_content"
         android:text="更新日志" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="赞助我们" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,4 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="加入我们" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="赞助我们" />
 </LinearLayout>

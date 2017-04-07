@@ -5,11 +5,12 @@
     android:background="#eeeff3"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="10dp" >
 
     <ProgressBar
         android:layout_width="25dp"
-        android:layout_height="25dp"></ProgressBar>
+        android:layout_height="25dp" >
+    </ProgressBar>
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,6 +18,7 @@
         android:layout_marginLeft="10dp"
         android:textSize="16dp"
         android:textColor="#999999"
-        android:text="加载中..."></TextView>
+        android:text="加载中..." >
+    </TextView>
 
 </LinearLayout>

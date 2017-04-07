@@ -16,6 +16,9 @@
     <dimen name="size_normal">14sp</dimen>
     <dimen name="size_small">12sp</dimen>
     <dimen name="size_mini">10sp</dimen>
+    <dimen name="size_tiny">8sp</dimen>
+    <dimen name="size_micro">6sp</dimen>
+
     <dimen name="size_btn_height">64dp</dimen>
 
     <!--右侧菜单-->

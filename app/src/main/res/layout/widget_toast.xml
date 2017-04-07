@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:background="@color/colorPrimaryDark">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/shape_toast">
 
-    <TextView
-        android:id="@+id/tv_toast"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tv_toast"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"/>
 </RelativeLayout>

@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.library.recyclerview.utils.WrapperUtils;
 
-/**
- * Created by duxikuan on 2017/1/15.
- */
+
 public class LoadMoreWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     public static final int ITEM_TYPE_LOAD_MORE = Integer.MAX_VALUE - 2;

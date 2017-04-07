@@ -4,15 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <WebView
-            android:id="@+id/wv_csdn"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="match_parent">
+
+            <WebView
+                android:id="@+id/wv_csdn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>

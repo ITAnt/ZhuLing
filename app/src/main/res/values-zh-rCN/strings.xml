@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GitHub</string>
+    <string name="app_name">竹翎</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -19,4 +19,17 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!--右侧菜单-->
+    <string name="text">Squid blog crucifix Marfa, consectetur vero placeat mixtape. Non seitan sriracha eu, do Banksy fashion axe cred qui vegan delectus consequat Helvetica mollit. XOXO gluten-free disrupt, gastropub officia cliche chillwave hella pop-up. Fixie swag raw denim, YOLO craft beer assumenda occupy veniam photo booth pug consectetur next level Portland tote bag +1. Mlkshk PBR aliquip placeat Wes Anderson.</string>
+    <string name="title">My Description</string>
+    <string name="context_menu">Context menu</string>
+
+    <!--共享元素-->
+    <string name="square_red_name">square_red</string>
+    <string name="square_blue_name">square_blue</string>
+    <string name="square_green_name">square_green</string>
+    <string name="transition_reveal1">transition_reveal1</string>
+    <string name="sample_blue_title">sample_blue_title</string>
+    <string name="transition_name_news_to_detail">bbb</string>
 </resources>
