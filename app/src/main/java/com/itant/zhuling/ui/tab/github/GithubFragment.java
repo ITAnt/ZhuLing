@@ -30,6 +30,11 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         wv_github = (WebView) view.findViewById(R.id.wv_github);
         swipe_refresh_layout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        swipe_refresh_layout.setColorSchemeResources(
+                R.color.colorPrimary,
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         swipe_refresh_layout.setOnRefreshListener(this);
 
         // 设置WebView属性，能够执行Javascript脚本

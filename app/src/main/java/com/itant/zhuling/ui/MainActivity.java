@@ -342,12 +342,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
 
-            case R.id.nav_share:
+            /*case R.id.nav_share:
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT,"我发现了一款非常有趣的应用，你也来下载吧！它的下载地址是www.qianxueya.com");
                 startActivity(Intent.createChooser(share, "分享竹翎"));
-                break;
+                break;*/
 
             case R.id.nav_feedback:
                 break;

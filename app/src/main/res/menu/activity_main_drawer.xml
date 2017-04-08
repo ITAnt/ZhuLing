@@ -9,6 +9,11 @@
             android:title="下载" />
 
         <item
+            android:id="@+id/nav_notice"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="通知" />
+
+        <item
             android:id="@+id/nav_update"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="更新" />
@@ -33,12 +38,6 @@
                 android:id="@+id/nav_comment"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="评分"/>
-
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="分享" />
-
             <item
                 android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_menu_send"

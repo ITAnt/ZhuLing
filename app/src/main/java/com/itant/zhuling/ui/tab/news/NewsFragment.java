@@ -61,8 +61,8 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
         swipe_refresh_layout.setSize(SwipeRefreshLayout.DEFAULT);
         // 设置下拉圆圈上的颜色，蓝色、绿色、橙色、红色
         swipe_refresh_layout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
                 R.color.colorPrimary,
+                android.R.color.holo_blue_bright,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         // 通过 setEnabled(false) 禁用下拉刷新
@@ -150,7 +150,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
 
         // AnimationAdapter效果可以叠加
         //AnimationAdapter scale = new ScaleInAnimationAdapter(animationAdapter);
-        //animationAdapter.setFirstOnly(false);// 不只第一次有动画
+        animationAdapter.setFirstOnly(true);// 只有第一次有动画
         //animationAdapter.setDuration(800);
 
         rv_news.setAdapter(animationAdapter);

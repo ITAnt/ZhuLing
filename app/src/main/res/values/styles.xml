@@ -35,6 +35,7 @@
     <style name="BaseAppTheme.Trans">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="BaseAppTheme.NoTrans">
@@ -51,10 +52,7 @@
     </style>
 
 
-    <!--共享元素-->
-    <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowContentTransitions">true</item>
-    </style>
+
 
 
 
