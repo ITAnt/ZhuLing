@@ -3,7 +3,7 @@
 
 突然想整合一下所学的知识，理一个框架出来，顺带熟悉一下谷歌的Material Design。工作这几年，很遗憾，所在公司都只看重iOS开发，安卓的要按照IOS的设计稿来开发，完全没有安卓的风格，不免扼腕叹息。百忙之中，抽出时间，本来想理一个框架出来，看来还有许多待完善的地方，后面会继续完善。先看效果图吧：[APK下载点这里](http://download.csdn.net/detail/ithouse/9803616) 
 
-![](https://raw.githubusercontent.com/ITAnt/ZhuLing/master/image/预览.gif)  
+![](https://raw.githubusercontent.com/ITAnt/ZhuLing/master/image/demo.gif)  
 
 
 项目的风格为谷歌的Material风格，其中主要运用到了MVP模式和rxandroid框架，都是简单集成，时间仓促，还没来得及很好封装。主要是Material开发还不是很火，起码就目前市面上看来，比较少产品完全依照Material风格来设计的，我知道的，有BiliBili、SegmentFault等少数几个，大多数产品只是蜻蜓点水般稍微运用了一些Material的元素。我想，产品毕竟注重功能和稳定。因为Material开发的过程中，确实有很多坑，比如，NestedScrollView在与AppBarLayout一起滑动的时候，就会莫名出现卡顿，为了解决这个问题，我苦苦搜寻3天，没能找到办法，只好用了一个开源库[smooth-app-bar-layout](https://github.com/henrytao-me/smooth-app-bar-layout)来解决，这个开源库确实还不错，但与其他开源框架或谷歌原生控件结合使用的时候，又会有这样那样的问题出现，比如，使用RecyclerView时要设置一个header才能正常显示，[参考这里](http://www.jianshu.com/p/079fc98dd739)。
