@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.itant.zhuling.widgets.smarttab.v4;
+package com.itant.zhuling.widget.smarttab.v4;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
-import com.itant.zhuling.widgets.smarttab.PagerItems;
+import com.itant.zhuling.widget.smarttab.PagerItems;
 
 
 public class FragmentPagerItems extends PagerItems<FragmentPagerItem> {

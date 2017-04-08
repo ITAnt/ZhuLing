@@ -3,18 +3,21 @@ package com.itant.zhuling.ui.tab.news.detail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.itant.zhuling.R;
-import com.itant.zhuling.ui.base.BaseActivity;
 
 /**
  * Created by 子聪 on 2017/3/28.
+ * 由于新闻详情使用了共享动画，所以就不要用左划删除和从右往左进的动画了
+ * 直接继承AppCompatActivity，而不是BaseActivity
  */
 
-public class NewsDetailActivity extends BaseActivity {
+public class NewsDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,8 +29,8 @@ public class NewsDetailActivity extends BaseActivity {
         Glide.with(this).load(url).into(iv_top);
 
 
-        //沉浸式状态栏
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //沉浸式状态栏下面这三句话让顶部出现返回按钮
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,7 +44,14 @@ public class NewsDetailActivity extends BaseActivity {
             //设置工具栏标题
             collapsingToolbar.setTitle("洋葱科技");
         }
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        // 点击了返回按钮
+        if (menuItem.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

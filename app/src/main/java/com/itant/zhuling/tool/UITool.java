@@ -1,4 +1,4 @@
-package com.itant.zhuling.tools;
+package com.itant.zhuling.tool;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,6 +6,8 @@ import android.content.res.TypedArray;
 import com.itant.zhuling.R;
 
 public class UITool {
+
+
 
     public static int getToolbarHeight(Context context) {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(

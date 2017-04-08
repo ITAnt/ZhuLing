@@ -3,7 +3,6 @@ package com.itant.zhuling;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.itant.zhuling.ui.MainActivity;
-import com.itant.zhuling.widgets.leaf.FloatLeafLayout;
+import com.itant.zhuling.widget.leaf.FloatLeafLayout;
 
 import java.util.concurrent.TimeUnit;
 

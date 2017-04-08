@@ -1,4 +1,4 @@
-package com.itant.zhuling.tools;
+package com.itant.zhuling.tool;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

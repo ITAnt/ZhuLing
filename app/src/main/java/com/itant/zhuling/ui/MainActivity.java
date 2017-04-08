@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -26,16 +25,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.itant.zhuling.R;
-import com.itant.zhuling.tools.PreferencesTool;
-import com.itant.zhuling.tools.ToastTool;
-import com.itant.zhuling.tools.UITool;
+import com.itant.zhuling.tool.ActivityTool;
+import com.itant.zhuling.tool.PreferencesTool;
+import com.itant.zhuling.tool.SocialTool;
+import com.itant.zhuling.tool.ToastTool;
+import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.ui.navigation.SettingActivity;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
 import com.itant.zhuling.ui.tab.github.GithubFragment;
 import com.itant.zhuling.ui.tab.music.MusicFragment;
 import com.itant.zhuling.ui.tab.news.NewsFragment;
-import com.itant.zhuling.widgets.smarttab.v4.FragmentPagerItemAdapter;
-import com.itant.zhuling.widgets.smarttab.v4.FragmentPagerItems;
+import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItemAdapter;
+import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         return;
                     }
                     if (Math.abs(verticalOffset) > toolBarHeight / 2) {
-                        // 已经藏住了一半了，提示用户
+                        // AppBar被已经藏住了一半了，提示用户下拉有惊喜（下拉就可以看到搜索按钮）
                         fragment.setSearchVisible(false);
                     } else {
                         fragment.setSearchVisible(true);
@@ -118,20 +119,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 初始化权限
      */
     private void initPermission() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            boolean isGranted = true;
-            for (String permission : PERMISSIONS) {
-                int result = ActivityCompat.checkSelfPermission(this, permission);
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    isGranted = false;
-                    break;
-                }
-            }
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
+            return;
+        }
 
-            if (!isGranted) {
-                // 还没有的话，去申请权限
-                ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
+        boolean isGranted = true;
+        for (String permission : PERMISSIONS) {
+            int result = ActivityCompat.checkSelfPermission(this, permission);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                isGranted = false;
+                break;
             }
+        }
+
+        if (!isGranted) {
+            // 还没有的话，去申请权限
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
         }
     }
 
@@ -266,8 +269,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    private long lastBackMillis;// 上一次点击返回的时间
     @Override
     public void onBackPressed() {
+
         // 销毁右侧菜单
         if (mMenuDialogFragment != null && mMenuDialogFragment.isAdded()) {
             mMenuDialogFragment.dismiss();
@@ -277,8 +282,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+            return;
+        }
+
+        if (System.currentTimeMillis() - lastBackMillis < 2000) {
             super.onBackPressed();
+        } else {
+            ToastTool.showShort(this, "再按一次退出应用");
+            lastBackMillis = System.currentTimeMillis();
         }
     }
 
@@ -331,23 +342,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_more:
                 // 打开设置界面
-                startActivity(new Intent(this, SettingActivity.class));
+                ActivityTool.startActivity(this, new Intent(this, SettingActivity.class));
                 break;
 
             case R.id.nav_comment:
                 // 跳转到应用市场，评论应用
-                Uri uri = Uri.parse("market://details?id="+getPackageName());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                SocialTool.jumpMarketRating(this);
                 break;
-
-            /*case R.id.nav_share:
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT,"我发现了一款非常有趣的应用，你也来下载吧！它的下载地址是www.qianxueya.com");
-                startActivity(Intent.createChooser(share, "分享竹翎"));
-                break;*/
 
             case R.id.nav_feedback:
                 break;
@@ -401,4 +402,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+
 }

@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <com.itant.zhuling.widgets.leaf.FloatLeafLayout
+    <com.itant.zhuling.widget.leaf.FloatLeafLayout
         android:id="@+id/fll_ling"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.itant.zhuling.widgets.leaf.FloatLeafLayout>
+    </com.itant.zhuling.widget.leaf.FloatLeafLayout>
 
     <TextView
         android:id="@+id/tv_app_name"

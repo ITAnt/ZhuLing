@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.itant.zhuling.widgets.smarttab.v4;
+package com.itant.zhuling.widget.smarttab.v4;
 
 import android.annotation.TargetApi;
 import android.os.Bundle;

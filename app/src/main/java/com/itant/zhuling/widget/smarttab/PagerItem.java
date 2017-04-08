@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.itant.zhuling.widgets.smarttab;
+package com.itant.zhuling.widget.smarttab;
 
-import android.content.Context;
+public abstract class PagerItem {
 
-import java.util.ArrayList;
+  protected static final float DEFAULT_WIDTH = 1.f;
 
-public abstract class PagerItems<T extends PagerItem> extends ArrayList<T> {
+  private final CharSequence title;
+  private final float width;
 
-  private final Context context;
-
-  protected PagerItems(Context context) {
-    this.context = context;
+  protected PagerItem(CharSequence title, float width) {
+    this.title = title;
+    this.width = width;
   }
 
-  public Context getContext() {
-    return context;
+  public CharSequence getTitle() {
+    return title;
+  }
+
+  public float getWidth() {
+    return width;
   }
 
 }

@@ -53,7 +53,15 @@
 
 
 
-
-
+    <style name="Theme.Swipe.Back.Zhu" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#4caf50</item>
+        <item name="colorPrimaryDark">#388e3c</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--改变下面这个颜色可以改变返回按钮的颜色-->
+        <item name="android:textColorSecondary">#ffffff</item>
+    </style>
 
 </resources>

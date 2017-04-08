@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.itant.zhuling.error.NetError;
-import com.itant.zhuling.tools.ObservableDecorator;
+import com.itant.zhuling.tool.ObservableDecorator;
 
 import org.json.JSONObject;
 

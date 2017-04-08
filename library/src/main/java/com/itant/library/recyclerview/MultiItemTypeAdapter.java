@@ -85,7 +85,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         });
     }
 
-    private int mLastPosition;
+    private int mLastPosition=-1;// 设为-1是为了让动画从第0个item出现
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         convert(holder, mDatas.get(position));

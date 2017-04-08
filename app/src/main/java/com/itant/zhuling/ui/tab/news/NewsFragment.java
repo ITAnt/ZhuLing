@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
+import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.tab.news.detail.NewsDetailActivity;
 
@@ -135,7 +136,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                             transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName);
                             startActivity(intent, transitionActivityOptions.toBundle());
                         } else {
-                            startActivity(intent);
+                            ActivityTool.startActivity(getActivity(), intent);
                         }
                     }
                 });
@@ -153,7 +154,9 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
         animationAdapter.setFirstOnly(true);// 只有第一次有动画
         //animationAdapter.setDuration(800);
 
-        rv_news.setAdapter(animationAdapter);
+        //rv_news.setAdapter(animationAdapter);
+        // 我们已经在MultiItemTypeAdapter使用了item的动画，这里就不使用炫酷的Adapter动画了
+        rv_news.setAdapter(mAdapter);
 
         mPresenter = new NewsPresenter(getActivity(), this);
         mPresenter.getNews(page);
@@ -171,7 +174,6 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
             int start = mNewsBeans.size();
             mNewsBeans.addAll(beans);
             mAdapter.notifyItemRangeChanged(start, mNewsBeans.size());
-
         }
 
         if (mNewsBeans.size() > 0) {

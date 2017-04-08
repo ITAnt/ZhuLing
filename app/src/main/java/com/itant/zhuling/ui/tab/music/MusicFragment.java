@@ -16,7 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
-import com.itant.zhuling.tools.ToastTool;
+import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.tab.news.detail.NewsDetailActivity;
 
@@ -154,7 +154,9 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         //animationAdapter.setFirstOnly(false);// 不只第一次有动画
         //animationAdapter.setDuration(800);
 
-        rv_music.setAdapter(animationAdapter);
+        //rv_music.setAdapter(animationAdapter);
+        // 我们已经在MultiItemTypeAdapter使用了item的动画，这里就不使用炫酷的Adapter动画了
+        rv_music.setAdapter(mAdapter);
 
         mPresenter = new MusicPresenter(getActivity(), this);
         mPresenter.getMusic(page);

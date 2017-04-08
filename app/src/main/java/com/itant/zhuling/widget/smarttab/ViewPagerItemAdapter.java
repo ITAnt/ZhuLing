@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.itant.zhuling.widgets.smarttab;
+package com.itant.zhuling.widget.smarttab;
 
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.PagerAdapter;

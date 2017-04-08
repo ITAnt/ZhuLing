@@ -40,7 +40,7 @@
         <!-- 设置详情 -->
         <activity
             android:name=".ui.navigation.SettingActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/Theme.Swipe.Back.Zhu" />
 
         <!-- 新闻详情 -->
         <activity

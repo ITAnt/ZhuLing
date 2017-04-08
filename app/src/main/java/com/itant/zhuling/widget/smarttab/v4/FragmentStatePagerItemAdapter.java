@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.itant.zhuling.widgets.smarttab.v4;
+package com.itant.zhuling.widget.smarttab.v4;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.util.SparseArrayCompat;
 import android.view.ViewGroup;
 
 import java.lang.ref.WeakReference;
 
-public class FragmentPagerItemAdapter extends FragmentPagerAdapter {
+public class FragmentStatePagerItemAdapter extends FragmentStatePagerAdapter {
 
   private final FragmentPagerItems pages;
   private final SparseArrayCompat<WeakReference<Fragment>> holder;
 
-  public FragmentPagerItemAdapter(FragmentManager fm, FragmentPagerItems pages) {
+  public FragmentStatePagerItemAdapter(FragmentManager fm, FragmentPagerItems pages) {
     super(fm);
     this.pages = pages;
     this.holder = new SparseArrayCompat<>(pages.size());
@@ -66,7 +66,7 @@ public class FragmentPagerItemAdapter extends FragmentPagerAdapter {
 
   @Override
   public float getPageWidth(int position) {
-    return super.getPageWidth(position);
+    return getPagerItem(position).getWidth();
   }
 
   public Fragment getPage(int position) {

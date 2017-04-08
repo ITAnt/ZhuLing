@@ -3,7 +3,7 @@ package com.itant.zhuling.listener;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.itant.zhuling.tools.UITool;
+import com.itant.zhuling.tool.UITool;
 
 
 /*

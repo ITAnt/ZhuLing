@@ -1,4 +1,4 @@
-package com.itant.zhuling.tools;
+package com.itant.zhuling.tool;
 
 public class DownloadTool {
   

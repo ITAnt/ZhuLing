@@ -2,7 +2,7 @@
  * Alipay.com Inc.
  * Copyright (c) 2004-2015 All Rights Reserved.
  */
-package com.itant.zhuling.widgets;
+package com.itant.zhuling.widget;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

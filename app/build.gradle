@@ -61,7 +61,6 @@ dependencies {
     集成smarttablayout简直是折磨，而且还要为RecyclerView设置一个header。不如直接用原生的来得快。*/
     compile 'me.henrytao:smooth-app-bar-layout:25.1.0.0'
 
-    /*compile 'com.github.bumptech.glide:glide:3.6.0'*/
     /*圆形头像*/
     compile 'de.hdodenhof:circleimageview:1.3.0'
 
@@ -70,4 +69,7 @@ dependencies {
 
     /*支持上拉刷新，下拉加载的RecyclerView，可惜和LoadMoreRecyclerView一样，都会和SwipeRefreshLayout冲突*/
     /*compile 'com.jcodecraeer:xrecyclerview:1.3.2'*/
+
+    /*左划销毁Activity，另外：sockeqwe/SwipeBack也可以参考*/
+    compile 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
 }
