@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--path为路径名，eg:ZhuLing，但是我们设为Android/data/com.itant.zhuling的话，
+    应用卸载之后那些文件也会随之删除，是比较科学的做法
+    和ZhuConstants中的DIRECTORY_ROOT，也就是/Android/data/com.itant.zhuling对应，
+    注意到代码中前面多一个斜杠'/'-->
+    <external-path name="my_images" path="Android/data/com.itant.zhuling" />
+</paths>

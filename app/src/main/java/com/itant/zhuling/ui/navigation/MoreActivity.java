@@ -12,7 +12,7 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
  * Created by Jason on 2017/4/4.
  */
 
-public class SettingActivity extends BaseActivity {
+public class MoreActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

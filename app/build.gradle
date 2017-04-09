@@ -10,6 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        /*导包一时爽，方法数超标了*/
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,6 +25,7 @@ android {
 repositories {
     mavenCentral() // jcenter() works as well because it pulls from Maven Central
 }
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -63,6 +67,7 @@ dependencies {
 
     /*圆形头像*/
     compile 'de.hdodenhof:circleimageview:1.3.0'
+    /*compile 'de.hdodenhof:circleimageview:2.1.0'*/
 
     /*列表滚动动画，如果要在lib的ViewHolder里也实现动画，那么这个语句要移动到lib的gradle里*/
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
@@ -72,4 +77,10 @@ dependencies {
 
     /*左划销毁Activity，另外：sockeqwe/SwipeBack也可以参考*/
     compile 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
+
+    /*导包一时爽，方法数超标了*/
+    compile 'com.android.support:multidex:1.0.1'
+
+    /*工具类集合*/
+    /*compile 'com.luffykou:android-common-utils:1.1.3'*/
 }

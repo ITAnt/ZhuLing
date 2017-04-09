@@ -4,15 +4,20 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,12 +30,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.itant.zhuling.R;
+import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.ActivityTool;
+import com.itant.zhuling.tool.BitmapTool;
+import com.itant.zhuling.tool.PermissionTool;
 import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
-import com.itant.zhuling.ui.navigation.SettingActivity;
+import com.itant.zhuling.ui.navigation.MoreActivity;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
 import com.itant.zhuling.ui.tab.github.GithubFragment;
 import com.itant.zhuling.ui.tab.music.MusicFragment;
@@ -44,24 +52,32 @@ import com.yalantis.contextmenu.lib.MenuParams;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener {
 
     private AppBarLayout abl_toolbar_container;
     private Toolbar tb_main;
     private int toolBarHeight;
 
     // 权限
-    private static final int REQUEST_PERMISSION = 1;
-    private static String[] PERMISSIONS = {
+    private static final int REQUEST_NECESSARY_PERMISSIONS = 1;
+    private static String[] PERMISSIONS_NECESSARY = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.ACCESS_WIFI_STATE
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CAMERA
     };
+    private CircleImageView civ_head;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +117,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
+        View header = nav_view.getHeaderView(0);
+        //View view=nav_view.inflateHeaderView(R.layout.nav_header_main);
+        // 监听头像点击事件，实现换头像
+        civ_head = (CircleImageView) header.findViewById(R.id.civ_head);
+        // 如果本地有头像，就设置进去
+        setHeadImage();
+        civ_head.setOnClickListener(this);
+
         // 系统默认生成的代码-------------------------------------------------------------------结束
 
         // 初始化顶部界面
@@ -112,31 +136,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initMenuFragment();
 
         // 申请权限
-        initPermission();
+        PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
     }
 
-    /**
-     * 初始化权限
-     */
-    private void initPermission() {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
-            return;
-        }
 
-        boolean isGranted = true;
-        for (String permission : PERMISSIONS) {
-            int result = ActivityCompat.checkSelfPermission(this, permission);
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                isGranted = false;
-                break;
-            }
-        }
-
-        if (!isGranted) {
-            // 还没有的话，去申请权限
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION);
-        }
-    }
 
     /******************************************** 右侧菜单开始 **********************************/
     private FragmentManager fragmentManager;
@@ -223,10 +226,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentPagerItemAdapter adapter;
 
     private void initView() {
-
-
         fragmentManager = getSupportFragmentManager();
-
 
         vp_main = (ViewPager) findViewById(R.id.vp_main);
         stl_main = (SmartTabLayout) findViewById(R.id.stl_main);
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (System.currentTimeMillis() - lastBackMillis < 2000) {
             super.onBackPressed();
         } else {
-            ToastTool.showShort(this, "再按一次退出应用");
+            ToastTool.showShort(this, "再按一次退出");
             lastBackMillis = System.currentTimeMillis();
         }
     }
@@ -320,8 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        // return true应该就是展示空间不够而隐藏的控件
-
+        // return true应该就是展示那些由于空间不够而隐藏了的控件
         return super.onOptionsItemSelected(item);
     }
 
@@ -342,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_more:
                 // 打开设置界面
-                ActivityTool.startActivity(this, new Intent(this, SettingActivity.class));
+                ActivityTool.startActivity(this, new Intent(this, MoreActivity.class));
                 break;
 
             case R.id.nav_comment:
@@ -363,45 +362,310 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == REQUEST_PERMISSION) {
-            boolean granted = true;
-            for (int result : grantResults) {
-                granted = result == PackageManager.PERMISSION_GRANTED;
-                if (!granted) {
-                    break;
-                }
-            }
+        switch (requestCode) {
+            case REQUEST_NECESSARY_PERMISSIONS:
+                onNecessaryPermissionResult(grantResults);
+                break;
+        }
 
+    }
+
+    /**
+     * 查看基本的权限是否被赋予
+     * @param grantResults
+     */
+    private void onNecessaryPermissionResult(int[] grantResults) {
+        boolean granted = true;
+        for (int result : grantResults) {
+            granted = result == PackageManager.PERMISSION_GRANTED;
             if (!granted) {
-                // 没有赋予权限
-                final AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("权限被拒绝")
-                        .setMessage("很抱歉，您拒绝了应用正常运行所需的权限，应用将退出。")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                // 退出
-                                System.exit(0);
-                            }
-                        }).create();
-                dialog.show();
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
-            } else {
-                // 已经赋予过权限了
-                boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
-                if (!hasGranted) {
-                    // 第一次被赋予权限
-                    PreferencesTool.putBoolean(this, "hasGranted", true);
+                break;
+            }
+        }
 
-                    ToastTool.showLong(this, "若不能正常加载请退出重新打开");
-                    // 重新启动Activity
-                    recreate();
-                }
+        if (!granted) {
+            // 没有赋予权限
+            final AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("权限被拒绝")
+                    .setMessage("很抱歉，您拒绝了应用正常运行所需的权限，应用将退出。")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            // 退出
+                            System.exit(0);
+                        }
+                    }).create();
+            dialog.show();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+        } else {
+            // 已经赋予过权限了
+            boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
+            if (!hasGranted) {
+                // 第一次被赋予权限
+                PreferencesTool.putBoolean(this, "hasGranted", true);
+
+                ToastTool.showLong(this, "若不能正常加载请退出重新打开");
+                // 重新启动Activity
+                recreate();
             }
         }
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.civ_head:
+                // 选择头像
+                CharSequence[] items = {"拍照", "相册"};
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("请选择头像来源")// setMessage会把item覆盖掉
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        // 拍照获取
+                                        pickImage(FROM_CAMERA);
+                                        break;
+                                    case 1:
+                                        // 相册选择
+                                        pickImage(FROM_ALBUMS);
+                                        break;
+                                }
+                            }
+                        }).create();
+                dialog.show();
+                break;
+        }
+    }
+
+
+    // 权限
+    private static final int REQUEST_CODE_CAMERA = 0;
+    private static final int REQUEST_CODE_ALBUMS = 1;
+    private static final int REQUEST_CODE_IMAGE_EDITED = 2;//裁剪相片
+    private final int FROM_CAMERA = 1;// 拍照方式
+    private final int FROM_ALBUMS = 2;// 相册方式
+    /**
+     * 根据不同方式选择图片设置ImageView
+     */
+    private void pickImage(int type) {
+
+
+        // 先检查目录是否存在
+        File headDir = new File(Environment.getExternalStorageDirectory(), ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
+        if (!headDir.exists()) {
+            headDir.mkdirs();
+        }
+        /*File tempHeadDir = new File(Environment.getExternalStorageDirectory(), ZhuConstants.DIRECTORY_HEAD_TEMP);
+        if (!tempHeadDir.exists()) {
+            tempHeadDir.mkdirs();
+        }*/
+        File tempHeadFile = new File(Environment.getExternalStorageDirectory(), ZhuConstants.HEAD_FULL_NAME_TEMP);
+        if (tempHeadFile.exists()) {
+            // 删除缓存
+            tempHeadFile.delete();
+        }
+
+
+
+        switch (type) {
+            case FROM_ALBUMS:
+                // 选择本地图片
+                Intent intent = new Intent();
+                intent.setType("image/*");//可选择图片视频
+                intent.setAction(Intent.ACTION_PICK);
+                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //使用以上这种模式，并添加以上两句
+                startActivityForResult(intent, REQUEST_CODE_ALBUMS);
+                break;
+
+            case FROM_CAMERA:
+                // 拍照
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // 在这里就设置输出路径，输出的图片大小会很大，所以和从相册选择一样，我们要编辑一下
+                File tempFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME_TEMP);
+                Uri tempUri = getUriFromFile(tempFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+
+                //将存储图片的uri读写权限授权给相机应用
+                grantUriPermission(cameraIntent, tempUri);
+                /*List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolveInfo : resInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    grantUriPermission(packageName, tempUri , Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }*/
+
+                startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
+                break;
+        }
+    }
+
+    /**
+     * 根据文件获取URI
+     * @param file
+     * @return
+     */
+    private Uri getUriFromFile(File file) {
+        Uri uri;
+        if (Build.VERSION.SDK_INT < 24) {
+            uri = Uri.fromFile(file);
+        } else {
+            uri = FileProvider.getUriForFile(this, "com.itant.zhuling.fileprovider", file);
+        }
+        return uri;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            /*// 直接保存，不经压缩
+            if(data.getData()==null){
+                bitmap = (Bitmap)data.getExtras().get("data");
+            }else{
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+            }*/
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA:
+                    // 编辑一下拍到的图片，而不是直接保存，否则图片会很大
+                    editCameraImage();
+                    break;
+
+                case REQUEST_CODE_ALBUMS:
+                    // 编辑一下从本地选择的图片，以减少大小
+                    editAlbumsImage(data);
+                    break;
+
+                case REQUEST_CODE_IMAGE_EDITED:
+                    // 由于也编辑的时候设置了MediaStore.EXTRA_OUTPUT，会直接保存到我们的文件夹里，直接设置头像即可
+                    setHeadImage();
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 设置编辑头像的公用参数
+     */
+    private void setIntentParams(Intent intent) {
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 600);
+        intent.putExtra("outputY", 600);
+        intent.putExtra("noFaceDetection", true); // no face detection
+        intent.putExtra("scale", true);
+        intent.putExtra("scaleUpIfNeeded", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+    }
+
+    /**
+     * 编辑从相册选择的图片，以压缩图片大小（仍然可以保持高质量），压缩速度也还不错
+     * @param data
+     */
+    private void editAlbumsImage(Intent data) {
+        Uri tempUri = data.getData();
+        if (tempUri == null) {
+            return;
+        }
+
+        // 编辑头像的数据来源于选择的图片
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(tempUri, "image/*");
+
+        // 这里是个大坑！！！！！！！输出文件的URI必须是Uri.fromFile获取得到的，不管sdk版本为多少，这估计是谷歌开发者的一个bug
+        File realFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME);
+        Uri realUri = Uri.fromFile(realFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri);
+
+        //将存储图片的uri读写权限授权给剪裁工具应用，数据来源和出处都要授权
+        grantUriPermission(intent, tempUri);
+        grantUriPermission(intent, realUri);
+
+        setIntentParams(intent);
+
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_EDITED);
+    }
+
+    /**
+     * 编辑拍照的图片
+     * 直接输出的图片大小会很大，所以和从相册选择一样，我们要编辑一下
+     */
+    private void editCameraImage() {
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+
+        // 编辑头像的数据来源于temphead.jpeg缓存文件
+        File tempFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME_TEMP);
+        Uri tempUri = getUriFromFile(tempFile);
+        intent.setDataAndType(tempUri, "image/*");
+
+        // 这里是个大坑！！！！！！！不管sdk版本为多少，输出文件的URI必须是Uri.fromFile获取得到的，这估计是谷歌开发者的一个bug
+        File realFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME);
+        Uri realUri = Uri.fromFile(realFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri);
+
+        //将存储图片的uri读写权限授权给剪裁工具应用，数据来源和出处都要授权
+        grantUriPermission(intent, tempUri);
+        grantUriPermission(intent, realUri);
+
+        setIntentParams(intent);
+
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_EDITED);
+    }
+
+    /**
+     * 赋予读写URI对应文件的权限
+     * @param intent
+     * @param uri
+     */
+    private void grantUriPermission(Intent intent, Uri uri) {
+        if (Build.VERSION.SDK_INT < 24) {
+            return;
+        }
+
+        List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        //将存储图片的uri读写权限授权给剪裁工具应用
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    }
+
+    /**
+     * 设置头像
+     */
+    private void setHeadImage() {
+        File headFile  = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME);
+        if (!headFile.exists()) {
+            return;
+        }
+
+        // bitmap不能直接设给ImageView，否则容易造成内存溢出,要经过压缩处理
+        InputStream headStream = null;
+        try {
+            headStream = new FileInputStream(headFile);
+            Bitmap compressedBitmap = BitmapTool.getBitmapFromStream(headStream);
+            if (compressedBitmap != null) {
+                civ_head.setImageBitmap(compressedBitmap);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (headStream != null) {
+                try {
+                    headStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

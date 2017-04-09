@@ -80,6 +80,6 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        wv_github.loadUrl("http://m.blog.csdn.net/blog/index?username=ithouse");
+        wv_github.loadUrl("https://github.com/ITAnt/ZhuLing");
     }
 }
