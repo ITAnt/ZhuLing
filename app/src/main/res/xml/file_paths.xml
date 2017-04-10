@@ -4,5 +4,9 @@
     应用卸载之后那些文件也会随之删除，是比较科学的做法
     和ZhuConstants中的DIRECTORY_ROOT，也就是/Android/data/com.itant.zhuling对应，
     注意到代码中前面多一个斜杠'/'-->
+    <!--参考：
+    http://www.jianshu.com/p/121bbb07cb07
+    https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en-->
+
     <external-path name="my_images" path="Android/data/com.itant.zhuling" />
 </paths>

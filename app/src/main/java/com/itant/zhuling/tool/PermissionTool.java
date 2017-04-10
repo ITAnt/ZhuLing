@@ -1,8 +1,15 @@
 package com.itant.zhuling.tool;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+
+import java.util.List;
 
 /**
  * Created by Jason on 2017/4/9.
@@ -30,5 +37,26 @@ public class PermissionTool {
             // 还没有的话，去申请权限
             ActivityCompat.requestPermissions(activity, permissions, requestCode);
         }
+    }
+
+    /**
+     * 赋予读写URI对应文件的权限
+     * @param intent
+     * @param uri
+     */
+    public static void grantUriPermission(Context context, Intent intent, Uri uri) {
+        if (Build.VERSION.SDK_INT < 24) {
+            return;
+        }
+
+        List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            context.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        //将存储图片的uri读写权限授权给剪裁工具应用
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 }

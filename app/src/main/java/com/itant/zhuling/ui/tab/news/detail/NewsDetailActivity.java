@@ -13,7 +13,7 @@ import com.itant.zhuling.R;
 
 /**
  * Created by 子聪 on 2017/3/28.
- * 由于新闻详情使用了共享动画，所以就不要用左划删除和从右往左进的动画了
+ * 由于新闻详情使用了共享动画，所以就不要用右划删除和从右往左进的动画了
  * 直接继承AppCompatActivity，而不是BaseActivity
  */
 

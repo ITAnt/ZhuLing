@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -239,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .add("妹纸", NewsFragment.class)
                 .add("开源", GithubFragment.class)
                 .add("博客", CsdnFragment.class)
-                //.add("微博", WeiboFragment.class)
+                //.add("微博", WeiboActivity.class)
                 .create());
 
 
@@ -399,6 +398,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             dialog.show();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
+
         } else {
             // 已经赋予过权限了
             boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
@@ -470,8 +470,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tempHeadFile.delete();
         }
 
-
-
         switch (type) {
             case FROM_ALBUMS:
                 // 选择本地图片
@@ -492,13 +490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
 
                 //将存储图片的uri读写权限授权给相机应用
-                grantUriPermission(cameraIntent, tempUri);
-                /*List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);
-                for (ResolveInfo resolveInfo : resInfoList) {
-                    String packageName = resolveInfo.activityInfo.packageName;
-                    grantUriPermission(packageName, tempUri , Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                }*/
-
+                PermissionTool.grantUriPermission(this, cameraIntent, tempUri);
                 startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
                 break;
         }
@@ -583,8 +575,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri);
 
         //将存储图片的uri读写权限授权给剪裁工具应用，数据来源和出处都要授权
-        grantUriPermission(intent, tempUri);
-        grantUriPermission(intent, realUri);
+        PermissionTool.grantUriPermission(this, intent, tempUri);
+        PermissionTool.grantUriPermission(this, intent, realUri);
 
         setIntentParams(intent);
 
@@ -610,33 +602,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri);
 
         //将存储图片的uri读写权限授权给剪裁工具应用，数据来源和出处都要授权
-        grantUriPermission(intent, tempUri);
-        grantUriPermission(intent, realUri);
+        PermissionTool.grantUriPermission(this, intent, tempUri);
+        PermissionTool.grantUriPermission(this, intent, realUri);
 
         setIntentParams(intent);
 
         startActivityForResult(intent, REQUEST_CODE_IMAGE_EDITED);
-    }
-
-    /**
-     * 赋予读写URI对应文件的权限
-     * @param intent
-     * @param uri
-     */
-    private void grantUriPermission(Intent intent, Uri uri) {
-        if (Build.VERSION.SDK_INT < 24) {
-            return;
-        }
-
-        List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo resolveInfo : resInfoList) {
-            String packageName = resolveInfo.activityInfo.packageName;
-            grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-
-        //将存储图片的uri读写权限授权给剪裁工具应用
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 
     /**

@@ -1,31 +1,41 @@
-package com.itant.zhuling.ui.tab.weibo;
+package com.itant.zhuling.ui.navigation.more;
 
-import android.view.View;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.itant.zhuling.R;
-import com.itant.zhuling.ui.base.BaseFragment;
+import com.itant.zhuling.ui.base.BaseActivity;
 
 /**
  * Created by Jason on 2017/3/26.
  */
 
-public class WeiboFragment extends BaseFragment {
+public class WeiboActivity extends BaseActivity {
 
+    private WebView wv_weibo;
 
     @Override
-    public int getLayoutId() {
-        // 绑定视图
-        return R.layout.fragment_weibo;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weibo);
+
+        setTitle("微博");
+        initView();
     }
 
-    @Override
-    public void initViews(View view) {
+    public void initView() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final WebView wv_weibo = (WebView) view.findViewById(R.id.wv_weibo);
+
+        wv_weibo = (WebView) findViewById(R.id.wv_weibo);
 
         // 设置WebView属性，能够执行Javascript脚本
         WebSettings settings = wv_weibo.getSettings();
@@ -58,5 +68,11 @@ public class WeiboFragment extends BaseFragment {
         wv_weibo.setWebViewClient(new WebViewClient() {});//希望点击链接继续在当前browser中响应，必须覆盖 WebViewClient对象。
         wv_weibo.loadUrl("http://weibo.com/u/5040411308");
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wv_weibo.destroy();
     }
 }

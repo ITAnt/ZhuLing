@@ -1,16 +1,16 @@
 package com.itant.zhuling.ui.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.itant.zhuling.R;
+import com.liuguangqiang.swipeback.SwipeBackActivity;
 
 /**
  * Created by Jason on 2017/3/26.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseSwipeActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

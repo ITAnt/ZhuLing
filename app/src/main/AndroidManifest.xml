@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.itant.zhuling">
 
     <!--必须的权限开始-->
@@ -32,13 +33,15 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <!-- 欢迎界面 -->
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/BaseAppTheme.Trans"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <!--防止应用启动两次-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,16 +50,22 @@
             </intent-filter>
         </activity>
 
-        <!-- 设置详情 -->
+        <!-- 更多 -->
         <activity
             android:name=".ui.navigation.MoreActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu" />
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
 
         <!-- 新闻详情 -->
         <activity
             android:name=".ui.tab.news.detail.NewsDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
+
+        <activity android:name=".ui.navigation.more.WeiboActivity"
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
 
 
         <!--设置这个provider是由于谷歌的新特性，sdk版本>=24必须设置这个东西才能正常拍照裁剪图片-->
