@@ -37,6 +37,7 @@ import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
+import com.itant.zhuling.ui.navigation.AboutActivity;
 import com.itant.zhuling.ui.navigation.MoreActivity;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
 import com.itant.zhuling.ui.tab.github.GithubFragment;
@@ -332,6 +333,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_download:
                 break;
             case R.id.nav_about:
+                // 打开关于界面
+                ActivityTool.startActivity(this, new Intent(this, AboutActivity.class));
                 break;
 
             case R.id.nav_update:
@@ -339,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_more:
-                // 打开设置界面
+                // 打开更多界面
                 ActivityTool.startActivity(this, new Intent(this, MoreActivity.class));
                 break;
 

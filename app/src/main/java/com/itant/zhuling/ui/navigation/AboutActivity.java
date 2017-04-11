@@ -1,7 +1,7 @@
 package com.itant.zhuling.ui.navigation;
 
 import android.animation.Animator;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,30 +12,28 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
 import com.itant.zhuling.R;
-import com.itant.zhuling.tool.ActivityTool;
-import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
-import com.itant.zhuling.ui.navigation.more.WeiboActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by Jason on 2017/4/4.
  */
 
-public class MoreActivity extends BaseSwipeActivity implements View.OnClickListener, View.OnTouchListener {
+public class AboutActivity extends BaseSwipeActivity implements View.OnTouchListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more);
+        setContentView(R.layout.activity_about);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
 
-        setTitle("更多");
+        setTitle("关于");
 
         initView();
 
     }
-
     private LinearLayout ll_top;
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,13 +53,25 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
             }
         });*/
         ll_top.setOnTouchListener(this);
+    }
 
-        // 加入我们
-        findViewById(R.id.ll_join).setOnClickListener(this);
-        // 微博
-        findViewById(R.id.ll_weibo).setOnClickListener(this);
-        // 分享
-        findViewById(R.id.ll_share).setOnClickListener(this);
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.ll_top:
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    showTopLayout((int)event.getX(), (int)event.getY());
+                }
+                break;
+        }
+        //return true MotionEvent.ACTION_UP才能正常响应
+        return true;
     }
 
     /**
@@ -82,38 +92,5 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
             animator.setDuration(2000);
             animator.start();
         }
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ll_join:
-                // 加入
-                SocialTool.joinQQGroup(this);
-                break;
-            case R.id.ll_weibo:
-                // 微博
-                ActivityTool.startActivity(this, new Intent(this, WeiboActivity.class));
-                break;
-
-            case R.id.ll_share:
-                // 分享
-                SocialTool.shareApp(this);
-                break;
-        }
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (v.getId()) {
-            case R.id.ll_top:
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    showTopLayout((int)event.getX(), (int)event.getY());
-                }
-                break;
-        }
-        //return true MotionEvent.ACTION_UP才能正常响应
-        return true;
     }
 }

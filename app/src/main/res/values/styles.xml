@@ -64,4 +64,8 @@
         <item name="android:textColorSecondary">#ffffff</item>
     </style>
 
+    <!--标题字体大小-->
+    <style name="Zhu.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

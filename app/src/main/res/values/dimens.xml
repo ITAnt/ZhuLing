@@ -32,4 +32,8 @@
     <dimen name="tool_bar_height">56dp</dimen>
     <dimen name="size_item_height">42dp</dimen>
     <dimen name="size_divider_height">0.5dp</dimen>
+    <dimen name="height_more_image">25dp</dimen>
+    <dimen name="height_top_bar">48dp</dimen>
+
+
 </resources>

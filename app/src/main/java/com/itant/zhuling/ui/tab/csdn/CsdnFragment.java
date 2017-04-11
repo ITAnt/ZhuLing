@@ -82,4 +82,10 @@ public class CsdnFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         wv_csdn.loadUrl("http://m.blog.csdn.net/blog/index?username=ithouse");
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wv_csdn.destroy();
+    }
 }

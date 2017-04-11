@@ -1,7 +1,9 @@
 package com.itant.zhuling;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewTreeObserver;
@@ -22,6 +24,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+//import static com.norbsoft.typefacehelper.TypefaceHelper.typeface;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -34,7 +39,9 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.zoomin, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+            overridePendingTransition(R.anim.zoomin, 0);
+        }
         setContentView(R.layout.activity_welcome);
         initView();
         initAnimation();
@@ -43,6 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private void initView() {
         iv_launcher_inner = (ImageView) findViewById(R.id.iv_launcher_inner);
         tv_app_name = (TextView) findViewById(R.id.tv_app_name);
+        // 应用自定义字体
 
         fll_ling = (FloatLeafLayout) findViewById(R.id.fll_ling);
     }
@@ -148,5 +156,10 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         fll_ling.onDestroy();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

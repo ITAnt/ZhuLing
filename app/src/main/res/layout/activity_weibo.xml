@@ -9,18 +9,11 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:layout_height="@dimen/height_top_bar"
+        android:background="?attr/colorPrimary" />
 
     <WebView
         android:id="@+id/wv_weibo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <!--<android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    </android.support.v4.widget.NestedScrollView>-->
 </LinearLayout>

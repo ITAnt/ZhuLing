@@ -24,7 +24,7 @@
         <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/stl_main"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/height_top_bar"
             android:paddingBottom="0dp"
             app:stl_customTabTextLayoutId="@layout/custom_tab"
             app:stl_defaultTabTextColor="@color/white"

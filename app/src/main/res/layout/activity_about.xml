@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:background="?attr/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <ImageView
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/zhu_white"/>
+    </LinearLayout>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_mini"
+            android:textColor="@color/txt_black"
+            fontPath="fonts/zhu-zhao.ttf"
+            android:text="\u3000\u3000真好，你也在这里。我是竹翎，喜欢竹，喜欢音乐，热爱生活，分享快乐，让我们一起出发吧。\r\n\u3000\u3000弄一曲故乡秋思，绕梁千日；煮一壶江山廓落，烟荡日薄；曳一地春华任率，光阴交错；凝一片沧海桑田，转入鎏杯；横一眼秋波即别，仰饮岁月；掠一笔千林妩媚，不世风流；乱一抹微云惊鸟，怡然自乐。"
+            android:textSize="@dimen/size_huge"
+            tools:ignore="MissingPrefix" />
+    </ScrollView>
+</LinearLayout>

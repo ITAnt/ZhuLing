@@ -56,6 +56,12 @@
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
 
+        <!-- 关于 -->
+        <activity
+            android:name=".ui.navigation.AboutActivity"
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
+
         <!-- 新闻详情 -->
         <activity
             android:name=".ui.tab.news.detail.NewsDetailActivity"
@@ -63,6 +69,7 @@
             android:screenOrientation="portrait"/>
         <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
 
+        <!--微博界面-->
         <activity android:name=".ui.navigation.more.WeiboActivity"
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>

@@ -8,9 +8,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:layout_height="@dimen/height_top_bar"
+        android:background="?attr/colorPrimary" />
 
     <LinearLayout
         android:id="@+id/ll_top"
@@ -18,8 +17,7 @@
         android:layout_height="120dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/activity_vertical_margin">
+        android:gravity="center_horizontal">
         <ImageView
             android:layout_width="85dp"
             android:layout_height="85dp"
@@ -53,8 +51,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_clean"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -66,8 +64,8 @@
                     android:textColor="@color/txt_black"/>
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -90,8 +88,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_help"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -102,8 +100,8 @@
                     android:text="使用帮助"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -126,8 +124,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_log"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -138,8 +136,8 @@
                     android:text="更新日志"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -163,8 +161,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_night"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -175,8 +173,8 @@
                     android:text="夜间模式"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -200,8 +198,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_open"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -212,8 +210,8 @@
                     android:text="相关开源"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -237,8 +235,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_share"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -249,8 +247,8 @@
                     android:text="分享应用"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -275,8 +273,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_weibo"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -287,8 +285,8 @@
                     android:text="我的微博"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -312,8 +310,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_join"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -324,8 +322,8 @@
                     android:text="加入我们"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
@@ -349,8 +347,8 @@
                 <!--android:background="?attr/selectableItemBackground"-->
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:src="@mipmap/more_donate"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -361,8 +359,8 @@
                     android:text="我要捐助"
                     android:textColor="@color/txt_black"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>

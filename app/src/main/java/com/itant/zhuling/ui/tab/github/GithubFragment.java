@@ -82,4 +82,10 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
     public void onRefresh() {
         wv_github.loadUrl("https://github.com/ITAnt/ZhuLing");
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wv_github.destroy();
+    }
 }
