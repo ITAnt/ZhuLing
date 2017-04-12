@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -117,15 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-        nav_view.setNavigationItemSelectedListener(this);
-        View header = nav_view.getHeaderView(0);
-        //View view=nav_view.inflateHeaderView(R.layout.nav_header_main);
-        // 监听头像点击事件，实现换头像
-        civ_head = (CircleImageView) header.findViewById(R.id.civ_head);
-        // 如果本地有头像，就设置进去
-        setHeadImage();
-        civ_head.setOnClickListener(this);
+        initNavigationView();
 
         // 系统默认生成的代码-------------------------------------------------------------------结束
 
@@ -139,6 +133,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
     }
 
+    private void initNavigationView() {
+
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
+        View header = nav_view.getHeaderView(0);
+        //View view=nav_view.inflateHeaderView(R.layout.nav_header_main);
+        // 监听头像点击事件，实现换头像
+        civ_head = (CircleImageView) header.findViewById(R.id.civ_head);
+        // 如果本地有头像，就设置进去
+        setHeadImage();
+        civ_head.setOnClickListener(this);
+
+        /**
+         * start of code configuration for color of text of your Navigation Drawer / Menu based on state
+         */
+        int[][] state = new int[][] {
+                new int[] {-android.R.attr.state_enabled}, // disabled
+                new int[] {android.R.attr.state_enabled}, // enabled
+                new int[] {-android.R.attr.state_checked}, // unchecked
+                new int[] { android.R.attr.state_pressed}  // pressed
+
+        };
+
+        int[] color = new int[] {
+                Color.parseColor("#4caf50"),
+                Color.parseColor("#4caf50"),
+                Color.parseColor("#4caf50"),
+                Color.parseColor("#4caf50")
+        };
+
+        ColorStateList colorStateList1 = new ColorStateList(state, color);
+
+
+        // FOR NAVIGATION VIEW ITEM ICON COLOR
+        int[][] states = new int[][] {
+                new int[] {-android.R.attr.state_enabled}, // disabled
+                new int[] {android.R.attr.state_enabled}, // enabled
+                new int[] {-android.R.attr.state_checked}, // unchecked
+                new int[] { android.R.attr.state_pressed}  // pressed
+
+        };
+
+        int[] colors = new int[] {
+                Color.parseColor("#4caf50"),
+                Color.parseColor("#4caf50"),
+                Color.parseColor("#4caf50"),
+                Color.parseColor("#4caf50")
+        };
+        ColorStateList colorStateList2 = new ColorStateList(states, colors);
+        nav_view.setItemTextColor(colorStateList1);
+        nav_view.setItemIconTintList(colorStateList2);
+    }
 
 
     /******************************************** 右侧菜单开始 **********************************/
@@ -337,10 +383,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ActivityTool.startActivity(this, new Intent(this, AboutActivity.class));
                 break;
 
-            case R.id.nav_update:
-                ToastTool.showShort(this, "已是最新版本啦");
-                break;
-
             case R.id.nav_more:
                 // 打开更多界面
                 ActivityTool.startActivity(this, new Intent(this, MoreActivity.class));
@@ -356,6 +398,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

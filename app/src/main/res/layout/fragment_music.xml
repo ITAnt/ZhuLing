@@ -30,12 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/empty"
-            android:paddingBottom="@dimen/size_micro"/>
+            android:paddingBottom="@dimen/size_dp_micro"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray"
-            android:textSize="@dimen/size_small"/>
+            android:textSize="@dimen/size_sp_small"/>
     </LinearLayout>
 
 </FrameLayout>

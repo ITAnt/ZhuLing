@@ -56,10 +56,6 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
         });*/
         ll_top.setOnTouchListener(this);
 
-        // 加入我们
-        findViewById(R.id.ll_join).setOnClickListener(this);
-        // 微博
-        findViewById(R.id.ll_weibo).setOnClickListener(this);
         // 分享
         findViewById(R.id.ll_share).setOnClickListener(this);
     }

@@ -8,16 +8,27 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!--自定义-->
-    <dimen name="size_gigantic">24sp</dimen>
-    <dimen name="size_enormous">22sp</dimen>
-    <dimen name="size_huge">20sp</dimen>
-    <dimen name="size_large">18sp</dimen>
-    <dimen name="size_big">16sp</dimen>
-    <dimen name="size_normal">14sp</dimen>
-    <dimen name="size_small">12sp</dimen>
-    <dimen name="size_mini">10sp</dimen>
-    <dimen name="size_tiny">8sp</dimen>
-    <dimen name="size_micro">6sp</dimen>
+    <dimen name="size_sp_gigantic">24sp</dimen>
+    <dimen name="size_sp_enormous">22sp</dimen>
+    <dimen name="size_sp_huge">20sp</dimen>
+    <dimen name="size_sp_large">18sp</dimen>
+    <dimen name="size_sp_big">16sp</dimen>
+    <dimen name="size_sp_normal">14sp</dimen>
+    <dimen name="size_sp_small">12sp</dimen>
+    <dimen name="size_sp_mini">10sp</dimen>
+    <dimen name="size_sp_tiny">8sp</dimen>
+    <dimen name="size_sp_micro">6sp</dimen>
+
+    <dimen name="size_dp_gigantic">24dp</dimen>
+    <dimen name="size_dp_enormous">22dp</dimen>
+    <dimen name="size_dp_huge">20dp</dimen>
+    <dimen name="size_dp_large">18dp</dimen>
+    <dimen name="size_dp_big">16dp</dimen>
+    <dimen name="size_dp_normal">14dp</dimen>
+    <dimen name="size_dp_small">12dp</dimen>
+    <dimen name="size_dp_mini">10dp</dimen>
+    <dimen name="size_dp_tiny">8dp</dimen>
+    <dimen name="size_dp_micro">6dp</dimen>
 
     <dimen name="size_btn_height">64dp</dimen>
 

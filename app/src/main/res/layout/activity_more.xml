@@ -53,7 +53,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_clean"
+                    android:src="@mipmap/clean"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -90,7 +90,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_help"
+                    android:src="@mipmap/help"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -126,7 +126,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_log"
+                    android:src="@mipmap/log"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -163,7 +163,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_night"
+                    android:src="@mipmap/night"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -200,7 +200,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_open"
+                    android:src="@mipmap/open"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -237,7 +237,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_share"
+                    android:src="@mipmap/share"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -252,6 +252,7 @@
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_divider_height"
@@ -259,115 +260,10 @@
 
 
 
-            <!--我的微博-->
-            <LinearLayout
-                android:id="@+id/ll_weibo"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_item_height"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:background="@drawable/ripple"
-                android:paddingLeft="@dimen/padding_horizon"
-                android:paddingRight="@dimen/padding_horizon">
-                <!--android:background="?attr/selectableItemBackground"-->
-
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_weibo"
-                    android:scaleType="fitXY"/>
-                <TextView
-                    android:layout_marginLeft="@dimen/padding_horizon"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="我的微博"
-                    android:textColor="@color/txt_black"/>
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/forward"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_divider_height"
-                android:background="@color/gray_slight"/>
-
-
-            <!--加入我们-->
-            <LinearLayout
-                android:id="@+id/ll_join"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_item_height"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:background="@drawable/ripple"
-                android:paddingLeft="@dimen/padding_horizon"
-                android:paddingRight="@dimen/padding_horizon">
-                <!--android:background="?attr/selectableItemBackground"-->
-
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_join"
-                    android:scaleType="fitXY"/>
-                <TextView
-                    android:layout_marginLeft="@dimen/padding_horizon"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="加入我们"
-                    android:textColor="@color/txt_black"/>
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/forward"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_divider_height"
-                android:background="@color/gray_slight"/>
 
 
 
-            <!--赞助我们-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_item_height"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:background="@drawable/ripple"
-                android:paddingLeft="@dimen/padding_horizon"
-                android:paddingRight="@dimen/padding_horizon">
-                <!--android:background="?attr/selectableItemBackground"-->
 
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/more_donate"
-                    android:scaleType="fitXY"/>
-                <TextView
-                    android:layout_marginLeft="@dimen/padding_horizon"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="我要捐助"
-                    android:textColor="@color/txt_black"/>
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/forward"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_divider_height"
-                android:background="@color/gray_slight"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <!--<group android:checkableBehavior="single">
+        不放在group里就不会有选中颜色
+    </group>-->
+    <item
+        android:id="@+id/nav_download"
+        android:icon="@mipmap/nav_download"
+        android:title="下载" />
 
-        <item
-            android:id="@+id/nav_download"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="下载" />
-
-        <item
-            android:id="@+id/nav_notice"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="通知" />
-
-        <item
-            android:id="@+id/nav_update"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="更新" />
+    <item
+        android:id="@+id/nav_notice"
+        android:icon="@mipmap/nav_notice"
+        android:title="通知" />
 
 
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="关于" />
 
-        <item
-            android:id="@+id/nav_more"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="更多" />
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@mipmap/nav_about"
+        android:title="关于" />
 
-
-    </group>
+    <item
+        android:id="@+id/nav_more"
+        android:icon="@mipmap/nav_more"
+        android:title="更多" />
 
     <item android:title="往来">
         <menu>
             <item
                 android:id="@+id/nav_comment"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@mipmap/nav_rating"
                 android:title="评分"/>
             <item
                 android:id="@+id/nav_feedback"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@mipmap/nav_feedback"
                 android:title="反馈" />
         </menu>
     </item>

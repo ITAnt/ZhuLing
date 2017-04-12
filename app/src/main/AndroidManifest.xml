@@ -28,14 +28,6 @@
         android:name=".ZhuApplication">
         <!-- 防止与lib包中的属性冲突 -->
 
-
-        <!-- 开启硬件加速，加快WebView等界面速度 -->
-        <activity
-            android:name=".ui.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-
         <!-- 欢迎界面 -->
         <activity
             android:name=".WelcomeActivity"
@@ -50,6 +42,23 @@
             </intent-filter>
         </activity>
 
+
+        <!-- 开启硬件加速，加快WebView等界面速度 -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <!-- 新闻详情 -->
+        <activity
+            android:name=".ui.tab.news.detail.NewsDetailActivity"
+            android:theme="@style/AppTheme.ZhuNoActionBar"
+            android:screenOrientation="portrait"/>
+        <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
+
+
+
         <!-- 更多 -->
         <activity
             android:name=".ui.navigation.MoreActivity"
@@ -61,13 +70,6 @@
             android:name=".ui.navigation.AboutActivity"
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
-
-        <!-- 新闻详情 -->
-        <activity
-            android:name=".ui.tab.news.detail.NewsDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-        <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
 
         <!--微博界面-->
         <activity android:name=".ui.navigation.more.WeiboActivity"
