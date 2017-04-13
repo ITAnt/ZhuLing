@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -39,6 +37,7 @@ import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
+import com.itant.zhuling.tool.UriTool;
 import com.itant.zhuling.ui.navigation.AboutActivity;
 import com.itant.zhuling.ui.navigation.MoreActivity;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //setTheme(R.style.AppThemeGreen);即可实现换主题颜色
+        //setTheme(R.style.AppThemeGreen);+reCreate()即可实现换主题颜色
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -500,7 +499,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void pickImage(int type) {
 
-
         // 先检查目录是否存在
         File headDir = new File(Environment.getExternalStorageDirectory(), ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
         if (!headDir.exists()) {
@@ -532,7 +530,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // 在这里就设置输出路径，输出的图片大小会很大，所以和从相册选择一样，我们要编辑一下
                 File tempFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME_TEMP);
-                Uri tempUri = getUriFromFile(tempFile);
+                Uri tempUri = UriTool.getUriFromFile(this, ZhuConstants.NAME_PROVIDE, tempFile);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
 
                 //将存储图片的uri读写权限授权给相机应用
@@ -542,20 +540,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    /**
-     * 根据文件获取URI
-     * @param file
-     * @return
-     */
-    private Uri getUriFromFile(File file) {
-        Uri uri;
-        if (Build.VERSION.SDK_INT < 24) {
-            uri = Uri.fromFile(file);
-        } else {
-            uri = FileProvider.getUriForFile(this, "com.itant.zhuling.fileprovider", file);
-        }
-        return uri;
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -639,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // 编辑头像的数据来源于temphead.jpeg缓存文件
         File tempFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME_TEMP);
-        Uri tempUri = getUriFromFile(tempFile);
+        Uri tempUri = UriTool.getUriFromFile(this, ZhuConstants.NAME_PROVIDE, tempFile);
         intent.setDataAndType(tempUri, "image/*");
 
         // 这里是个大坑！！！！！！！不管sdk版本为多少，输出文件的URI必须是Uri.fromFile获取得到的，这估计是谷歌开发者的一个bug

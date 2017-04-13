@@ -15,7 +15,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_dp_large">
+        android:layout_marginTop="@dimen/size_dp_huge"
+        android:layout_marginBottom="@dimen/size_dp_small">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,10 +53,10 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/size_dp_mini"
                 android:paddingRight="@dimen/size_dp_mini"
-                android:layout_marginBottom="@dimen/size_dp_mini"
+                android:layout_marginBottom="@dimen/size_dp_large"
                 android:textColor="@color/txt_black"
                 fontPath="fonts/zhu-zhao.ttf"
-                android:text="\u3000\u3000真好，你也在这里。喜欢竹，微风伴凉雨，热爱音乐，分享快乐，让我们一起出发吧。\r\n\u3000\u3000曳一地春华任率，光阴交错；凝一片沧海桑田，转入鎏杯；横一眼秋波即别，仰饮岁月；乱一抹微云惊鸟，怡然自乐。"
+                android:text="\u3000\u3000真好，你也在这里。时光清浅，愿岁月待你温柔如初。喜欢竹，微风伴凉雨，热爱音乐，分享快乐，让我们一起出发吧。\r\n\u3000\u3000曳一地春华任率，光阴交错；凝一片沧海桑田，转入鎏杯；横一眼秋波即别，仰饮岁月；乱一抹微云惊鸟，怡然自乐。"
                 android:textSize="@dimen/size_sp_big"
                 tools:ignore="MissingPrefix" />
 
@@ -139,6 +140,7 @@
 
             <!--赞助我们-->
             <LinearLayout
+                android:id="@+id/ll_donate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_item_height"
                 android:orientation="horizontal"

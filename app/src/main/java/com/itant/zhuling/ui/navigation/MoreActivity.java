@@ -15,7 +15,7 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
-import com.itant.zhuling.ui.navigation.more.WeiboActivity;
+import com.itant.zhuling.ui.navigation.about.WeiboActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 /**

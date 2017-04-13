@@ -21,7 +21,17 @@ import java.util.List;
  *
  */
 public class FileTool {
-	
+
+	/**
+	 * 初始化目录
+	 * @param dir
+	 */
+	public static void initDirectory(String dir) {
+		File dirFile = new File(dir);
+		if (!dirFile.exists()) {
+			dirFile.mkdirs();
+		}
+	}
 
 	/**
 	 * 在应用的file文件夹新建一个文件夹，并将该文件夹的路径返回

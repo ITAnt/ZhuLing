@@ -21,6 +21,22 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // 普通Activity动画。还有一些是共享元素的动画
+            Shared Elements Transition 共享元素转换
+            它的作用就是共享两个acitivity中共同的元素，在Android 5.0下支持如下效果：
+            changeBounds -  改变目标视图的布局边界
+            changeClipBounds - 裁剪目标视图边界
+            changeTransform - 改变目标视图的缩放比例和旋转角度
+            changeImageTransform - 改变目标图片的大小和缩放比例
+
+            // 退出
+            getWindow().setExitTransition(new Fade());
+            // 第一次进入
+            getWindow().setEnterTransition(new Slide());
+            // 再次进入时使用
+            getWindow().setReenterTransition(new Explode());
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
 

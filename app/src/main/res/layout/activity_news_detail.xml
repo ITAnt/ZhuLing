@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorBg">
+    android:fitsSystemWindows="true"><!--这里千万不可设置背景颜色，否则销毁该activity时会有闪烁-->
 
     <me.henrytao.smoothappbarlayout.widget.NestedScrollView
         android:id="@+id/nsv_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBg">
         <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"这个属性要设置，否则会撑到顶部上去。而且这个属性要放在会滚动的View里，
         而且与ToolBar交互的话，必须用NestedScrollView和新的RecyclerView，不能使用普通的ScrollView。-->
 

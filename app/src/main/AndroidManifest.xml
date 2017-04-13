@@ -71,8 +71,14 @@
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
 
+        <!-- 捐助界面 -->
+        <activity
+            android:name=".ui.navigation.about.DonateActivity"
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
+
         <!--微博界面-->
-        <activity android:name=".ui.navigation.more.WeiboActivity"
+        <activity android:name=".ui.navigation.about.WeiboActivity"
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
 

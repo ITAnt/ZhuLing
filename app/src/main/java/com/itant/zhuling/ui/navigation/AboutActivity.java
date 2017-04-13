@@ -13,7 +13,8 @@ import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
-import com.itant.zhuling.ui.navigation.more.WeiboActivity;
+import com.itant.zhuling.ui.navigation.about.DonateActivity;
+import com.itant.zhuling.ui.navigation.about.WeiboActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -48,6 +49,7 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
         findViewById(R.id.ll_join).setOnClickListener(this);
         // 微博
         findViewById(R.id.ll_weibo).setOnClickListener(this);
+        findViewById(R.id.ll_donate).setOnClickListener(this);
     }
 
 
@@ -67,6 +69,11 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
                 // 微博
                 ActivityTool.startActivity(this, new Intent(this, WeiboActivity.class));
                 break;
+            case R.id.ll_donate:
+                // 捐助
+                ActivityTool.startActivity(this, new Intent(this, DonateActivity.class));
+                break;
+
         }
     }
 }
