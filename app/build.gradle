@@ -24,6 +24,8 @@ android {
 
 repositories {
     mavenCentral() // jcenter() works as well because it pulls from Maven Central
+
+    maven { url 'https://jitpack.io' }
 }
 
 
@@ -58,7 +60,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     /*Material风格的下拉刷新*/
-    compile 'com.cjj.materialrefeshlayout:library:1.3.0'
+    /*compile 'com.cjj.materialrefeshlayout:library:1.3.0'*/
 
     /*解决滑动卡顿的CoordinatorLayout，这个库很坑，如果只使用它的NestedScrollView可以很好解决
     原生NestedScrollView卡顿问题，但如果用到RecyclerView或者ViewPager和多个Fragment，
@@ -96,4 +98,7 @@ dependencies {
     /*Android M权限申请*/
     /*compile 'com.github.hotchemi:permissionsdispatcher:2.3.2'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'*/
+
+    /*标签Layout*/
+    compile 'com.github.Rukey7:TagLayout:1.0.4'
 }

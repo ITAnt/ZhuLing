@@ -166,9 +166,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
     public void onGetNewsSuc(List<NewsBean> beans) {
         if (beans != null && beans.size() > 0) {
             // 获取到数据了
+            int preSize = beans.size();
             if (page == 0) {
                 // 是刷新操作，或者是第一次进来，要清空
                 mNewsBeans.clear();
+                // 在item太短的情况下，不执行这步操作会闪退。
+                mAdapter.notifyItemRangeRemoved(0, preSize);
             }
 
             int start = mNewsBeans.size();

@@ -1,6 +1,7 @@
 package com.itant.zhuling.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -32,6 +34,7 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.BitmapTool;
+import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.PermissionTool;
 import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.SocialTool;
@@ -40,10 +43,12 @@ import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.tool.UriTool;
 import com.itant.zhuling.ui.navigation.AboutActivity;
 import com.itant.zhuling.ui.navigation.MoreActivity;
+import com.itant.zhuling.ui.tab.advanced.AdvancedFragment;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
 import com.itant.zhuling.ui.tab.github.GithubFragment;
 import com.itant.zhuling.ui.tab.music.MusicFragment;
 import com.itant.zhuling.ui.tab.news.NewsFragment;
+import com.itant.zhuling.ui.tab.sentence.SentenceFragment;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItemAdapter;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -61,6 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener {
 
@@ -281,10 +287,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add("资讯", NewsFragment.class)
                 .add("悦听", MusicFragment.class)
-                .add("妹纸", NewsFragment.class)
+                .add("美句", SentenceFragment.class)
                 .add("开源", GithubFragment.class)
                 .add("博客", CsdnFragment.class)
-                //.add("微博", WeiboActivity.class)
+                .add("高级", AdvancedFragment.class)
                 .create());
 
 
@@ -302,6 +308,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     menu_search.setVisible(true);
                 } else {
                     menu_search.setVisible(false);
+                }
+
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (position == 5) {
+                        // 切换到高级模式了
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            tb_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
+                            stl_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
+                            //getWindow().setNavigationBarColor(getResources().getColor(R.color.color_primary_red));
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_red_dark));
+                        }
+                    } else {
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                        tb_main.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        stl_main.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        //getWindow().setNavigationBarColor(getResources().getColor(R.color.color_primary_red));
+                    }
                 }
             }
 
@@ -455,7 +479,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // 重新启动Activity
                 recreate();
             }
+
+            // 初始化必要的目录
+            initDirectorys();
         }
+    }
+
+    private void initDirectorys() {
+        // 头像目录
+        FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
+        // 缓存目录
+        FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_CACHE);
     }
 
 
@@ -498,16 +532,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 根据不同方式选择图片设置ImageView
      */
     private void pickImage(int type) {
-
-        // 先检查目录是否存在
-        File headDir = new File(Environment.getExternalStorageDirectory(), ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
-        if (!headDir.exists()) {
-            headDir.mkdirs();
-        }
-        /*File tempHeadDir = new File(Environment.getExternalStorageDirectory(), ZhuConstants.DIRECTORY_HEAD_TEMP);
-        if (!tempHeadDir.exists()) {
-            tempHeadDir.mkdirs();
-        }*/
         File tempHeadFile = new File(Environment.getExternalStorageDirectory(), ZhuConstants.HEAD_FULL_NAME_TEMP);
         if (tempHeadFile.exists()) {
             // 删除缓存
@@ -669,5 +693,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

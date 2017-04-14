@@ -21,7 +21,6 @@ import android.support.annotation.Keep;
 import java.util.List;
 
 /**
- * @author 咖枯
  * @version 1.0 2016/5/24
  */
 @Keep

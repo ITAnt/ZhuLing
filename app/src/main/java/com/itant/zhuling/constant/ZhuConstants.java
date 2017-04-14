@@ -23,10 +23,17 @@ public class ZhuConstants {
     public static final String DIRECTORY_ROOT_FILE_IMAGES = DIRECTORY_ROOT_FILE + "/images";
 
     /**
+     * 缓存目录
+     */
+    public static final String DIRECTORY_ROOT_CACHE = DIRECTORY_ROOT + "/cache";
+
+    /**
      * 头像目录
      */
     public static final String HEAD_FULL_NAME =  DIRECTORY_ROOT_FILE_IMAGES + "/head.jpeg";
-    public static final String HEAD_FULL_NAME_TEMP = DIRECTORY_ROOT_FILE_IMAGES + "/temphead.jpeg";
+
+
+    public static final String HEAD_FULL_NAME_TEMP = DIRECTORY_ROOT_CACHE + "/temphead.jpeg";
 
     public static final String PAY_WECHAT = DIRECTORY_ROOT_FILE_IMAGES + "/pay_wechat.png";
 

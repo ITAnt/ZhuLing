@@ -14,6 +14,7 @@ import com.itant.zhuling.tool.AppTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.itant.zhuling.ui.navigation.about.DonateActivity;
+import com.itant.zhuling.ui.navigation.about.HelpActivity;
 import com.itant.zhuling.ui.navigation.about.WeiboActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
@@ -49,7 +50,10 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
         findViewById(R.id.ll_join).setOnClickListener(this);
         // 微博
         findViewById(R.id.ll_weibo).setOnClickListener(this);
+        // 捐助
         findViewById(R.id.ll_donate).setOnClickListener(this);
+        // 使用帮助
+        findViewById(R.id.ll_help).setOnClickListener(this);
     }
 
 
@@ -72,6 +76,10 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
             case R.id.ll_donate:
                 // 捐助
                 ActivityTool.startActivity(this, new Intent(this, DonateActivity.class));
+                break;
+            case R.id.ll_help:
+                // 使用帮助
+                ActivityTool.startActivity(this, new Intent(this, HelpActivity.class));
                 break;
 
         }

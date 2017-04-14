@@ -102,6 +102,46 @@
                 android:background="@color/gray_slight"/>
 
 
+
+
+            <!--使用帮助-->
+            <LinearLayout
+                android:id="@+id/ll_help"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_item_height"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/ripple"
+                android:paddingLeft="@dimen/padding_horizon"
+                android:paddingRight="@dimen/padding_horizon">
+                <!--android:background="?attr/selectableItemBackground"-->
+
+                <ImageView
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
+                    android:src="@mipmap/help"
+                    android:scaleType="fitXY"/>
+                <TextView
+                    android:layout_marginLeft="@dimen/padding_horizon"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="使用帮助"
+                    android:textColor="@color/txt_black"/>
+                <ImageView
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/forward"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_divider_height"
+                android:background="@color/gray_slight"/>
+
+
             <!--我的微博-->
             <LinearLayout
                 android:id="@+id/ll_weibo"
@@ -126,6 +166,42 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="我的微博"
+                    android:textColor="@color/txt_black"/>
+                <ImageView
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/forward"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_divider_height"
+                android:background="@color/gray_slight"/>
+
+            <!--加入我们-->
+            <LinearLayout
+                android:id="@+id/ll_join"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_item_height"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:background="@drawable/ripple"
+                android:paddingLeft="@dimen/padding_horizon"
+                android:paddingRight="@dimen/padding_horizon">
+                <!--android:background="?attr/selectableItemBackground"-->
+
+                <ImageView
+                    android:layout_width="@dimen/height_more_image"
+                    android:layout_height="@dimen/height_more_image"
+                    android:src="@mipmap/join"
+                    android:scaleType="fitXY"/>
+                <TextView
+                    android:layout_marginLeft="@dimen/padding_horizon"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="加入我们"
                     android:textColor="@color/txt_black"/>
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
@@ -174,41 +250,7 @@
                 android:layout_height="@dimen/size_divider_height"
                 android:background="@color/gray_slight"/>
 
-            <!--加入我们-->
-            <LinearLayout
-                android:id="@+id/ll_join"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_item_height"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:background="@drawable/ripple"
-                android:paddingLeft="@dimen/padding_horizon"
-                android:paddingRight="@dimen/padding_horizon">
-                <!--android:background="?attr/selectableItemBackground"-->
 
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/join"
-                    android:scaleType="fitXY"/>
-                <TextView
-                    android:layout_marginLeft="@dimen/padding_horizon"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="加入我们"
-                    android:textColor="@color/txt_black"/>
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/forward"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_divider_height"
-                android:background="@color/gray_slight"/>
         </LinearLayout>
 
     </ScrollView>

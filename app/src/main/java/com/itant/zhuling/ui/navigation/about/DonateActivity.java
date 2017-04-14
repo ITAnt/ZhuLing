@@ -16,7 +16,8 @@ import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UriTool;
-import com.itant.zhuling.ui.base.BaseActivity;
+import com.liuguangqiang.swipeback.SwipeBackActivity;
+import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,12 +27,14 @@ import java.io.FileOutputStream;
  * Created by Jason on 2017/3/26.
  */
 
-public class DonateActivity extends BaseActivity implements View.OnLongClickListener {
+public class DonateActivity extends SwipeBackActivity implements View.OnLongClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donate);
+        setContentView(R.layout.activity_about_donate);
+        // 右划删除
+        setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("捐助");
 
         initView();

@@ -65,6 +65,11 @@
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
 
+        <!--开源-->
+        <activity android:name=".ui.navigation.more.OpenActivity"
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
+
         <!-- 关于 -->
         <activity
             android:name=".ui.navigation.AboutActivity"
@@ -79,6 +84,11 @@
 
         <!--微博界面-->
         <activity android:name=".ui.navigation.about.WeiboActivity"
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
+
+        <!--使用帮助界面-->
+        <activity android:name=".ui.navigation.about.HelpActivity"
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
 

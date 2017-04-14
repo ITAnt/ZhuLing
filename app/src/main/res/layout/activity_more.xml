@@ -14,7 +14,7 @@
     <LinearLayout
         android:id="@+id/ll_top"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="160dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:gravity="center_horizontal">
@@ -22,6 +22,7 @@
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:scaleType="fitXY"
+            android:layout_marginTop="19dp"
             android:src="@mipmap/zhu_white"/>
     </LinearLayout>
 
@@ -69,42 +70,7 @@
                     android:scaleType="fitXY"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_divider_height"
-                android:background="@color/gray_slight"/>
 
-
-            <!--使用帮助-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_item_height"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:background="@drawable/ripple"
-                android:paddingLeft="@dimen/padding_horizon"
-                android:paddingRight="@dimen/padding_horizon">
-                <!--android:background="?attr/selectableItemBackground"-->
-
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/help"
-                    android:scaleType="fitXY"/>
-                <TextView
-                    android:layout_marginLeft="@dimen/padding_horizon"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="使用帮助"
-                    android:textColor="@color/txt_black"/>
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/forward"/>
-            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_divider_height"
@@ -187,6 +153,7 @@
 
             <!--相关开源-->
             <LinearLayout
+                android:id="@+id/ll_open_source"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_item_height"
                 android:orientation="horizontal"
@@ -257,13 +224,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_divider_height"
                 android:background="@color/gray_slight"/>
-
-
-
-
-
-
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

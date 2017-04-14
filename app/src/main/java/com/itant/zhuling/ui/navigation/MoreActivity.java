@@ -15,7 +15,7 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
-import com.itant.zhuling.ui.navigation.about.WeiboActivity;
+import com.itant.zhuling.ui.navigation.more.OpenActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 /**
@@ -58,6 +58,8 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
 
         // 分享
         findViewById(R.id.ll_share).setOnClickListener(this);
+        // 相关开源
+        findViewById(R.id.ll_open_source).setOnClickListener(this);
     }
 
     /**
@@ -84,18 +86,15 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_join:
-                // 加入
-                SocialTool.joinQQGroup(this);
-                break;
-            case R.id.ll_weibo:
-                // 微博
-                ActivityTool.startActivity(this, new Intent(this, WeiboActivity.class));
-                break;
 
             case R.id.ll_share:
                 // 分享
                 SocialTool.shareApp(this);
+                break;
+
+            case R.id.ll_open_source:
+                // 开源
+                ActivityTool.startActivity(this, new Intent(this, OpenActivity.class));
                 break;
         }
     }
