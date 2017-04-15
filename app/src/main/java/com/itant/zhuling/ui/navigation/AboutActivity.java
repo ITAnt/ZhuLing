@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.itant.zhuling.R;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
+import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.SocialTool;
+import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.itant.zhuling.ui.navigation.about.DonateActivity;
 import com.itant.zhuling.ui.navigation.about.HelpActivity;
@@ -25,6 +27,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 
 public class AboutActivity extends BaseSwipeActivity implements View.OnClickListener {
+    private int times;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,8 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
         findViewById(R.id.ll_donate).setOnClickListener(this);
         // 使用帮助
         findViewById(R.id.ll_help).setOnClickListener(this);
+        // 点击头像
+        findViewById(R.id.iv_logo).setOnClickListener(this);
     }
 
 
@@ -80,6 +86,21 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
             case R.id.ll_help:
                 // 使用帮助
                 ActivityTool.startActivity(this, new Intent(this, HelpActivity.class));
+                break;
+
+            case R.id.iv_logo:
+                times++;
+                if (times == 10) {
+                    boolean advanced = PreferencesTool.getBoolean(this, "advanced");
+                    if (!advanced) {
+                        // 还没开启
+                        PreferencesTool.putBoolean(this, "advanced", true);
+                        ToastTool.showShort(this, "请重新打开竹翎查看");
+                        //EventBus.getDefault().post(AppEvent.EVENT_OPEN_ADVANCED);
+                    } else {
+                        ToastTool.showShort(this, "您已开启高级功能");
+                    }
+                }
                 break;
 
         }

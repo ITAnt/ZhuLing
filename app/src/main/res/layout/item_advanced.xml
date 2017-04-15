@@ -10,10 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/txt_black"
-        fontPath="fonts/zhu-fzssf.ttf"
         android:text="愿有岁月可回首，且以深情共白头"
-        android:textSize="@dimen/size_sp_gigantic"
-        tools:ignore="MissingPrefix" />
+        android:textSize="@dimen/size_sp_gigantic" />
 
     <View
         android:layout_width="match_parent"

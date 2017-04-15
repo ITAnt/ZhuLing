@@ -13,9 +13,7 @@
         android:paddingRight="@dimen/size_dp_mini"
         android:layout_marginBottom="@dimen/size_dp_large"
         android:textColor="@color/txt_black"
-        fontPath="fonts/zhu-fzssf.ttf"
         android:text="愿有岁月可回首，且以深情共白头"
-        android:textSize="@dimen/size_sp_gigantic"
-        tools:ignore="MissingPrefix" />
+        android:textSize="@dimen/size_sp_gigantic" />
 
 </LinearLayout>

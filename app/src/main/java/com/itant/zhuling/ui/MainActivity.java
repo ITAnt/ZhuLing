@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.itant.zhuling.R;
+import com.itant.zhuling.base.IPermission;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.BitmapTool;
@@ -49,6 +49,7 @@ import com.itant.zhuling.ui.tab.github.GithubFragment;
 import com.itant.zhuling.ui.tab.music.MusicFragment;
 import com.itant.zhuling.ui.tab.news.NewsFragment;
 import com.itant.zhuling.ui.tab.sentence.SentenceFragment;
+import com.itant.zhuling.ui.tab.writing.WritingFragment;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItemAdapter;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -68,7 +69,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener, IPermission {
 
     private AppBarLayout abl_toolbar_container;
     private Toolbar tb_main;
@@ -92,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //EventBus.getDefault().register(this);
+
 
         // 系统默认生成的代码-----------------------------------------------------------开始
         tb_main = (Toolbar) findViewById(R.id.tb_main);
@@ -134,9 +138,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 初始化右侧弹出菜单
         initMenuFragment();
 
-        // 申请权限
-        PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
+            // 初始化必要的目录
+            initDirectorys();
+        } else {
+            // 申请权限
+            PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
+        }
+
+
+
     }
+
 
     private void initNavigationView() {
 
@@ -272,6 +285,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**************************************** 右侧菜单结束*************************************************/
 
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(AppEvent event) {
+        initView();
+    }*/
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //EventBus.getDefault().unregister(this);
+    }
+
     private ViewPager vp_main;
     private SmartTabLayout stl_main;
     private FragmentPagerItemAdapter adapter;
@@ -283,15 +307,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         stl_main = (SmartTabLayout) findViewById(R.id.stl_main);
 
 
-        adapter = new FragmentPagerItemAdapter(
-                getSupportFragmentManager(), FragmentPagerItems.with(this)
+        FragmentPagerItems.Creator creator = FragmentPagerItems.with(this)
                 .add("资讯", NewsFragment.class)
                 .add("悦听", MusicFragment.class)
                 .add("美句", SentenceFragment.class)
+                .add("书法", WritingFragment.class)
                 .add("开源", GithubFragment.class)
-                .add("博客", CsdnFragment.class)
-                .add("高级", AdvancedFragment.class)
-                .create());
+                .add("博客", CsdnFragment.class);
+
+        if (PreferencesTool.getBoolean(this, "advanced")) {
+            creator.add("高级", AdvancedFragment.class);
+        }
+
+        adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), creator.create());
 
 
         vp_main.setAdapter(adapter);
@@ -312,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (position == 5) {
+                    if (position == 6) {
                         // 切换到高级模式了
                         if (Build.VERSION.SDK_INT >= 21) {
                             tb_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
@@ -429,60 +457,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case REQUEST_NECESSARY_PERMISSIONS:
-                onNecessaryPermissionResult(grantResults);
-                break;
-        }
-
+        PermissionTool.onActivityPermissionResult(this, requestCode, grantResults);
     }
 
-    /**
-     * 查看基本的权限是否被赋予
-     * @param grantResults
-     */
-    private void onNecessaryPermissionResult(int[] grantResults) {
-        boolean granted = true;
-        for (int result : grantResults) {
-            granted = result == PackageManager.PERMISSION_GRANTED;
-            if (!granted) {
-                break;
-            }
+    @Override
+    public void onPermissionSuccess(int requestCode) {
+        // 已经赋予过权限了
+        boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
+        if (!hasGranted) {
+            // 第一次被赋予权限
+            PreferencesTool.putBoolean(this, "hasGranted", true);
+
+            ToastTool.showLong(this, "若不能正常加载请退出重新打开");
+            // 重新启动Activity
+            recreate();
         }
 
-        if (!granted) {
-            // 没有赋予权限
-            final AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle("权限被拒绝")
-                    .setMessage("很抱歉，您拒绝了应用正常运行所需的权限，应用将退出。")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            // 退出
-                            System.exit(0);
-                        }
-                    }).create();
-            dialog.show();
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
+        // 初始化必要的目录
+        initDirectorys();
+    }
 
-        } else {
-            // 已经赋予过权限了
-            boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
-            if (!hasGranted) {
-                // 第一次被赋予权限
-                PreferencesTool.putBoolean(this, "hasGranted", true);
-
-                ToastTool.showLong(this, "若不能正常加载请退出重新打开");
-                // 重新启动Activity
-                recreate();
-            }
-
-            // 初始化必要的目录
-            initDirectorys();
-        }
+    @Override
+    public void onPermissionFail(int requestCode) {
+        // 没有赋予权限
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("权限被拒绝")
+                .setMessage("很抱歉，您拒绝了应用正常运行所需的权限，应用将退出。")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        // 退出
+                        System.exit(0);
+                    }
+                }).create();
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     private void initDirectorys() {
@@ -532,11 +543,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 根据不同方式选择图片设置ImageView
      */
     private void pickImage(int type) {
+
         File tempHeadFile = new File(Environment.getExternalStorageDirectory(), ZhuConstants.HEAD_FULL_NAME_TEMP);
         if (tempHeadFile.exists()) {
             // 删除缓存
             tempHeadFile.delete();
         }
+
+
 
         switch (type) {
             case FROM_ALBUMS:

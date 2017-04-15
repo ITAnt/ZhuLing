@@ -120,7 +120,6 @@ public class FileTool {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 	
@@ -194,11 +193,11 @@ public class FileTool {
 	}
 	
 	/**
-	 * 删除某文件夹下面所有的报文
+	 * 删除某文件夹下面所有的文件
 	 * 
 	 * @param rootFile 根目录
 	 */
-	public boolean deletePacketsByDirectory(File rootFile) {
+	public static boolean deletePacketsByDirectory(File rootFile) {
 		File[] files = rootFile.listFiles();
 		if (files != null) {
 			for (File file : files) {
@@ -224,7 +223,7 @@ public class FileTool {
 	 * @param targetFile 目标文件夹
 	 * @return 本应用的磁盘缓存大小（单位：bit）
 	 */
-	public long calculateCacheSize(File targetFile) {
+	public static long calculateCacheSize(File targetFile) {
 		long size = 0;
 		File[] files = targetFile.listFiles();
 		if (files != null) {

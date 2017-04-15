@@ -41,6 +41,7 @@
 
             <!--清理缓存-->
             <LinearLayout
+                android:id="@+id/ll_clean"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_item_height"
                 android:orientation="horizontal"
@@ -64,10 +65,17 @@
                     android:text="清理缓存"
                     android:textColor="@color/txt_black"/>
 
+                <TextView
+                    android:id="@+id/tv_cache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"/>
+
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
                     android:scaleType="fitXY"
+                    android:layout_marginLeft="@dimen/size_dp_mini"
                     android:src="@mipmap/forward"/>
             </LinearLayout>
 

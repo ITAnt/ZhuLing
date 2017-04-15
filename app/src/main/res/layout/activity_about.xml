@@ -24,6 +24,7 @@
             android:gravity="center_horizontal"
             android:layout_centerInParent="true">
             <ImageView
+                android:id="@+id/iv_logo"
                 android:layout_width="85dp"
                 android:layout_height="85dp"
                 android:scaleType="fitXY"
