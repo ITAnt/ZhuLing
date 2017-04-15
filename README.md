@@ -12,7 +12,7 @@ adapter主要放了主界面ViewPager的adapter
 
 api本来是想放置Retrofit相关的接口的，结果运行了个demo没有成功，就不了了之了，现在才做了一个网络请求，直接用的okhttp和rxandroid结合，并没有封装成很好的工具框架，大家可以先尝试，我有时间就完成封装。
 
-Event主要放置EventBus的一些事件，都是简单的事件，比如通知其他界面刷新UI等。有人说，你这人装，用了RxAndroid为啥不用RxBus，还用什么EventBus。我只能说，萝卜青菜各有所爱，EventBus是个好工具，用起来非常方便，但我不会滥用。
+Event主要放置EventBus的一些事件，都是简单的事件，比如通知其他界面刷新UI等。EventBus是个好工具，用起来非常方便，但我不会滥用（目前还没使用，gradle里也注释掉了，要用时再打开）。
 
 listener目前还没有写什么，里面放了一个类，本来是用来监听RecyclerView滚动，以实时控制AppBarLayout滚动的，但是这个仅适用于单个Activity的情况，由于主界面有一个ViewPager包含多个Fragment，如果再用这个监听的话，那情况复杂得很，而且切换不同Fragment时AppBarLayout会闪动，我就直接用了谷歌原生的Material元素来控制了。虽然在包含NestedScrollView的Fragment，向上滚动的时候，部分机型会有卡顿的情况，比如华为P9，其他手机如一加、nexus5暂时没发现这种情况，这其实是谷歌的一个bug，体验了一下Bilibili的APP，发现这个bug同样存在，暂时还没有很好的替代方案，当然smooth-app-bar-layout可以解决这个bug，但是集成起来不太容易，而且扩展性不太好，比如在smooth-app-bar-layout和smarttablayout之间，你只能选择一个，因为他们的初始化方法不同，因为我必须要用到[smarttablayout](https://github.com/ogaclejapan/SmartTabLayout)的漂亮切换效果，所以主界面直接采用了原生的Material控件。
 
