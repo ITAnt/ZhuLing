@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
@@ -109,7 +110,7 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
                 viewHolder.setOnClickListener(R.id.ll_advanced, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (item.getObjectId() == "u0zBJJJV") {
+                        if (TextUtils.equals(item.getObjectId(), "u0zBJJJV")) {
                             // 妹纸====
                             ToastTool.showShort(getActivity(), "敬请期待");
                         } else {
