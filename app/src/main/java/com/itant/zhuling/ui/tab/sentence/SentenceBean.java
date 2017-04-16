@@ -18,11 +18,13 @@ package com.itant.zhuling.ui.tab.sentence;
 
 import android.support.annotation.Keep;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * @version 1.0 2016/5/24
  */
 @Keep
-public class SentenceBean {
+public class SentenceBean extends BmobObject {
     private String words;
 
     public String getWords() {

@@ -19,8 +19,8 @@ public interface APIService {
 
     @GET("nc/article/{type}/{id}/{startPage}-20.html")
     Call<List<MusicBean>> loadRepository(
-                                  @Path("type") String type, @Path("id") String id,
-                                  @Path("startPage") int startPage);
+            @Path("type") String type, @Path("id") String id,
+            @Path("startPage") int startPage);
 
 
 

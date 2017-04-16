@@ -5,4 +5,5 @@ package com.itant.zhuling.ui.base;
  */
 
 public interface IBasePresenter {
+
 }

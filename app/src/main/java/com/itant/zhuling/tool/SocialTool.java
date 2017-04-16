@@ -15,7 +15,7 @@ public class SocialTool {
      * 调到应用市场评价应用
      * @param context
      */
-    public static void jumpMarketRating(Context context) {
+    public static void jumpMarket(Context context) {
         Uri uri = Uri.parse("market://details?id="+context.getPackageName());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -6,6 +6,9 @@ package com.itant.zhuling.constant;
 
 public class ZhuConstants {
     public static final boolean DEBUG = true;//打包的时候，设为false以节省系统资源
+    public static boolean musicEnable = true;
+
+    public static final String BMOB_APPLICATION_ID = "dd9f50028de2404b3bdf6356e6798327";
 
     /**
      * 应用外部根目录

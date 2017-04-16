@@ -1,4 +1,4 @@
-package com.itant.zhuling.ui;
+package com.itant.zhuling.ui.main;
 
 import android.Manifest;
 import android.content.Context;
@@ -33,6 +33,7 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.base.IPermission;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.ActivityTool;
+import com.itant.zhuling.tool.AppTool;
 import com.itant.zhuling.tool.BitmapTool;
 import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.PermissionTool;
@@ -66,10 +67,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener, IPermission {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener,
+        MainContract.View, IPermission {
+
+    private MainContract.Presenter presenter;
 
     private AppBarLayout abl_toolbar_container;
     private Toolbar tb_main;
@@ -93,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //第一：默认初始化
+        Bmob.initialize(this, ZhuConstants.BMOB_APPLICATION_ID);
 
         //EventBus.getDefault().register(this);
 
@@ -146,13 +156,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
         }
 
-
-
+        // 获取更新信息
+        presenter = new MainPresenter(this, this);
+        presenter.getUpdateInfo();
     }
 
 
     private void initNavigationView() {
-
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
         View header = nav_view.getHeaderView(0);
@@ -164,14 +174,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         civ_head.setOnClickListener(this);
 
         /**
-         * start of code configuration for color of text of your Navigation Drawer / Menu based on state
+         * 定义Navigation菜单的颜色
          */
         int[][] state = new int[][] {
                 new int[] {-android.R.attr.state_enabled}, // disabled
                 new int[] {android.R.attr.state_enabled}, // enabled
                 new int[] {-android.R.attr.state_checked}, // unchecked
                 new int[] { android.R.attr.state_pressed}  // pressed
-
         };
 
         int[] color = new int[] {
@@ -182,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
         ColorStateList colorStateList1 = new ColorStateList(state, color);
-
 
         // FOR NAVIGATION VIEW ITEM ICON COLOR
         int[][] states = new int[][] {
@@ -203,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_view.setItemTextColor(colorStateList1);
         nav_view.setItemIconTintList(colorStateList2);
     }
-
 
     /******************************************** 右侧菜单开始 **********************************/
     private FragmentManager fragmentManager;
@@ -410,6 +417,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.menu_search:
                 // 点击搜索，如果文字不为空则弹出右侧菜单，目前只能搜音乐===
+                if (!ZhuConstants.musicEnable) {
+                    ToastTool.showShort(this, "敬请期待");
+                    return true;
+                }
                 if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
                     // 弹出右侧菜单
                     mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
@@ -441,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_comment:
                 // 跳转到应用市场，评论应用
-                SocialTool.jumpMarketRating(this);
+                SocialTool.jumpMarket(this);
                 break;
 
             case R.id.nav_feedback:
@@ -479,21 +490,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onPermissionFail(int requestCode) {
-        // 没有赋予权限
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("权限被拒绝")
-                .setMessage("很抱歉，您拒绝了应用正常运行所需的权限，应用将退出。")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        // 退出
-                        System.exit(0);
-                    }
-                }).create();
-        dialog.show();
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+
+        if (requestCode == REQUEST_NECESSARY_PERMISSIONS) {
+            // 没有赋予权限
+            final AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("权限被拒绝")
+                    .setMessage("很抱歉，您拒绝了应用正常运行所需的权限，应用将退出。")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            // 退出
+                            System.exit(0);
+                        }
+                    }).create();
+            dialog.show();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+        }
+
+
     }
 
     private void initDirectorys() {
@@ -711,6 +727,116 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void attachBaseContext(Context newBase) {
+        // 自定义字体需要
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onGetUpdateInfoSuc(UpdateInfo updateInfo) {
+        // 获取更新信息成功
+        if (updateInfo != null) {
+
+            if (updateInfo.getAppDisable()) {
+                // APP不能用了
+                showAppDisableDialog();
+                return;
+            }
+
+            ZhuConstants.musicEnable = !updateInfo.getMusicDisable();
+
+            try {
+                int serverVersionCode = Integer.parseInt(updateInfo.getVersionCode());
+                if (AppTool.getVersionCode(this) >= serverVersionCode) {
+                    return;
+                }
+
+                switch (updateInfo.getUpdateType()) {
+                    case "1":
+                        // 1强制更新，到应用市场
+                        goMarketUpdate(true, updateInfo);
+                        break;
+                    case "2":
+                        // 2强制更新，Bmob下载
+                        break;
+                    case "3":
+                        // 3可选更新，到应用市场
+                        goMarketUpdate(false, updateInfo);
+                        break;
+                    case "4":
+                        // 4可选更新，Bmob下载
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * APP不能用了
+     */
+    private void showAppDisableDialog() {
+        final SweetAlertDialog dialog= new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("应用下架")
+                .setContentText("很抱歉，由于种种原因，竹翎迫于压力，暂停开放，开放日期未定，谢谢竹子们一直以来的支持。")
+                .setConfirmText("好的");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                dialog.cancel();
+                MainActivity.this.finish();
+            }
+        });
+        dialog.show();
+    }
+
+
+    private SweetAlertDialog dialog;
+    /**
+     * 去应用市场更新
+     * @param force
+     * @param updateInfo
+     */
+    private void goMarketUpdate(boolean force, UpdateInfo updateInfo) {
+        dialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText("发现新版本")
+                .setContentText("最新版本："+updateInfo.getVersionName()+"\r\n"+
+                        "新版大小："+updateInfo.getPackageSizeMB()+"M"+"\r\n"
+                        +updateInfo.getUpdateDesc()+ "(如市场不能更新，请到QQ群484111083下载)");
+        dialog.setCanceledOnTouchOutside(false);
+
+        if (force) {
+            dialog.setConfirmText("马上去市场更新").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    SocialTool.jumpMarket(MainActivity.this);
+                }
+            });
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+        } else {
+            dialog.setConfirmText("更新").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    SocialTool.jumpMarket(MainActivity.this);
+                    dialog.cancel();
+                }
+            }).setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    dialog.cancel();
+                }
+            }).setCancelable(true);
+            dialog.setCanceledOnTouchOutside(false);
+        }
+
+        dialog.show();
+    }
+
+    @Override
+    public void onGetUpdateInfoFail(String msg) {
+
     }
 }

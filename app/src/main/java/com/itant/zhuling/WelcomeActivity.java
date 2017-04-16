@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.itant.zhuling.ui.MainActivity;
+import com.itant.zhuling.ui.main.MainActivity;
 import com.itant.zhuling.widget.leaf.FloatLeafLayout;
 
 import java.util.concurrent.TimeUnit;

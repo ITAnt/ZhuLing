@@ -95,10 +95,10 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
                     if (!advanced) {
                         // 还没开启
                         PreferencesTool.putBoolean(this, "advanced", true);
-                        ToastTool.showShort(this, "请重新打开竹翎查看");
+                        ToastTool.showShortRed(this, "请重新打开竹翎查看");
                         //EventBus.getDefault().post(AppEvent.EVENT_OPEN_ADVANCED);
                     } else {
-                        ToastTool.showShort(this, "您已开启高级功能");
+                        ToastTool.showShortRed(this, "您已开启高级功能");
                     }
                 }
                 break;

@@ -19,7 +19,8 @@ import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
-import com.itant.zhuling.ui.navigation.more.OpenActivity;
+import com.itant.zhuling.ui.navigation.more.log.UpdateLogActivity;
+import com.itant.zhuling.ui.navigation.more.open.OpenActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import java.text.DecimalFormat;
@@ -75,6 +76,8 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
         findViewById(R.id.ll_open_source).setOnClickListener(this);
         // 清理缓存
         findViewById(R.id.ll_clean).setOnClickListener(this);
+        // 更新日志
+        findViewById(R.id.ll_update_logs).setOnClickListener(this);
 
         format = new DecimalFormat("######0.00");//保留两位小数
         tv_cache = (TextView) findViewById(R.id.tv_cache);
@@ -120,6 +123,10 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
             case R.id.ll_open_source:
                 // 开源
                 ActivityTool.startActivity(this, new Intent(this, OpenActivity.class));
+                break;
+
+            case R.id.ll_update_logs:
+                ActivityTool.startActivity(this, new Intent(this, UpdateLogActivity.class));
                 break;
 
             case R.id.tv_cache:

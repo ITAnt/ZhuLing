@@ -1,5 +1,8 @@
 package com.itant.zhuling.ui.tab.sentence;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +13,7 @@ import android.widget.LinearLayout;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
+import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -85,7 +89,7 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
                     swipe_refresh_layout.setRefreshing(true);
                     // 加载更多
                     page++;
-                    mPresenter.getWriting(page);
+                    mPresenter.getSentences(page);
                 }
             }
 
@@ -102,8 +106,16 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
             @Override
             protected void convert(final ViewHolder viewHolder, final SentenceBean item, int position) {
 
-                //viewHolder.setText(R.id.tv_words, item.getWords());
-
+                viewHolder.setText(R.id.tv_words, item.getWords());
+                viewHolder.setOnClickListener(R.id.ll_sentence, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clipData = ClipData.newPlainText("sentence", item.getWords());
+                        manager.setPrimaryClip(clipData);
+                        ToastTool.showShort(getActivity(), "已复制到剪贴板");
+                    }
+                });
             }
         };
 
@@ -123,11 +135,11 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
         rv_news.setAdapter(mAdapter);
 
         mPresenter = new SentencePresenter(getActivity(), this);
-        mPresenter.getWriting(page);
+        mPresenter.getSentences(page);
     }
 
     @Override
-    public void onGetWritingSuc(List<SentenceBean> beans) {
+    public void onGetSentenceSuc(List<SentenceBean> beans) {
         if (beans != null && beans.size() > 0) {
             // 获取到数据了
             int preSize = beans.size();
@@ -141,6 +153,12 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
             int start = mWritingBeen.size();
             mWritingBeen.addAll(beans);
             mAdapter.notifyItemRangeChanged(start, mWritingBeen.size());
+        } else {
+            // 没数据了
+            if (page > 0) {
+                page--;
+                ToastTool.showShort(getActivity(), "没有更多的数据啦");
+            }
         }
 
         if (mWritingBeen.size() > 0) {
@@ -155,7 +173,7 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
     }
 
     @Override
-    public void onGetWritingFail(String msg) {
+    public void onGetSentenceFail(String msg) {
         // 刷新|加载的动作完成了
         swipe_refresh_layout.setRefreshing(false);
 
@@ -177,6 +195,6 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
     public void onRefresh() {
         // 下拉刷新
         page = 0;
-        mPresenter.getWriting(page);
+        mPresenter.getSentences(page);
     }
 }

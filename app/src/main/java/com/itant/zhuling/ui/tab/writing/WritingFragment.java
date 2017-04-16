@@ -1,5 +1,7 @@
 package com.itant.zhuling.ui.tab.writing;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
+import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -102,8 +105,17 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
             @Override
             protected void convert(final ViewHolder viewHolder, final WritingBean item, int position) {
 
-                //viewHolder.setText(R.id.tv_words, item.getWords());
-
+                viewHolder.setText(R.id.tv_title, item.getTitle());
+                viewHolder.setOnClickListener(R.id.ll_writing, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri content_url = Uri.parse(item.getUrl());
+                        intent.setData(content_url);
+                        startActivity(intent);
+                    }
+                });
             }
         };
 
@@ -141,6 +153,12 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
             int start = mWritingBeen.size();
             mWritingBeen.addAll(beans);
             mAdapter.notifyItemRangeChanged(start, mWritingBeen.size());
+        } else {
+            // 没数据了
+            if (page > 0) {
+                page--;
+                ToastTool.showShort(getActivity(), "没有更多的数据啦");
+            }
         }
 
         if (mWritingBeen.size() > 0) {

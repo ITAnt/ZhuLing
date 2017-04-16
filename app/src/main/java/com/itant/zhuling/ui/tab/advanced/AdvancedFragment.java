@@ -1,5 +1,7 @@
 package com.itant.zhuling.ui.tab.advanced;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
+import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -102,11 +105,25 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             @Override
             protected void convert(final ViewHolder viewHolder, final AdvancedBean item, int position) {
 
-                //viewHolder.setText(R.id.tv_words, item.getWords());
-
+                viewHolder.setText(R.id.tv_title, item.getTitle());
+                viewHolder.setOnClickListener(R.id.ll_advanced, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (item.getObjectId() == "u0zBJJJV") {
+                            // 妹纸====
+                            ToastTool.showShort(getActivity(), "敬请期待");
+                        } else {
+                            // 用浏览器打开
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.VIEW");
+                            Uri content_url = Uri.parse(item.getUrl());
+                            intent.setData(content_url);
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         };
-
 
         AnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(mAdapter);
         animationAdapter.setFirstOnly(false);// 不只第一次有动画
@@ -143,6 +160,12 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             int start = mWritingBeen.size();
             mWritingBeen.addAll(beans);
             mAdapter.notifyItemRangeChanged(start, mWritingBeen.size());
+        } else {
+            // 没数据了
+            if (page > 0) {
+                page--;
+                ToastTool.showShort(getActivity(), "没有更多的数据啦");
+            }
         }
 
         if (mWritingBeen.size() > 0) {

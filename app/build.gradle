@@ -20,6 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 repositories {
@@ -34,9 +35,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     testCompile 'junit:junit:4.12'
-
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -49,56 +48,47 @@ dependencies {
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile project(':library')
-
     /*右侧菜单*/
     compile 'com.yalantis:contextmenu:1.0.7'
-
     /*可以隐藏toolbar的RecyclerView，可以用，但不够流畅，用原生代替了*/
-   /* compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'*/
-
+    /* compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'*/
     /*EventBus*/
     /*compile 'org.greenrobot:eventbus:3.0.0'*/
-
     /*Material风格的下拉刷新*/
     /*compile 'com.cjj.materialrefeshlayout:library:1.3.0'*/
-
     /*解决滑动卡顿的CoordinatorLayout，这个库很坑，如果只使用它的NestedScrollView可以很好解决
-    原生NestedScrollView卡顿问题，但如果用到RecyclerView或者ViewPager和多个Fragment，
-    集成smarttablayout简直是折磨，而且还要为RecyclerView设置一个header。不如直接用原生的来得快。*/
+                原生NestedScrollView卡顿问题，但如果用到RecyclerView或者ViewPager和多个Fragment，
+                集成smarttablayout简直是折磨，而且还要为RecyclerView设置一个header。不如直接用原生的来得快。*/
     compile 'me.henrytao:smooth-app-bar-layout:25.1.0.0'
-
     /*圆形头像*/
     compile 'de.hdodenhof:circleimageview:1.3.0'
     /*compile 'de.hdodenhof:circleimageview:2.1.0'*/
-
     /*列表滚动动画，如果要在lib的ViewHolder里也实现动画，那么这个语句要移动到lib的gradle里*/
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
-
     /*支持上拉刷新，下拉加载的RecyclerView，可惜和LoadMoreRecyclerView一样，都会和SwipeRefreshLayout冲突*/
     /*compile 'com.jcodecraeer:xrecyclerview:1.3.2'*/
-
     /*右划销毁Activity，另外：sockeqwe/SwipeBack也可以参考*/
     compile 'com.github.liuguangqiang.swipeback:library:1.0.2@aar'
-
     /*导包一时爽，方法数超标了*/
     compile 'com.android.support:multidex:1.0.1'
-
     /*工具类集合*/
     /*compile 'com.luffykou:android-common-utils:1.1.3'*/
-
     /*MaterialDialog*/
     /*compile 'com.afollestad.material-dialogs:core:0.9.4.2'*/
     /*compile 'me.drakeet.materialdialog:library:1.3.1'*/
     /*compile 'com.github.navasmdc:MaterialDesign:1.5@aar'*/
-
     /*自定义字体*/
     /*compile 'com.norbsoft.typefacehelper:library:0.9.0'*/
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-
     /*Android M权限申请*/
     /*compile 'com.github.hotchemi:permissionsdispatcher:2.3.2'
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'*/
-
+                annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'*/
     /*标签Layout*/
     compile 'com.github.Rukey7:TagLayout:1.0.4'
+
+    // 服务器
+    /*compile files('libs/BmobSDK_V3.4.3_0828.jar')*/
+
+    // 甜心对话框
+    compile 'cn.pedant.sweetalert:library:1.3'
 }

@@ -47,6 +47,31 @@ public class ToastTool {
     }
 
     /**
+     * 短时间Toast红色
+     * @param context
+     * @param text
+     */
+    public static void showShortRed(Context context, String text) {
+
+        if (TextUtils.equals(text, mLastShortText) && System.currentTimeMillis()-mShortMillis < 3000) {
+            // 防止频繁Toast
+            return;
+        }
+
+        View view = LayoutInflater.from(context).inflate(R.layout.widget_toast_red, null);
+        TextView tv_toast = (TextView) view.findViewById(R.id.tv_toast);
+        tv_toast.setText(text);
+
+        Toast toast = new Toast(context);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.show();
+
+        mShortMillis = System.currentTimeMillis();
+        mLastShortText = text;
+    }
+
+    /**
      * 长时间Toast
      * @param context
      * @param text

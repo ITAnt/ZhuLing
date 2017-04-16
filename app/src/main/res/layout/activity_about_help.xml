@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBg">
+    android:background="@color/colorBg"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,27 +12,17 @@
         android:background="?attr/colorPrimary" />
 
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin"
-            android:layout_centerInParent="true">
+            android:text="1. 基本功能：直接打开应用，即可浏览新闻，品味诗词，欣赏书法，查看源码。\r\n\r\n2. 高级功能：首页切换到“悦听”栏，轻轻往下拉动界面，可以看到右上角有一个搜索图标，点击该图标，输入你想听的音乐之后，点击搜索，选择来源，即可发现一片新天地哦。\r\n\r\n3. 隐藏功能：关注微博“竹翎子歌”，即可获得开启隐藏功能的方法，更多新鲜有趣的功能，等着你来探索。"
+            android:textColor="@color/gray" />
 
-
-
-            <TextView
-                android:clickable="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1. 基本功能：直接打开应用，即可浏览新闻，品味诗词，欣赏书法，查看源码。\r\n\r\n2. 高级功能：首页切换到“悦听”栏，轻轻往下拉动界面，可以看到右上角有一个搜索图标，点击该图标，输入你想听的音乐之后，点击搜索，选择来源，即可发现一片新天地哦。\r\n\r\n3. 隐藏功能：关注微博“竹翎子歌”，即可获得开启隐藏功能的方法，更多新鲜有趣的功能，等着你来探索。"
-                android:textColor="@color/gray"/>
-
-        </LinearLayout>
     </ScrollView>
 </LinearLayout>

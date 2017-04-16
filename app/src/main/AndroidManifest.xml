@@ -17,6 +17,10 @@
     <!--拍照设置头像-->
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <!--Bmob-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
 
     <application
         android:allowBackup="true"
@@ -25,7 +29,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".ZhuApplication">
+        android:name=".ZhuApplication"
+        tools:replace="android:icon">
         <!-- 防止与lib包中的属性冲突 -->
 
         <!-- 欢迎界面 -->
@@ -45,7 +50,7 @@
 
         <!-- 开启硬件加速，加快WebView等界面速度 -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
@@ -66,7 +71,12 @@
             android:screenOrientation="portrait"/>
 
         <!--开源-->
-        <activity android:name=".ui.navigation.more.OpenActivity"
+        <activity android:name=".ui.navigation.more.open.OpenActivity"
+            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:screenOrientation="portrait"/>
+
+        <!--开源-->
+        <activity android:name=".ui.navigation.more.log.UpdateLogActivity"
             android:theme="@style/Theme.Swipe.Back.Zhu"
             android:screenOrientation="portrait"/>
 

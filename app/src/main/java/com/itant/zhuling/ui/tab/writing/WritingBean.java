@@ -18,20 +18,22 @@ package com.itant.zhuling.ui.tab.writing;
 
 import android.support.annotation.Keep;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * @version 1.0 2016/5/24
  */
 @Keep
-public class WritingBean {
-    private String name;
+public class WritingBean extends BmobObject {
+    private String title;
     private String url;
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getUrl() {

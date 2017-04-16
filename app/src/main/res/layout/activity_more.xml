@@ -87,6 +87,7 @@
 
             <!--更新日志-->
             <LinearLayout
+                android:id="@+id/ll_update_logs"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_item_height"
                 android:orientation="horizontal"

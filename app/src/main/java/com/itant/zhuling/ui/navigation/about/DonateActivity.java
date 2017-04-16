@@ -1,6 +1,7 @@
 package com.itant.zhuling.ui.navigation.about;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,9 +15,10 @@ import android.view.View;
 import com.itant.zhuling.R;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.FileTool;
+import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UriTool;
-import com.liuguangqiang.swipeback.SwipeBackActivity;
+import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import java.io.File;
@@ -27,7 +29,7 @@ import java.io.FileOutputStream;
  * Created by Jason on 2017/3/26.
  */
 
-public class DonateActivity extends SwipeBackActivity implements View.OnLongClickListener {
+public class DonateActivity extends BaseSwipeActivity implements View.OnLongClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,15 +115,26 @@ public class DonateActivity extends SwipeBackActivity implements View.OnLongClic
      * @param picName
      */
     private void insertIntoAlbum(String picName) {
+        // 保证相册只存一张我们的图片
+        String lastUrl = PreferencesTool.getString(this, "pay_wechat_url");
+        Cursor cursor = MediaStore.Images.Media.query(getContentResolver(), Uri.parse(lastUrl), null);
+        if (cursor != null && cursor.moveToNext()) {
+            return;
+        }
+
+
+        File file = new File(Environment.getExternalStorageDirectory() + ZhuConstants.PAY_WECHAT);
+        Uri uri = UriTool.getUriFromFile(this, ZhuConstants.NAME_PROVIDE, file);
+
         try {
-            MediaStore.Images.Media.insertImage(getContentResolver(), Environment.getExternalStorageDirectory() + ZhuConstants.PAY_WECHAT, picName, null);
+            String url = MediaStore.Images.Media.insertImage(getContentResolver(), Environment.getExternalStorageDirectory() + ZhuConstants.PAY_WECHAT, picName, null);
+            PreferencesTool.putString(this, "pay_wechat_url", url);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         // 通知相册更新
-        File file = new File(Environment.getExternalStorageDirectory() + ZhuConstants.PAY_WECHAT);
-        Uri uri = UriTool.getUriFromFile(this, ZhuConstants.NAME_PROVIDE, file);
         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
     }
 }

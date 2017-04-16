@@ -11,12 +11,12 @@ import java.util.List;
 
 public interface SentenceContract {
     interface View extends IBaseView {
-        void onGetWritingSuc(List<SentenceBean> newsBeen);
+        void onGetSentenceSuc(List<SentenceBean> newsBeen);
 
-        void onGetWritingFail(String msg);
+        void onGetSentenceFail(String msg);
     }
 
     interface Presenter extends IBasePresenter {
-        void getWriting(int page);
+        void getSentences(int page);
     }
 }
