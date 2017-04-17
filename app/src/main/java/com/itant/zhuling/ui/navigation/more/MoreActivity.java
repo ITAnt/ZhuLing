@@ -1,4 +1,4 @@
-package com.itant.zhuling.ui.navigation;
+package com.itant.zhuling.ui.navigation.more;
 
 import android.animation.Animator;
 import android.content.DialogInterface;
@@ -6,17 +6,21 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.itant.zhuling.R;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.FileTool;
+import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.itant.zhuling.ui.navigation.more.log.UpdateLogActivity;
@@ -29,7 +33,7 @@ import java.text.DecimalFormat;
  * Created by Jason on 2017/4/4.
  */
 
-public class MoreActivity extends BaseSwipeActivity implements View.OnClickListener, View.OnTouchListener {
+public class MoreActivity extends BaseSwipeActivity implements View.OnClickListener, View.OnTouchListener, CompoundButton.OnCheckedChangeListener {
 
     private DecimalFormat format;
 
@@ -46,7 +50,6 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
         setTitle("更多");
 
         initView();
-
     }
 
 
@@ -78,6 +81,11 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
         findViewById(R.id.ll_clean).setOnClickListener(this);
         // 更新日志
         findViewById(R.id.ll_update_logs).setOnClickListener(this);
+        // 夜间模式
+        Switch switch_night = (Switch) findViewById(R.id.switch_night);
+        boolean isNight = PreferencesTool.getBoolean(this, "night");
+        switch_night.setChecked(isNight);
+        //switch_night.setOnCheckedChangeListener(this);
 
         format = new DecimalFormat("######0.00");//保留两位小数
         tv_cache = (TextView) findViewById(R.id.tv_cache);
@@ -174,5 +182,21 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
                     }
                 }).create();
         dialog.show();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.switch_night:
+                if (isChecked) {
+                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    recreate();
+                } else {
+                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    recreate();
+                }
+                PreferencesTool.putBoolean(this, "night", isChecked);
+                break;
+        }
     }
 }

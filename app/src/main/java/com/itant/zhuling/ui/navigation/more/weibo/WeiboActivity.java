@@ -1,4 +1,4 @@
-package com.itant.zhuling.ui.navigation.more;
+package com.itant.zhuling.ui.navigation.more.weibo;
 
 import android.graphics.Color;
 import android.os.Bundle;

@@ -36,7 +36,7 @@
         <!-- 欢迎界面 -->
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/BaseAppTheme.Trans"
+            android:theme="@style/AppTheme.TransAppTheme"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <!--防止应用启动两次-->
@@ -64,42 +64,47 @@
 
 
 
-        <!-- 更多 -->
+        <!--反馈界面-->
+        <activity android:name=".ui.navigation.feedback.FeedbackActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
+            android:screenOrientation="portrait"/>
+
+        <!-- ===========更多======== -->
         <activity
-            android:name=".ui.navigation.MoreActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:name=".ui.navigation.more.MoreActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--开源-->
         <activity android:name=".ui.navigation.more.open.OpenActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
-        <!--开源-->
+        <!--更新日志-->
         <activity android:name=".ui.navigation.more.log.UpdateLogActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
-        <!-- 关于 -->
+        <!-- ===========关于========== -->
         <activity
-            android:name=".ui.navigation.AboutActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:name=".ui.navigation.about.AboutActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!-- 捐助界面 -->
         <activity
-            android:name=".ui.navigation.about.DonateActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+            android:name=".ui.navigation.about.contents.DonateActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--微博界面-->
-        <activity android:name=".ui.navigation.about.WeiboActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+        <activity android:name=".ui.navigation.about.contents.WeiboActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--使用帮助界面-->
-        <activity android:name=".ui.navigation.about.HelpActivity"
-            android:theme="@style/Theme.Swipe.Back.Zhu"
+        <activity android:name=".ui.navigation.about.contents.HelpActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
 

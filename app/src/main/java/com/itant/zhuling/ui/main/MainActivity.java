@@ -8,6 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -25,11 +26,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.itant.zhuling.R;
+import com.itant.zhuling.adapter.HeadAdapter;
 import com.itant.zhuling.base.IPermission;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.ActivityTool;
@@ -42,8 +49,9 @@ import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.tool.UriTool;
-import com.itant.zhuling.ui.navigation.AboutActivity;
-import com.itant.zhuling.ui.navigation.MoreActivity;
+import com.itant.zhuling.ui.navigation.about.AboutActivity;
+import com.itant.zhuling.ui.navigation.feedback.FeedbackActivity;
+import com.itant.zhuling.ui.navigation.more.MoreActivity;
 import com.itant.zhuling.ui.tab.advanced.AdvancedFragment;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
 import com.itant.zhuling.ui.tab.github.GithubFragment;
@@ -64,11 +72,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -97,9 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setTheme(R.style.AppThemeGreen);+reCreate()即可实现换主题颜色
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 自动夜间模式
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
 
         //第一：默认初始化
         Bmob.initialize(this, ZhuConstants.BMOB_APPLICATION_ID);
@@ -456,6 +466,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_feedback:
+                // 打开反馈界面
+                ActivityTool.startActivity(this, new Intent(this, FeedbackActivity.class));
                 break;
         }
 
@@ -520,30 +532,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    private AlertDialog headDialog;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.civ_head:
                 // 选择头像
-                CharSequence[] items = {"拍照", "相册"};
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("请选择头像来源")// setMessage会把item覆盖掉
-                        .setItems(items, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        // 拍照获取
-                                        pickImage(FROM_CAMERA);
-                                        break;
-                                    case 1:
-                                        // 相册选择
-                                        pickImage(FROM_ALBUMS);
-                                        break;
-                                }
-                            }
-                        }).create();
-                dialog.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);// setMessage会把item覆盖掉
+
+                List<String> items = new ArrayList<>();
+                items.add("拍照");
+                items.add("相册");
+                HeadAdapter adapter = new HeadAdapter(this, items);
+                adapter.setClickListener(new HeadAdapter.OnHeadItemClickListener() {
+                    @Override
+                    public void onHeadItemClick(int position) {
+                        if (headDialog != null) {
+                            headDialog.dismiss();
+                        }
+                        switch (position) {
+                            case 0:
+                                // 拍照获取
+                                pickImage(FROM_CAMERA);
+                                break;
+                            case 1:
+                                // 相册选择
+                                pickImage(FROM_ALBUMS);
+                                break;
+                        }
+                    }
+                });
+
+                headDialog = builder.create();
+                View view = LayoutInflater.from(this).inflate(R.layout.dialog_head, null);
+
+                ListView lv_head = (ListView) view.findViewById(R.id.lv_head);
+                lv_head.setAdapter(adapter);
+
+                headDialog.setView(view);
+                headDialog.show();
                 break;
         }
     }
@@ -565,8 +592,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 删除缓存
             tempHeadFile.delete();
         }
-
-
 
         switch (type) {
             case FROM_ALBUMS:
@@ -772,67 +797,160 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     /**
      * APP不能用了
      */
     private void showAppDisableDialog() {
-        final SweetAlertDialog dialog= new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("应用下架")
-                .setContentText("很抱歉，由于种种原因，竹翎迫于压力，暂停开放，开放日期未定，谢谢竹子们一直以来的支持。")
-                .setConfirmText("好的");
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                dialog.cancel();
-                MainActivity.this.finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("应用下架")
+                .setMessage("很抱歉，由于种种原因，竹翎迫于压力，暂停开放，开放日期未定，谢谢竹子们一直以来的支持。")
+                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface updateDialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                });
+
+        AlertDialog disableDialog = builder.create();
+        disableDialog.setCancelable(false);
+        disableDialog.setCanceledOnTouchOutside(false);
+        disableDialog.show();
+        Button positiveButton = disableDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+        positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        // 设置内容字体大小
+        TextView tv_message = (TextView)disableDialog.getWindow().findViewById(android.R.id.message);
+        tv_message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        // 设置内容字体颜色
+        tv_message.setTextColor(getResources().getColor(R.color.gray_3));
+
+        // 标题是粗体
+        try {
+            Field mAlert = AlertDialog.class.getDeclaredField("mAlert");
+            mAlert.setAccessible(true);
+            Object alertController = mAlert.get(disableDialog);
+
+            Field mTitleView = alertController.getClass().getDeclaredField("mTitleView");
+            mTitleView.setAccessible(true);
+
+            TextView tv_title = (TextView) mTitleView.get(alertController);
+            if (tv_title != null) {
+                tv_title.setTypeface(tv_title.getTypeface(), Typeface.BOLD);
+                tv_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             }
-        });
-        dialog.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
-    private SweetAlertDialog dialog;
     /**
-     * 去应用市场更新
+     * 更新
      * @param force
      * @param updateInfo
      */
-    private void goMarketUpdate(boolean force, UpdateInfo updateInfo) {
-        dialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText("发现新版本")
-                .setContentText("最新版本："+updateInfo.getVersionName()+"\r\n"+
+    private void goMarketUpdate(final boolean force, UpdateInfo updateInfo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("发现新版本")
+                .setMessage("最新版本："+updateInfo.getVersionName()+"\r\n"+
                         "新版大小："+updateInfo.getPackageSizeMB()+"M"+"\r\n"
-                        +updateInfo.getUpdateDesc()+ "(如市场不能更新，请到QQ群484111083下载)");
-        dialog.setCanceledOnTouchOutside(false);
+                        +updateInfo.getUpdateDesc()+ "(如市场不能更新，请到QQ群484111083下载)")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-        if (force) {
-            dialog.setConfirmText("马上去市场更新").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    SocialTool.jumpMarket(MainActivity.this);
+                    }
+                }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog updateDialog = builder.create();
+        updateDialog.setCancelable(false);
+        updateDialog.setCanceledOnTouchOutside(false);
+        updateDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                if (force) {
+                    // 对话框不能关闭
+                    Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    positiveButton.setText("确定");
+                    positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                    positiveButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            SocialTool.jumpMarket(MainActivity.this);
+                        }
+                    });
+
+                    Button negativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                    negativeButton.setVisibility(View.GONE);
+                } else {
+                    // 对话框可以关闭
+                    Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    positiveButton.setText("更新");
+                    positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                    positiveButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            SocialTool.jumpMarket(MainActivity.this);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    Button negativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                    negativeButton.setText("取消");
+                    negativeButton.setTextColor(getResources().getColor(R.color.gray_1));
+                    negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                    negativeButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
-            });
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
-        } else {
-            dialog.setConfirmText("更新").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    SocialTool.jumpMarket(MainActivity.this);
-                    dialog.cancel();
-                }
-            }).setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    dialog.cancel();
-                }
-            }).setCancelable(true);
-            dialog.setCanceledOnTouchOutside(false);
+            }
+        });
+
+        // updateDialog一定要先show再findViewById(android.R.id.message)，否则会返回null
+        updateDialog.show();
+
+        // 设置内容字体大小
+        TextView tv_message = (TextView)updateDialog.findViewById(android.R.id.message);
+        if (tv_message != null) {
+            tv_message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            // 设置内容字体颜色
+            tv_message.setTextColor(getResources().getColor(R.color.txt_black));
         }
 
-        dialog.show();
+        // 标题是粗体
+        try {
+            Field mAlert = AlertDialog.class.getDeclaredField("mAlert");
+            mAlert.setAccessible(true);
+            Object alertController = mAlert.get(updateDialog);
+
+            Field mTitleView = alertController.getClass().getDeclaredField("mTitleView");
+            mTitleView.setAccessible(true);
+
+            TextView tv_title = (TextView) mTitleView.get(alertController);
+            if (tv_title != null) {
+                tv_title.setTypeface(tv_title.getTypeface(), Typeface.BOLD);
+                tv_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

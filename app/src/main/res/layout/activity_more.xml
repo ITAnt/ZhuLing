@@ -47,7 +47,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -93,7 +93,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -130,7 +130,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -147,11 +147,11 @@
                     android:layout_height="wrap_content"
                     android:text="夜间模式"
                     android:textColor="@color/txt_black"/>
-                <ImageView
-                    android:layout_width="@dimen/height_more_image"
-                    android:layout_height="@dimen/height_more_image"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/forward"/>
+                <Switch
+                    android:id="@+id/switch_night"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -205,7 +205,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->

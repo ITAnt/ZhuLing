@@ -89,6 +89,5 @@ dependencies {
     // 服务器
     /*compile files('libs/BmobSDK_V3.4.3_0828.jar')*/
 
-    // 甜心对话框
-    compile 'cn.pedant.sweetalert:library:1.3'
+
 }

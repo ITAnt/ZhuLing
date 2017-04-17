@@ -28,7 +28,7 @@
         <item name="android:textColorSecondary">#ffffff</item>
     </style>
 
-    <style name="ZhuTest" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <!--<style name="ZhuTest" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="colorPrimary">#4caf50</item>
@@ -37,10 +37,10 @@
     </style>
 
 
-    <!--共享元素-->
+    &lt;!&ndash;共享元素&ndash;&gt;
     <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
-    </style>
+    </style>-->
 
     <!-- specify enter and exit transitions -->
     <!--<item name="android:windowEnterTransition">@transition/explode</item>

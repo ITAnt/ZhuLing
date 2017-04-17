@@ -1,5 +1,6 @@
 package com.itant.zhuling.ui.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,11 +12,17 @@ import com.liuguangqiang.swipeback.SwipeBackActivity;
  */
 
 public class BaseSwipeActivity extends SwipeBackActivity {
+
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(true);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("请稍等...");
     }
 
     @Override
@@ -31,5 +38,17 @@ public class BaseSwipeActivity extends SwipeBackActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public void showProgressDialog() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    public void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

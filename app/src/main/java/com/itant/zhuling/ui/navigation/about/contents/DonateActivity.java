@@ -1,4 +1,4 @@
-package com.itant.zhuling.ui.navigation.about;
+package com.itant.zhuling.ui.navigation.about.contents;
 
 import android.content.Intent;
 import android.database.Cursor;

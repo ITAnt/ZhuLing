@@ -74,7 +74,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -113,7 +113,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -151,7 +151,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -187,7 +187,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->
@@ -223,7 +223,7 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_item"
                 android:paddingLeft="@dimen/padding_horizon"
                 android:paddingRight="@dimen/padding_horizon">
                 <!--android:background="?attr/selectableItemBackground"-->

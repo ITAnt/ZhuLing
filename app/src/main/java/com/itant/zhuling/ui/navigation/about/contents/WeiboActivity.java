@@ -1,4 +1,4 @@
-package com.itant.zhuling.ui.navigation.about;
+package com.itant.zhuling.ui.navigation.about.contents;
 
 import android.graphics.Color;
 import android.os.Bundle;

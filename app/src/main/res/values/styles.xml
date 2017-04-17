@@ -1,12 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>-->
+
+        <!--全局对话框主题-->
+        <item name="alertDialogTheme">@style/ZhuDialogTheme</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,7 +22,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Base application theme. -->
-    <style name="BaseAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.BaseAppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -33,14 +36,12 @@
     </style>
 
     <!--让Activity启动时不留空白瞬间-->
-    <style name="BaseAppTheme.Trans">
+    <style name="AppTheme.TransAppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="BaseAppTheme.NoTrans">
-    </style>
 
     <!--新闻频道-->
     <style name="news_summary_card_view">
@@ -54,7 +55,7 @@
 
 
 
-    <style name="Theme.Swipe.Back.Zhu" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.CommonActivityTheme">
         <item name="colorPrimary">#4caf50</item>
         <item name="colorPrimaryDark">#388e3c</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -63,10 +64,30 @@
         <item name="android:windowNoTitle">true</item>
         <!--改变下面这个颜色可以改变返回按钮的颜色-->
         <item name="android:textColorSecondary">#ffffff</item>
+        <!--标题字体大小-->
+        <!--<item name="android:textSize">16sp</item>-->
     </style>
 
     <!--标题字体大小-->
     <style name="Zhu.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <!--对话框主题-->
+    <style name="ZhuDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--<item name="android:textStyle">bold</item>-->
+        <!--标题字体大小-->
+        <!--<item name="android:textSize">16sp</item>-->
+        <!--按钮颜色-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--标题和消息字体颜色-->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@drawable/shape_dialog_bg</item>
+    </style>
+
+    <style name="BoldText">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
