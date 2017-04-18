@@ -45,6 +45,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
 
+    private static final int START_PAGE = 0;
+
     @Override
     public int getLayoutId() {
         // 绑定视图
@@ -164,27 +166,33 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
     @Override
     public void onGetMusicSuc(List<MusicBean> beans) {
+        int preSize = mMusicBeans.size();
+        if (page == START_PAGE) {
+            // 是刷新操作，或者是第一次进来，要清空
+            mMusicBeans.clear();
+            // 在item太短的情况下，不执行这步操作会闪退。
+            mAdapter.notifyItemRangeRemoved(0, preSize);
+        }
+
         if (beans != null && beans.size() > 0) {
             // 获取到数据了
-            int preSize = beans.size();
-            if (page == 0) {
-                // 是刷新操作，或者是第一次进来，要清空
-                mMusicBeans.clear();
-                // 在item太短的情况下，不执行这步操作会闪退。
-                mAdapter.notifyItemRangeRemoved(0, preSize);
-            }
-
             int start = mMusicBeans.size();
             mMusicBeans.addAll(beans);
             mAdapter.notifyItemRangeChanged(start, mMusicBeans.size());
-
+        } else {
+            if (page > START_PAGE) {
+                ToastTool.showShort(getActivity(), "没有更多的数据啦");
+                page--;
+            }
         }
 
         if (mMusicBeans.size() > 0) {
             // 有数据
             ll_empty.setVisibility(View.GONE);
+            rv_music.setVisibility(View.VISIBLE);
         } else {
-            ll_empty.setVisibility(View.GONE);
+            ll_empty.setVisibility(View.VISIBLE);
+            rv_music.setVisibility(View.GONE);
         }
 
         // 刷新|加载的动作完成了
@@ -198,14 +206,16 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
 
         // 第一页的数据拉取失败
-        if (page < 0) {
-            page = 0;
+        if (page < START_PAGE) {
+            page = START_PAGE;
         }
-        if (page == 0) {
+        if (page == START_PAGE) {
             ll_empty.setVisibility(View.VISIBLE);
+            rv_music.setVisibility(View.GONE);
         } else {
             // 加载更多失败，页数回滚
             ll_empty.setVisibility(View.GONE);
+            rv_music.setVisibility(View.VISIBLE);
             page--;
         }
     }
@@ -213,7 +223,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     @Override
     public void onRefresh() {
         // 下拉刷新
-        page = 0;
+        page = START_PAGE;
         mPresenter.getMusic(page);
     }
 

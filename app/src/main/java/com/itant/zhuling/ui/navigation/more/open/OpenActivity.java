@@ -24,7 +24,7 @@ public class OpenActivity extends BaseSwipeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more_open);
+        setContentView(R.layout.activity_nav_more_open);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("开源");

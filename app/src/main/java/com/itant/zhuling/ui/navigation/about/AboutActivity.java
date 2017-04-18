@@ -44,7 +44,7 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_nav_about);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
 

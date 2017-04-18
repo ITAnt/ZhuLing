@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/cl_main">
+    android:id="@+id/cl_main"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <!--不让EditText自动获取焦点-->
     <!--android:fitsSystemWindows="true"--><!--不加这一句，状态栏就不会透明了，可以刚好隐藏我们的ToolBar-->
 
     <android.support.design.widget.AppBarLayout
@@ -18,7 +21,56 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <LinearLayout
+                android:id="@+id/ll_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="竹翎"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_sp_huge"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="120dp"
+                    android:gravity="center_vertical|left"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入歌名"
+                    android:textColorHint="@color/gray"
+                    android:singleLine="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:textCursorDrawable="@null"
+                    android:maxLength="50"
+                    android:padding="@dimen/size_dp_micro"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/size_sp_normal"
+                    android:background="@drawable/shape_edittext"
+                    android:layout_marginRight="@dimen/size_dp_mini"
+                    android:imeOptions="actionSearch"/>
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/search"/>
+            </LinearLayout>
+
+
+
+        </android.support.v7.widget.Toolbar>
 
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
@@ -56,5 +108,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />-->
+
 
 </android.support.design.widget.CoordinatorLayout>

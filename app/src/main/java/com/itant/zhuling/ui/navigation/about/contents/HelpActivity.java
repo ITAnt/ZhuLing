@@ -18,7 +18,7 @@ public class HelpActivity extends BaseSwipeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_help);
+        setContentView(R.layout.activity_nav_about_help);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("帮助");

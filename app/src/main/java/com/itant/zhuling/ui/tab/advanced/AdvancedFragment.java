@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
+import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
+import com.itant.zhuling.ui.tab.advanced.meizhi.MeizhiActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
     private LinearLayoutManager mLayoutManager;
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
+
+    private static final int START_PAGE = 0;
 
     @Override
     public int getLayoutId() {
@@ -112,7 +116,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
                     public void onClick(View v) {
                         if (TextUtils.equals(item.getObjectId(), "u0zBJJJV")) {
                             // 妹纸====
-                            ToastTool.showShort(getActivity(), "敬请期待");
+                            //ToastTool.showShort(getActivity(), "敬请期待");
+                            ActivityTool.startActivity(getActivity(), new Intent(getActivity(), MeizhiActivity.class));
                         } else {
                             // 用浏览器打开
                             Intent intent = new Intent();
@@ -146,34 +151,37 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
 
     @Override
     public void onGetWritingSuc(List<AdvancedBean> beans) {
+        int preSize = mWritingBeen.size();
+
+        if (page == START_PAGE) {
+            // 是刷新操作，或者是第一次进来，要清空
+            mWritingBeen.clear();
+
+            // 在item太短的情况下，不执行这步操作会闪退。
+            mAdapter.notifyItemRangeRemoved(0, preSize);
+        }
+
+
         if (beans != null && beans.size() > 0) {
             // 获取到数据了
-            int preSize = mWritingBeen.size();
-
-            if (page == 0) {
-                // 是刷新操作，或者是第一次进来，要清空
-                mWritingBeen.clear();
-
-                // 在item太短的情况下，不执行这步操作会闪退。
-                mAdapter.notifyItemRangeRemoved(0, preSize);
-            }
-
             int start = mWritingBeen.size();
             mWritingBeen.addAll(beans);
             mAdapter.notifyItemRangeChanged(start, mWritingBeen.size());
         } else {
             // 没数据了
-            if (page > 0) {
-                page--;
+            if (page > START_PAGE) {
                 ToastTool.showShort(getActivity(), "没有更多的数据啦");
+                page--;
             }
         }
 
         if (mWritingBeen.size() > 0) {
             // 有数据
             ll_empty.setVisibility(View.GONE);
+            rv_news.setVisibility(View.VISIBLE);
         } else {
-            ll_empty.setVisibility(View.GONE);
+            ll_empty.setVisibility(View.VISIBLE);
+            rv_news.setVisibility(View.GONE);
         }
 
         // 刷新|加载的动作完成了
@@ -187,14 +195,16 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
 
 
         // 第一页的数据拉取失败
-        if (page < 0) {
-            page = 0;
+        if (page < START_PAGE) {
+            page = START_PAGE;
         }
-        if (page == 0) {
+        if (page == START_PAGE) {
             ll_empty.setVisibility(View.VISIBLE);
+            rv_news.setVisibility(View.GONE);
         } else {
             // 加载更多失败，页数回滚
             ll_empty.setVisibility(View.GONE);
+            rv_news.setVisibility(View.VISIBLE);
             page--;
         }
     }
@@ -202,7 +212,7 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
     @Override
     public void onRefresh() {
         // 下拉刷新
-        page = 0;
+        page = START_PAGE;
         mPresenter.getWriting(page);
     }
 }

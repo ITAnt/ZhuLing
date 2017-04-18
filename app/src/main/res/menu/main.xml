@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+    <!--<item
+        android:id="@+id/menu_search_input"
+        android:orderInCategory="100"
+        android:title="搜索"
+        app:showAsAction="ifRoom"/>-->
+
+    <!--<item
         android:id="@+id/menu_search"
         android:orderInCategory="100"
         android:title="搜索"
         android:icon="@mipmap/search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>-->
 </menu>

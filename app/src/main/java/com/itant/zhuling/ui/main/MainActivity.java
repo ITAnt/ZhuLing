@@ -6,10 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +24,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,6 +57,7 @@ import com.itant.zhuling.tool.UriTool;
 import com.itant.zhuling.ui.navigation.about.AboutActivity;
 import com.itant.zhuling.ui.navigation.feedback.FeedbackActivity;
 import com.itant.zhuling.ui.navigation.more.MoreActivity;
+import com.itant.zhuling.ui.navigation.notice.NoticeActivity;
 import com.itant.zhuling.ui.tab.advanced.AdvancedFragment;
 import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
 import com.itant.zhuling.ui.tab.github.GithubFragment;
@@ -89,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppBarLayout abl_toolbar_container;
     private Toolbar tb_main;
     private int toolBarHeight;
+    private LinearLayout ll_search;
+    private EditText et_search;
+    private ImageView iv_search;
 
     // 权限
     private static final int REQUEST_NECESSARY_PERMISSIONS = 1;
@@ -108,19 +117,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 自动夜间模式
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-
         //第一：默认初始化
         Bmob.initialize(this, ZhuConstants.BMOB_APPLICATION_ID);
 
-        //EventBus.getDefault().register(this);
+        // 顶部
+        initAppBarLayout();
 
+        // 左侧
+        initNavigationView();
 
-        // 系统默认生成的代码-----------------------------------------------------------开始
+        // Tab和ViewPager
+        initView();
+
+        // 初始化搜索栏
+        initSearchBar();
+
+        // 初始化右侧弹出菜单
+        initMenuFragment();
+
+        // 获取更新信息
+        presenter = new MainPresenter(this, this);
+
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
+            // 初始化必要的目录
+            initDirectory();
+            // 直接获取更新信息
+            presenter.getUpdateInfo();
+        } else {
+            // 申请权限
+            PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
+        }
+    }
+
+    /**
+     * 顶部
+     */
+    private void initAppBarLayout() {
         tb_main = (Toolbar) findViewById(R.id.tb_main);
         setSupportActionBar(tb_main);
-
         toolBarHeight = UITool.getToolbarHeight(this);
 
         abl_toolbar_container = (AppBarLayout) findViewById(R.id.abl_toolbar_container);
@@ -141,38 +175,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+    }
 
+    /**
+     * 左侧导航
+     */
+    private void initNavigationView() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, tb_main, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        initNavigationView();
-
-        // 系统默认生成的代码-------------------------------------------------------------------结束
-
-        // 初始化顶部界面
-        initView();
-
-        // 初始化右侧弹出菜单
-        initMenuFragment();
-
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
-            // 初始化必要的目录
-            initDirectorys();
-        } else {
-            // 申请权限
-            PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
-        }
-
-        // 获取更新信息
-        presenter = new MainPresenter(this, this);
-        presenter.getUpdateInfo();
-    }
-
-
-    private void initNavigationView() {
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
         View header = nav_view.getHeaderView(0);
@@ -183,9 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setHeadImage();
         civ_head.setOnClickListener(this);
 
-        /**
-         * 定义Navigation菜单的颜色
-         */
+        // 字体颜色
         int[][] state = new int[][] {
                 new int[] {-android.R.attr.state_enabled}, // disabled
                 new int[] {android.R.attr.state_enabled}, // enabled
@@ -199,16 +211,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Color.parseColor("#4caf50"),
                 Color.parseColor("#4caf50")
         };
-
         ColorStateList colorStateList1 = new ColorStateList(state, color);
 
-        // FOR NAVIGATION VIEW ITEM ICON COLOR
+        // 图标颜色
         int[][] states = new int[][] {
                 new int[] {-android.R.attr.state_enabled}, // disabled
                 new int[] {android.R.attr.state_enabled}, // enabled
                 new int[] {-android.R.attr.state_checked}, // unchecked
                 new int[] { android.R.attr.state_pressed}  // pressed
-
         };
 
         int[] colors = new int[] {
@@ -236,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMenuDialogFragment.setItemLongClickListener(this);
     }
 
-
     private List<MenuObject> getMenuObjects() {
         // You can use any [resource, bitmap, drawable, color] as image:
         // item.setResource(...)
@@ -257,32 +266,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         List<MenuObject> menuObjects = new ArrayList<>();
 
         MenuObject close = new MenuObject();
-        close.setResource(R.mipmap.icn_close);
+        close.setResource(R.mipmap.music_close);
 
-        MenuObject send = new MenuObject("Send message");
-        send.setResource(R.mipmap.icn_1);
+        MenuObject xia = new MenuObject("小龙虾");
+        xia.setResource(R.mipmap.music_xia);
 
-        MenuObject like = new MenuObject("Like profile");
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.icn_2);
-        like.setBitmap(b);
+        MenuObject qie = new MenuObject("鹅鹅鹅");
+        qie.setResource(R.mipmap.music_qie);
 
-        MenuObject addFr = new MenuObject("Add to friends");
-        BitmapDrawable bd = new BitmapDrawable(getResources(),
-                BitmapFactory.decodeResource(getResources(), R.mipmap.icn_3));
-        addFr.setDrawable(bd);
+        MenuObject yun = new MenuObject("风中云");
+        yun.setResource(R.mipmap.music_yun);
 
-        MenuObject addFav = new MenuObject("Add to favorites");
-        addFav.setResource(R.mipmap.icn_4);
+        MenuObject wo = new MenuObject("酷不酷");
+        wo.setResource(R.mipmap.music_wo);
 
-        MenuObject block = new MenuObject("Block user");
-        block.setResource(R.mipmap.icn_5);
+        MenuObject xiong = new MenuObject("咆哮熊");
+        xiong.setResource(R.mipmap.music_xiong);
+
+        MenuObject gou = new MenuObject("道格狗");
+        gou.setResource(R.mipmap.music_gou);
 
         menuObjects.add(close);
-        menuObjects.add(send);
-        menuObjects.add(like);
-        menuObjects.add(addFr);
-        menuObjects.add(addFav);
-        menuObjects.add(block);
+        menuObjects.add(xia);
+        menuObjects.add(qie);
+        menuObjects.add(yun);
+        menuObjects.add(wo);
+        menuObjects.add(xiong);
+        menuObjects.add(gou);
         return menuObjects;
     }
 
@@ -299,13 +309,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 长按右侧菜单
 
     }
-
     /**************************************** 右侧菜单结束*************************************************/
-
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(AppEvent event) {
-        initView();
-    }*/
 
     @Override
     protected void onDestroy() {
@@ -350,9 +354,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onPageSelected(int position) {
                 if (position == 1) {
                     // 切换到音乐栏的时候，搜索按钮才可见
-                    menu_search.setVisible(true);
+                    ll_search.setVisibility(View.VISIBLE);
                 } else {
-                    menu_search.setVisible(false);
+                    ll_search.setVisibility(View.GONE);
                 }
 
 
@@ -362,7 +366,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (Build.VERSION.SDK_INT >= 21) {
                             tb_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
                             stl_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
-                            //getWindow().setNavigationBarColor(getResources().getColor(R.color.color_primary_red));
                             getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_red_dark));
                         }
                     } else {
@@ -382,6 +385,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         stl_main.setViewPager(vp_main);
     }
 
+    /**
+     * 搜索栏
+     */
+    private void initSearchBar() {
+        ll_search = (LinearLayout) findViewById(R.id.ll_search);
+        et_search = (EditText) findViewById(R.id.et_search);
+        iv_search = (ImageView) findViewById(R.id.iv_search);
+        iv_search.setOnClickListener(this);
+
+        // 点击回车则搜索(onSearchClicked方法有隐藏键盘)
+        et_search.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // 搜索
+                    onSearchClicked();
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 点击软键盘的搜索
+     */
+    private void onSearchClicked() {
+        // 收起软键盘并搜索
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et_search.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); //强制隐藏键盘
+        preSearch();
+    }
+
+    private void preSearch() {
+        String keyWords = et_search.getText().toString().replaceAll(" ", "");
+        if (TextUtils.isEmpty(keyWords)) {
+            ToastTool.showShort(this, "关键字不能为空");
+            return;
+        }
+
+        if (!ZhuConstants.musicEnable) {
+            ToastTool.showShort(this, "敬请期待");
+            return;
+        }
+
+        if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
+            // 弹出右侧菜单
+            mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
+        }
+    }
 
     private long lastBackMillis;// 上一次点击返回的时间
     @Override
@@ -407,15 +461,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private MenuItem menu_search;
+    //private MenuItem menu_search;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // 这里可以设置ToolBar的menu
         getMenuInflater().inflate(R.menu.main, menu);
 
         // 找到ToolBar的搜索控件
-        menu_search = menu.findItem(R.id.menu_search);
-        menu_search.setVisible(false);
+        //menu_search = menu.findItem(R.id.menu_search);
+        //menu_search.setVisible(false);
         return true;
     }
 
@@ -423,20 +477,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         // 处理ToolBar上的控件点击事件
         int id = item.getItemId();
-
-        switch (id) {
-            case R.id.menu_search:
-                // 点击搜索，如果文字不为空则弹出右侧菜单，目前只能搜音乐===
-                if (!ZhuConstants.musicEnable) {
-                    ToastTool.showShort(this, "敬请期待");
-                    return true;
-                }
-                if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
-                    // 弹出右侧菜单
-                    mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
-                }
-                break;
-        }
 
         // return true应该就是展示那些由于空间不够而隐藏了的控件
         return super.onOptionsItemSelected(item);
@@ -447,6 +487,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // 处理左侧导航栏的点击事件
         switch (item.getItemId()) {
+            case R.id.nav_notice:
+                // 打开通知界面
+                ActivityTool.startActivity(this, new Intent(this, NoticeActivity.class));
+                break;
 
             case R.id.nav_download:
                 break;
@@ -497,7 +541,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // 初始化必要的目录
-        initDirectorys();
+        initDirectory();
+
+        // 获取更新信息
+        presenter.getUpdateInfo();
     }
 
     @Override
@@ -520,17 +567,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
         }
-
-
     }
 
-    private void initDirectorys() {
+    /**
+     * 初始化必须使用到的目录
+     */
+    private void initDirectory() {
         // 头像目录
         FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
         // 缓存目录
         FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_CACHE);
     }
-
 
     private AlertDialog headDialog;
     @Override
@@ -572,9 +619,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headDialog.setView(view);
                 headDialog.show();
                 break;
+
+            case R.id.iv_search:
+                // 点击搜索，如果文字不为空则弹出右侧菜单，目前只能搜音乐===
+                preSearch();
+                break;
         }
     }
-
 
     // 权限
     private static final int REQUEST_CODE_CAMERA = 0;
@@ -586,7 +637,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 根据不同方式选择图片设置ImageView
      */
     private void pickImage(int type) {
-
         File tempHeadFile = new File(Environment.getExternalStorageDirectory(), ZhuConstants.HEAD_FULL_NAME_TEMP);
         if (tempHeadFile.exists()) {
             // 删除缓存
@@ -618,8 +668,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -956,5 +1004,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onGetUpdateInfoFail(String msg) {
 
+    }
+
+    /*点击其他地方隐藏软键盘*/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (UITool.isShouldHideInput(v, ev)) {
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        // 必不可少，否则所有的组件都不会有TouchEvent了
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
     }
 }

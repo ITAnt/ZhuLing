@@ -22,11 +22,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
 
+    <!--android:label="@string/app_name"-->
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".ZhuApplication"
@@ -63,6 +64,10 @@
         <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
 
 
+        <!--通知-->
+        <activity android:name=".ui.navigation.notice.NoticeActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
+            android:screenOrientation="portrait"/>
 
         <!--反馈界面-->
         <activity android:name=".ui.navigation.feedback.FeedbackActivity"
@@ -104,6 +109,12 @@
 
         <!--使用帮助界面-->
         <activity android:name=".ui.navigation.about.contents.HelpActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
+            android:screenOrientation="portrait"/>
+
+
+        <!--妹子界面-->
+        <activity android:name=".ui.tab.advanced.meizhi.MeizhiActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 

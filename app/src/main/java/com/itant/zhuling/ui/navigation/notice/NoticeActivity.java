@@ -1,4 +1,4 @@
-package com.itant.zhuling.ui.navigation.more.log;
+package com.itant.zhuling.ui.navigation.notice;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -19,26 +19,28 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
  * Created by Jason on 2017/3/26.
  */
 
-public class UpdateLogActivity extends BaseSwipeActivity implements UpdateLogContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class NoticeActivity extends BaseSwipeActivity implements NoticeContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private LinearLayout ll_empty;
 
     private SwipeRefreshLayout swipe_refresh_layout;
-    private TextView tv_log;
-    private UpdateLogContract.Presenter presenter;
+    private TextView tv_notice;
+    private TextView tv_title;
+
+    private NoticeContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav_more_update_log);
+        setContentView(R.layout.activity_nav_notice);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
-        setTitle("日志");
+        setTitle("通知");
 
         initView();
 
-        presenter = new UpdateLogPresenter(this, this);
-        presenter.getUpdateLogs();
+        presenter = new NoticePresenter(this, this);
+        presenter.getNotice();
     }
 
     public void initView() {
@@ -49,9 +51,10 @@ public class UpdateLogActivity extends BaseSwipeActivity implements UpdateLogCon
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ll_empty = (LinearLayout) findViewById(R.id.ll_empty);
+        tv_notice = (TextView) findViewById(R.id.tv_notice);
+        tv_title = (TextView) findViewById(R.id.tv_title);
 
-        tv_log = (TextView) findViewById(R.id.tv_log);
+        ll_empty = (LinearLayout) findViewById(R.id.ll_empty);
 
         swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipe_refresh_layout.setColorSchemeResources(
@@ -70,30 +73,34 @@ public class UpdateLogActivity extends BaseSwipeActivity implements UpdateLogCon
     }
 
     @Override
-    public void onGetUpdateLogsSuc(UpdateLog updateLog) {
+    public void onGetNoticeSuc(NoticeBean noticeBean) {
         swipe_refresh_layout.setRefreshing(false);
 
-        if (updateLog != null && !TextUtils.isEmpty(updateLog.getHistoryLogs())) {
-            tv_log.setText(updateLog.getHistoryLogs());
+
+        if (noticeBean != null && !TextUtils.isEmpty(noticeBean.getNotice())) {
+            tv_notice.setText(noticeBean.getNotice());
+            tv_title.setText(noticeBean.getTitle());
             ll_empty.setVisibility(View.GONE);
-            tv_log.setVisibility(View.VISIBLE);
+            tv_title.setVisibility(View.VISIBLE);
+            tv_notice.setVisibility(View.VISIBLE);
         } else {
             ll_empty.setVisibility(View.VISIBLE);
-            tv_log.setVisibility(View.GONE);
+            tv_title.setVisibility(View.GONE);
+            tv_notice.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onGetUpdateLogFail(String msg) {
+    public void onGetNoticeFail(String msg) {
         swipe_refresh_layout.setRefreshing(false);
         ToastTool.showShort(this, "获取更新日志失败");
-
         ll_empty.setVisibility(View.VISIBLE);
-        tv_log.setVisibility(View.GONE);
+        tv_title.setVisibility(View.GONE);
+        tv_notice.setVisibility(View.GONE);
     }
 
     @Override
     public void onRefresh() {
-        presenter.getUpdateLogs();
+        presenter.getNotice();
     }
 }

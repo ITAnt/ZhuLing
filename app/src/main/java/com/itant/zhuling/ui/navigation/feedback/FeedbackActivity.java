@@ -28,7 +28,7 @@ public class FeedbackActivity extends BaseSwipeActivity implements FeedbackContr
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
+        setContentView(R.layout.activity_nav_feedback);
 
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);

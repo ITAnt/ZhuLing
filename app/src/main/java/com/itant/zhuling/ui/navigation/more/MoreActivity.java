@@ -43,7 +43,7 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more);
+        setContentView(R.layout.activity_nav_more);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
 
@@ -165,7 +165,7 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
      */
     private void alertClean() {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("确定清除应用缓存？")
+                .setMessage("确定清除应用缓存？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -34,7 +34,7 @@ public class DonateActivity extends BaseSwipeActivity implements View.OnLongClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_donate);
+        setContentView(R.layout.activity_nav_about_donate);
         // 右划删除
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("捐助");

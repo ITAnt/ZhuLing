@@ -1,0 +1,45 @@
+package com.itant.zhuling.tool.net;
+
+import android.content.Context;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+
+/**
+ * Created by Jason on 2017/4/18.
+ */
+
+public class OKClient {
+    private static OKClient instance;
+    private OkHttpClient client;
+
+    private OKClient(Context context) {
+        //缓存文件最大限制大小20M
+        client = new OkHttpClient.Builder()
+                .readTimeout(15, TimeUnit.SECONDS)
+                .cache(new Cache(context.getCacheDir(), 1024*1024*20))
+                .writeTimeout(15, TimeUnit.SECONDS)//设置写入超时时间
+                .readTimeout(15, TimeUnit.SECONDS)//设置读取数据超时时间
+                .retryOnConnectionFailure(false)//设置不进行连接失败重试
+                .build();
+    }
+
+    private static synchronized void syncInit(Context context) {
+        if (instance == null) {
+            instance = new OKClient(context);
+        }
+    }
+
+    public static OKClient getInstance(Context context) {
+        if (instance == null) {
+            syncInit(context);
+        }
+        return instance;
+    }
+
+    public OkHttpClient getClient() {
+        return client;
+    }
+}
