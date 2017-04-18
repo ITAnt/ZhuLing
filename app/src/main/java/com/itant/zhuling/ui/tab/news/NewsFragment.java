@@ -190,10 +190,8 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
         if (mNewsBeans.size() > 0) {
             // 有数据
             ll_empty.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
         } else {
             ll_empty.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
         }
 
         // 刷新|加载的动作完成了
@@ -211,13 +209,21 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
             page = START_PAGE;
         }
         if (page == START_PAGE) {
-            ll_empty.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
+            int preSize = mNewsBeans.size();
+            // 是刷新操作，或者是第一次进来，要清空
+            mNewsBeans.clear();
+            // 在item太短的情况下，不执行这步操作会闪退。
+            mAdapter.notifyItemRangeRemoved(0, preSize);
         } else {
             // 加载更多失败，页数回滚
-            ll_empty.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
             page--;
+        }
+
+        if (mNewsBeans.size() > 0) {
+            // 有数据
+            ll_empty.setVisibility(View.GONE);
+        } else {
+            ll_empty.setVisibility(View.VISIBLE);
         }
     }
 

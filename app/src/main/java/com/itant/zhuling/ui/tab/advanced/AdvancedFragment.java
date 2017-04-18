@@ -36,7 +36,7 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
     private AdvancedContract.Presenter mPresenter;
 
     private RecyclerView rv_news;
-    private List<AdvancedBean> mWritingBeen;
+    private List<AdvancedBean> mAdvancedBeans;
     private CommonAdapter<AdvancedBean> mAdapter;
 
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -105,8 +105,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
         });
 
 
-        mWritingBeen = new ArrayList<>();
-        mAdapter = new CommonAdapter<AdvancedBean>(getActivity(), R.layout.item_advanced, mWritingBeen) {
+        mAdvancedBeans = new ArrayList<>();
+        mAdapter = new CommonAdapter<AdvancedBean>(getActivity(), R.layout.item_advanced, mAdvancedBeans) {
             @Override
             protected void convert(final ViewHolder viewHolder, final AdvancedBean item, int position) {
 
@@ -151,11 +151,11 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
 
     @Override
     public void onGetWritingSuc(List<AdvancedBean> beans) {
-        int preSize = mWritingBeen.size();
+        int preSize = mAdvancedBeans.size();
 
         if (page == START_PAGE) {
             // 是刷新操作，或者是第一次进来，要清空
-            mWritingBeen.clear();
+            mAdvancedBeans.clear();
 
             // 在item太短的情况下，不执行这步操作会闪退。
             mAdapter.notifyItemRangeRemoved(0, preSize);
@@ -164,9 +164,9 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
 
         if (beans != null && beans.size() > 0) {
             // 获取到数据了
-            int start = mWritingBeen.size();
-            mWritingBeen.addAll(beans);
-            mAdapter.notifyItemRangeChanged(start, mWritingBeen.size());
+            int start = mAdvancedBeans.size();
+            mAdvancedBeans.addAll(beans);
+            mAdapter.notifyItemRangeChanged(start, mAdvancedBeans.size());
         } else {
             // 没数据了
             if (page > START_PAGE) {
@@ -175,13 +175,11 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             }
         }
 
-        if (mWritingBeen.size() > 0) {
+        if (mAdvancedBeans.size() > 0) {
             // 有数据
             ll_empty.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
         } else {
             ll_empty.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
         }
 
         // 刷新|加载的动作完成了
@@ -199,13 +197,21 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             page = START_PAGE;
         }
         if (page == START_PAGE) {
-            ll_empty.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
+            int preSize = mAdvancedBeans.size();
+            // 是刷新操作，或者是第一次进来，要清空
+            mAdvancedBeans.clear();
+            // 在item太短的情况下，不执行这步操作会闪退。
+            mAdapter.notifyItemRangeRemoved(0, preSize);
         } else {
             // 加载更多失败，页数回滚
-            ll_empty.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
             page--;
+        }
+
+        if (mAdvancedBeans.size() > 0) {
+            // 有数据
+            ll_empty.setVisibility(View.GONE);
+        } else {
+            ll_empty.setVisibility(View.VISIBLE);
         }
     }
 

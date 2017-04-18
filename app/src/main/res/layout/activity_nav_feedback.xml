@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/size_dp_huge"
         android:layout_width="match_parent"
         android:gravity="top|left"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:padding="@dimen/size_sp_tiny"
         android:hint="请输入您的反馈，我们会及时查看并改进"
         android:textCursorDrawable="@null"

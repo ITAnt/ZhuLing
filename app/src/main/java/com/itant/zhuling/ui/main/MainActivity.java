@@ -144,8 +144,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 直接获取更新信息
             presenter.getUpdateInfo();
         } else {
-            // 申请权限
-            PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
+            boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
+            if (!hasGranted) {
+                // 申请权限
+                PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
+            } else {
+                // 初始化必要的目录
+                initDirectory();
+                // 直接获取更新信息
+                presenter.getUpdateInfo();
+            }
         }
     }
 
@@ -286,6 +294,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuObject gou = new MenuObject("道格狗");
         gou.setResource(R.mipmap.music_gou);
 
+        MenuObject recommend = new MenuObject("特推荐");
+        recommend.setResource(R.mipmap.music_recommend);
+
         menuObjects.add(close);
         menuObjects.add(xia);
         menuObjects.add(qie);
@@ -293,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menuObjects.add(wo);
         menuObjects.add(xiong);
         menuObjects.add(gou);
+        menuObjects.add(recommend);
         return menuObjects;
     }
 
@@ -539,12 +551,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 重新启动Activity
             recreate();
         }
-
-        // 初始化必要的目录
-        initDirectory();
-
-        // 获取更新信息
-        presenter.getUpdateInfo();
     }
 
     @Override

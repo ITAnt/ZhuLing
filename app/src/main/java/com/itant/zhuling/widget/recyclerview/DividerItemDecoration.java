@@ -4,11 +4,11 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public class SpacesItemDecoration2 extends RecyclerView.ItemDecoration {
+public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private int halfSpace;
 
-    public SpacesItemDecoration2(int space) {
+    public DividerItemDecoration(int space) {
         this.halfSpace = space / 2;
     }
 

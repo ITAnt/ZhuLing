@@ -33,7 +33,7 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
     private WritingContract.Presenter mPresenter;
 
     private RecyclerView rv_news;
-    private List<WritingBean> mWritingBeen;
+    private List<WritingBean> mWritingBeans;
     private CommonAdapter<WritingBean> mAdapter;
 
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -102,8 +102,8 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
         });
 
 
-        mWritingBeen = new ArrayList<>();
-        mAdapter = new CommonAdapter<WritingBean>(getActivity(), R.layout.item_writing, mWritingBeen) {
+        mWritingBeans = new ArrayList<>();
+        mAdapter = new CommonAdapter<WritingBean>(getActivity(), R.layout.item_writing, mWritingBeans) {
             @Override
             protected void convert(final ViewHolder viewHolder, final WritingBean item, int position) {
 
@@ -142,19 +142,19 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
 
     @Override
     public void onGetWritingSuc(List<WritingBean> beans) {
-        int preSize = mWritingBeen.size();
+        int preSize = mWritingBeans.size();
         if (page == START_PAGE) {
             // 是刷新操作，或者是第一次进来，要清空
-            mWritingBeen.clear();
+            mWritingBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
             mAdapter.notifyItemRangeRemoved(0, preSize);
         }
 
         if (beans != null && beans.size() > 0) {
             // 获取到数据了
-            int start = mWritingBeen.size();
-            mWritingBeen.addAll(beans);
-            mAdapter.notifyItemRangeChanged(start, mWritingBeen.size());
+            int start = mWritingBeans.size();
+            mWritingBeans.addAll(beans);
+            mAdapter.notifyItemRangeChanged(start, mWritingBeans.size());
 
         } else {
             // 没数据了
@@ -164,13 +164,11 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
             }
         }
 
-        if (mWritingBeen.size() > 0) {
+        if (mWritingBeans.size() > 0) {
             // 有数据
             ll_empty.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
         } else {
             ll_empty.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
         }
 
         // 刷新|加载的动作完成了
@@ -188,13 +186,21 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
             page = START_PAGE;
         }
         if (page == START_PAGE) {
-            ll_empty.setVisibility(View.VISIBLE);
-            rv_news.setVisibility(View.GONE);
+            int preSize = mWritingBeans.size();
+            // 是刷新操作，或者是第一次进来，要清空
+            mWritingBeans.clear();
+            // 在item太短的情况下，不执行这步操作会闪退。
+            mAdapter.notifyItemRangeRemoved(0, preSize);
         } else {
             // 加载更多失败，页数回滚
-            ll_empty.setVisibility(View.GONE);
-            rv_news.setVisibility(View.VISIBLE);
             page--;
+        }
+
+        if (mWritingBeans.size() > 0) {
+            // 有数据
+            ll_empty.setVisibility(View.GONE);
+        } else {
+            ll_empty.setVisibility(View.VISIBLE);
         }
     }
 

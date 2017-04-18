@@ -1,6 +1,7 @@
 package com.itant.zhuling.ui.tab.advanced.meizhi;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +25,7 @@ import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseActivity;
-import com.itant.zhuling.widget.recyclerview.SpacesItemDecoration2;
+import com.itant.zhuling.widget.recyclerview.DividerItemDecoration;
 import com.itant.zhuling.widget.recyclerview.bottomlistener.OnRcvScrollListener;
 
 import java.util.ArrayList;
@@ -42,12 +45,13 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
     private SwipeRefreshLayout swipe_refresh_layout;
     private LinearLayout ll_empty;
     private StaggeredGridLayoutManager mLayoutManager;
-    private int mLastVisibleItem;
+    private int dividerWidth;
     private List<Meizhi> mMeizhis;
     private CommonAdapter<Meizhi> adapter;
 
     private int screenWidth;
     private int screenHeight;
+    private Bitmap emptyBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,8 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
 
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
+        dividerWidth = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, getResources().getDisplayMetrics());
+        emptyBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.empty);
 
         initView();
 
@@ -86,7 +92,7 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
         rv_meizhi.setItemAnimator(new DefaultItemAnimator());
         mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);// 瀑布流
         rv_meizhi.setLayoutManager(mLayoutManager);
-        SpacesItemDecoration2 decoration = new SpacesItemDecoration2(16);
+        DividerItemDecoration decoration = new DividerItemDecoration(dividerWidth);
         rv_meizhi.addItemDecoration(decoration);
         rv_meizhi.addOnScrollListener(new OnRcvScrollListener(){
             @Override
@@ -106,25 +112,52 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
         adapter = new CommonAdapter<Meizhi>(this, R.layout.item_meizhi, mMeizhis) {
             @Override
             protected void convert(ViewHolder viewHolder, Meizhi item, final int position) {
-
-                final ImageView iv_meizhi = viewHolder.getView(R.id.iv_meizhi);
                 // ====图片错乱、重复、缓存
-                //Glide.with(MeizhiActivity.this).load(item.getUrl()).into(iv_meizhi);
+                final ImageView iv_meizhi = viewHolder.getView(R.id.iv_meizhi);
 
-                Glide.with(MeizhiActivity.this).load(item.getUrl()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                if (!TextUtils.isEmpty(item.getUrl())) {
+                    final String tag = (String) iv_meizhi.getTag(R.id.iv_meizhi);
+                    final String uri = item.getUrl();
 
-                        int imageWidth = resource.getWidth();
-                        int imageHeight = resource.getHeight();
+                    if (!uri.equals(tag)) {
+                        // 设置默认图片
+                        int imageWidth = emptyBitmap.getWidth();
+                        int imageHeight = emptyBitmap.getHeight();
                         // 减去间距
-                        int height = (screenWidth - 16 * 3) / 2 * imageHeight / imageWidth;
+                        int height = (screenWidth - dividerWidth * 3) / 2 * imageHeight / imageWidth;
                         ViewGroup.LayoutParams para = iv_meizhi.getLayoutParams();
                         para.height = height;
-                        para.width = screenWidth;
-                        iv_meizhi.setImageBitmap(resource);
+                        para.width = (screenWidth - dividerWidth * 3) / 2;
+                        iv_meizhi.setImageBitmap(emptyBitmap);
                     }
-                });
+
+                    iv_meizhi.setTag(R.id.iv_meizhi, item.getUrl());
+
+                    Glide.with(MeizhiActivity.this).load(item.getUrl()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                            int imageWidth = resource.getWidth();
+                            int imageHeight = resource.getHeight();
+                            // 减去间距
+                            int height = (screenWidth - dividerWidth * 3) / 2 * imageHeight / imageWidth;
+                            ViewGroup.LayoutParams para = iv_meizhi.getLayoutParams();
+                            para.height = height;
+                            para.width = (screenWidth - dividerWidth * 3) / 2;
+                            iv_meizhi.setImageBitmap(resource);
+                        }
+                    });
+                } else {
+                    // 设置默认图片
+                    int imageWidth = emptyBitmap.getWidth();
+                    int imageHeight = emptyBitmap.getHeight();
+                    // 减去间距
+                    int height = (screenWidth - dividerWidth * 3) / 2 * imageHeight / imageWidth;
+                    ViewGroup.LayoutParams para = iv_meizhi.getLayoutParams();
+                    para.height = height;
+                    para.width = (screenWidth - dividerWidth * 3) / 2;
+                    iv_meizhi.setImageBitmap(emptyBitmap);
+                }
             }
         };
         rv_meizhi.setAdapter(adapter);
@@ -137,6 +170,7 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
 
     @Override
     public void getMeizhiSuc(List<Meizhi> meizhis) {
+
         // 获取到数据了
         int preSize = mMeizhis.size();
         if (page == START_PAGE) {
@@ -160,10 +194,8 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
         if (mMeizhis.size() > 0) {
             // 有数据
             ll_empty.setVisibility(View.GONE);
-            rv_meizhi.setVisibility(View.VISIBLE);
         } else {
             ll_empty.setVisibility(View.VISIBLE);
-            rv_meizhi.setVisibility(View.GONE);
         }
 
         // 刷新|加载的动作完成了
@@ -181,13 +213,21 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
             page = START_PAGE;
         }
         if (page == START_PAGE) {
-            ll_empty.setVisibility(View.VISIBLE);
-            rv_meizhi.setVisibility(View.GONE);
+            int preSize = mMeizhis.size();
+            // 是刷新操作，或者是第一次进来，要清空
+            mMeizhis.clear();
+            // 在item太短的情况下，不执行这步操作会闪退。
+            adapter.notifyItemRangeRemoved(0, preSize);
         } else {
             // 加载更多失败，页数回滚
-            ll_empty.setVisibility(View.GONE);
-            rv_meizhi.setVisibility(View.VISIBLE);
             page--;
+        }
+
+        if (mMeizhis.size() > 0) {
+            // 有数据
+            ll_empty.setVisibility(View.GONE);
+        } else {
+            ll_empty.setVisibility(View.VISIBLE);
         }
     }
 

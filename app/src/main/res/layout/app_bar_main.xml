@@ -45,7 +45,7 @@
 
                 <EditText
                     android:id="@+id/et_search"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:gravity="center_vertical|left"
                     android:layout_height="wrap_content"
                     android:hint="请输入歌名"
