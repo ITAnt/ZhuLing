@@ -43,7 +43,7 @@ public class MeizhiPresenter implements MeizhiContract.Presenter {
             @Override
             public void onNext(String result) {
                 try {
-                    // 妹子获取成功
+                    // 妹纸获取成功
                     JSONObject jsonObject = new JSONObject(result);
                     Gson gson = new GsonBuilder().create();
                     List<Meizhi> meizhis = gson.fromJson(jsonObject.getString("results"), new TypeToken<List<Meizhi>>(){}.getType());

@@ -29,7 +29,7 @@ import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
  * 书法
  */
 
-public class AdvancedFragment extends BaseFragment implements AdvancedContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class AdvancedFragment extends BaseFragment implements AdvancedContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, View.OnLongClickListener {
 
     private int page;// 分页页码
 
@@ -55,6 +55,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
     @Override
     public void initViews(View view) {
         ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
+        ll_empty.setOnClickListener(this);
+        ll_empty.setOnLongClickListener(this);
 
         swipe_refresh_layout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         //设置下拉出现小圆圈是否是缩放出现，出现的位置，最大的下拉位置
@@ -115,8 +117,7 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
                     @Override
                     public void onClick(View v) {
                         if (TextUtils.equals(item.getObjectId(), "u0zBJJJV")) {
-                            // 妹纸====
-                            //ToastTool.showShort(getActivity(), "敬请期待");
+                            // 妹纸
                             ActivityTool.startActivity(getActivity(), new Intent(getActivity(), MeizhiActivity.class));
                         } else {
                             // 用浏览器打开
@@ -220,5 +221,25 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
         // 下拉刷新
         page = START_PAGE;
         mPresenter.getWriting(page);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_empty:
+                ActivityTool.startActivity(getActivity(), new Intent(getActivity(), MeizhiActivity.class));
+                break;
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_empty:
+                // 跳到磁力链接界面=====
+                break;
+        }
+
+        return true;
     }
 }

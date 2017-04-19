@@ -113,9 +113,14 @@
             android:screenOrientation="portrait"/>
 
 
-        <!--妹子界面-->
+        <!--妹纸界面-->
         <activity android:name=".ui.tab.advanced.meizhi.MeizhiActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
+            android:screenOrientation="portrait"/>
+
+        <!--妹纸详情-->
+        <activity android:name=".ui.tab.advanced.meizhi.MeizhiDetailActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme.MeizhiDetail"
             android:screenOrientation="portrait"/>
 
 
@@ -129,6 +134,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data android:name="com.itant.zhuling.tool.image.glide.CustomCachingGlideModule"
+            android:value="GlideModule"/>
     </application>
 
 </manifest>

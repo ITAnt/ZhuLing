@@ -30,7 +30,8 @@
                 android:layout_height="96dp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:transitionName="@string/transition_name_news_to_detail" />
             <!-- 定义android:transitionName="..."实现共享元素动画，必须和Fragment那边的item相同-->
 
             <TextView

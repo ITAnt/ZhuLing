@@ -1,12 +1,16 @@
-package com.itant.zhuling.tool;
+package com.itant.zhuling.tool.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
+import com.itant.zhuling.tool.LogTool;
+
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class BitmapTool {
@@ -94,5 +98,33 @@ public class BitmapTool {
 
 
         return null;
+    }
+
+    /**
+     * 保存图片到SD卡
+     */
+    public static boolean saveBitmap(String fileName, Bitmap mBitmap) {
+        boolean success = false;
+
+        FileOutputStream fOut = null;
+        try {
+            File f = new File(fileName);
+            f.createNewFile();
+            fOut = new FileOutputStream(f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+            success = true;
+        } catch (Exception e) {
+            success = false;
+            e.printStackTrace();
+        }
+
+        return success;
     }
 }

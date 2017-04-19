@@ -5,10 +5,15 @@ package com.itant.zhuling.constant;
  */
 
 public class ZhuConstants {
-    public static final boolean DEBUG = true;//打包的时候，设为false以节省系统资源
-    public static boolean musicEnable = true;
+    public static final boolean DEBUG = true;// 打包的时候，设为false以节省系统资源
+    public static boolean musicEnable = true;// 音乐开关，默认可以搜听音乐
 
     public static final String BMOB_APPLICATION_ID = "dd9f50028de2404b3bdf6356e6798327";
+
+    /**
+     * 新特性，文件提供者路径
+     */
+    public static final String NAME_PROVIDE = "com.itant.zhuling.fileprovider";
 
     /**
      * 应用外部根目录
@@ -36,12 +41,19 @@ public class ZhuConstants {
     public static final String HEAD_FULL_NAME =  DIRECTORY_ROOT_FILE_IMAGES + "/head.jpeg";
 
 
+    /**
+     * 临时头像
+     */
     public static final String HEAD_FULL_NAME_TEMP = DIRECTORY_ROOT_CACHE + "/temphead.jpeg";
 
+
+    /**
+     * 微信支付二维码
+     */
     public static final String PAY_WECHAT = DIRECTORY_ROOT_FILE_IMAGES + "/pay_wechat.png";
 
     /**
-     * 新特性，文件提供者路径
+     * 临时头像
      */
-    public static final String NAME_PROVIDE = "com.itant.zhuling.fileprovider";
+    public static final String MEI_ZHI_TEMP = DIRECTORY_ROOT_CACHE + "/meizhi.png";
 }

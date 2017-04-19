@@ -46,7 +46,7 @@ import com.itant.zhuling.base.IPermission;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
-import com.itant.zhuling.tool.BitmapTool;
+import com.itant.zhuling.tool.image.BitmapTool;
 import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.PermissionTool;
 import com.itant.zhuling.tool.PreferencesTool;

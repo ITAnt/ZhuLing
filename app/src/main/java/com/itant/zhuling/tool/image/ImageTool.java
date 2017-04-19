@@ -1,4 +1,4 @@
-package com.itant.zhuling.tool;
+package com.itant.zhuling.tool.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
