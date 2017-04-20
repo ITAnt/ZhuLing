@@ -24,16 +24,14 @@ public class ObservableTool {
     /**
      * 发送get请求
      * @param context
-     * @param url
      * @return
      */
-    public static Observable<String> getGetObFromUrl(final Context context, final String url) {
+    public static Observable<String> getGetObFromUrl(final Context context, final Request request) {
         Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             //将事件发射出去,持有观察者的对象
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
                 OkHttpClient client = OKClient.getInstance(context).getClient();
-                final Request request = new Request.Builder().url(url).get().build();
                 client.newCall(request).enqueue(new Callback() {
 
                     @Override

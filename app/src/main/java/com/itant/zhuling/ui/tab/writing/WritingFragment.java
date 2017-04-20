@@ -147,7 +147,8 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
             // 是刷新操作，或者是第一次进来，要清空
             mWritingBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         }
 
         if (beans != null && beans.size() > 0) {
@@ -190,7 +191,8 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
             // 是刷新操作，或者是第一次进来，要清空
             mWritingBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         } else {
             // 加载更多失败，页数回滚
             page--;

@@ -88,7 +88,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener,
-        MainContract.View, IPermission {
+        MainContract.View, IPermission, SmartTabLayout.OnTabClickListener {
 
     private MainContract.Presenter presenter;
 
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayout ll_search;
     private EditText et_search;
     private ImageView iv_search;
+    private ImageView iv_current_music;// 当前音乐标识
 
     // 权限
     private static final int REQUEST_NECESSARY_PERMISSIONS = 1;
@@ -255,22 +256,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private List<MenuObject> getMenuObjects() {
-        // You can use any [resource, bitmap, drawable, color] as image:
-        // item.setResource(...)
-        // item.setBitmap(...)
-        // item.setDrawable(...)
-        // item.setColor(...)
-        // You can set image ScaleType:
-        // item.setScaleType(ScaleType.FIT_XY)
-        // You can use any [resource, drawable, color] as background:
-        // item.setBgResource(...)
-        // item.setBgDrawable(...)
-        // item.setBgColor(...)
-        // You can use any [color] as text color:
-        // item.setTextColor(...)
-        // You can set any [color] as divider color:
-        // item.setDividerColor(...)
-
         List<MenuObject> menuObjects = new ArrayList<>();
 
         MenuObject close = new MenuObject();
@@ -311,8 +296,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onMenuItemClick(View clickedView, int position) {
         // 单击右侧菜单
-        switch (clickedView.getId()) {
+        if (position == 0) {
+            // 关闭
+            return;
+        }
 
+        switch (position) {
+            case 1:
+                iv_current_music.setImageResource(R.mipmap.music_xia_white);
+                break;
+            case 2:
+                iv_current_music.setImageResource(R.mipmap.music_qie_white);
+                break;
+            case 3:
+                iv_current_music.setImageResource(R.mipmap.music_yun_white);
+                break;
+            case 4:
+                iv_current_music.setImageResource(R.mipmap.music_wo_white);
+                break;
+            case 5:
+                iv_current_music.setImageResource(R.mipmap.music_xiong_white);
+                break;
+            case 6:
+                iv_current_music.setImageResource(R.mipmap.music_gou_white);
+                break;
+            case 7:
+                iv_current_music.setImageResource(R.mipmap.music_recommend_white);
+                break;
+        }
+
+        if (adapter != null && adapter.getCount() > 1) {
+            MusicFragment fragment = ((MusicFragment) adapter.getPage(1));
+            if (fragment == null) {
+                return;
+            }
+
+            fragment.getMusic(position, et_search.getText().toString());
         }
     }
 
@@ -329,15 +348,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //EventBus.getDefault().unregister(this);
     }
 
-    private ViewPager vp_main;
     private SmartTabLayout stl_main;
     private FragmentPagerItemAdapter adapter;
 
     private void initView() {
         fragmentManager = getSupportFragmentManager();
 
-        vp_main = (ViewPager) findViewById(R.id.vp_main);
+        ViewPager vp_main = (ViewPager) findViewById(R.id.vp_main);
         stl_main = (SmartTabLayout) findViewById(R.id.stl_main);
+        stl_main.setOnTabClickListener(this);
 
 
         FragmentPagerItems.Creator creator = FragmentPagerItems.with(this)
@@ -404,6 +423,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ll_search = (LinearLayout) findViewById(R.id.ll_search);
         et_search = (EditText) findViewById(R.id.et_search);
         iv_search = (ImageView) findViewById(R.id.iv_search);
+        iv_current_music = (ImageView) findViewById(R.id.iv_current_music);
         iv_search.setOnClickListener(this);
 
         // 点击回车则搜索(onSearchClicked方法有隐藏键盘)
@@ -412,8 +432,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    // 搜索
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    // 搜索，防止执行两次。执行两次会导致右侧菜单添加两次，造成应用闪退
                     onSearchClicked();
                 }
                 return false;
@@ -428,6 +448,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 收起软键盘并搜索
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et_search.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); //强制隐藏键盘
+        // 让EditText失去焦点
+        et_search.clearFocus();
         preSearch();
     }
 
@@ -627,7 +649,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.iv_search:
-                // 点击搜索，如果文字不为空则弹出右侧菜单，目前只能搜音乐===
+                // 点击搜索，如果文字不为空则弹出右侧菜单，目前只能搜音乐
                 preSearch();
                 break;
         }
@@ -1021,6 +1043,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
+                    et_search.clearFocus();
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
@@ -1031,5 +1054,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         return onTouchEvent(ev);
+    }
+
+    private int clickNewsTimes;
+    private long lastClickNews;
+    @Override
+    public void onTabClicked(int position) {
+        // 点击Tab
+        switch (position) {
+            case 0:
+                if (System.currentTimeMillis() - lastClickNews > 2000) {
+                    // 第一次点击
+                    clickNewsTimes = 1;
+                    lastClickNews = System.currentTimeMillis();
+                } else {
+                    clickNewsTimes++;
+                }
+
+                if (clickNewsTimes == 2 && adapter != null && adapter.getCount() > 0) {
+                    // 双击资讯栏，资讯滚回顶端
+                    NewsFragment fragment = ((NewsFragment) adapter.getPage(0));
+                    if (fragment == null) {
+                        return;
+                    }
+
+                    fragment.scrollToTop();
+                }
+                break;
+        }
     }
 }

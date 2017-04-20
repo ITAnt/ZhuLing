@@ -198,7 +198,8 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
             // 是刷新操作，或者是第一次进来，要清空
             mMeizhis.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            adapter.notifyItemRangeRemoved(0, preSize);
+            //adapter.notifyItemRangeRemoved(0, preSize);
+            adapter.notifyDataSetChanged();
         }
 
         if (meizhis != null && meizhis.size() > 0) {
@@ -238,7 +239,8 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
             // 是刷新操作，或者是第一次进来，要清空
             mMeizhis.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            adapter.notifyItemRangeRemoved(0, preSize);
+            //adapter.notifyItemRangeRemoved(0, preSize);
+            adapter.notifyDataSetChanged();
         } else {
             // 加载更多失败，页数回滚
             page--;

@@ -159,7 +159,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             mAdvancedBeans.clear();
 
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         }
 
 
@@ -202,7 +203,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             // 是刷新操作，或者是第一次进来，要清空
             mAdvancedBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         } else {
             // 加载更多失败，页数回滚
             page--;

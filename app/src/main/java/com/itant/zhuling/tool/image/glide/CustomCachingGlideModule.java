@@ -17,8 +17,8 @@ import com.bumptech.glide.module.GlideModule;
 public class CustomCachingGlideModule implements GlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-        // 设置磁盘缓存为100M，缓存在内部缓存目录
-        int cacheSize100MegaBytes = 104857600;
+        // 设置磁盘缓存为500M，缓存在内部缓存目录
+        int cacheSize100MegaBytes = 524288000;
         builder.setDiskCache(
             new InternalCacheDiskCacheFactory(context, cacheSize100MegaBytes)
         );

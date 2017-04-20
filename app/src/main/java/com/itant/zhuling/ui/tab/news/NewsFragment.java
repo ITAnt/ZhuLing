@@ -121,7 +121,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                         .format(DecodeFormat.PREFER_ARGB_8888)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.color.white)
-                        .error(R.mipmap.ic_launcher_inner)
+                        .error(R.mipmap.empty)
                         .into((ImageView) viewHolder.getView(R.id.news_summary_photo_iv));
 
                 viewHolder.setOnClickListener(R.id.news_summary_photo_iv, new View.OnClickListener() {
@@ -172,7 +172,8 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
             // 是刷新操作，或者是第一次进来，要清空
             mNewsBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         }
 
         if (beans != null && beans.size() > 0) {
@@ -200,10 +201,6 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
 
     @Override
     public void onGetNewsFail(String msg) {
-        // 刷新|加载的动作完成了
-        swipe_refresh_layout.setRefreshing(false);
-
-
         // 第一页的数据拉取失败
         if (page < START_PAGE) {
             page = START_PAGE;
@@ -213,7 +210,8 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
             // 是刷新操作，或者是第一次进来，要清空
             mNewsBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         } else {
             // 加载更多失败，页数回滚
             page--;
@@ -225,6 +223,9 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
         } else {
             ll_empty.setVisibility(View.VISIBLE);
         }
+
+        // 刷新|加载的动作完成了
+        swipe_refresh_layout.setRefreshing(false);
     }
 
     @Override
@@ -232,5 +233,11 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
         // 下拉刷新
         page = START_PAGE;
         mPresenter.getNews(page);
+    }
+
+    public void scrollToTop() {
+        if (rv_news != null) {
+            rv_news.smoothScrollToPosition(0);
+        }
     }
 }

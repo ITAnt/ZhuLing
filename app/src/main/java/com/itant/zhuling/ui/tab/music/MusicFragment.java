@@ -1,30 +1,21 @@
 package com.itant.zhuling.ui.tab.music;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
-import com.itant.zhuling.ui.tab.news.detail.NewsDetailActivity;
+import com.itant.zhuling.ui.tab.music.bean.Music;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
  * Created by Jason on 2017/3/26.
@@ -37,8 +28,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     private MusicContract.Presenter mPresenter;
 
     private RecyclerView rv_music;
-    private List<MusicBean> mMusicBeans;
-    private CommonAdapter<MusicBean> mAdapter;
+    private List<Music> mMusicBeans;
+    private CommonAdapter<Music> mAdapter;
 
     private SwipeRefreshLayout swipe_refresh_layout;
     private LinearLayoutManager mLayoutManager;
@@ -94,7 +85,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                     swipe_refresh_layout.setRefreshing(true);
                     // 加载更多
                     page++;
-                    mPresenter.getMusic(page);
+                    mPresenter.getMusic(position, keywords, page);
                 }
             }
 
@@ -107,28 +98,28 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
 
         mMusicBeans = new ArrayList<>();
-        mAdapter = new CommonAdapter<MusicBean>(getActivity(), R.layout.item_news, mMusicBeans) {
+        mAdapter = new CommonAdapter<Music>(getActivity(), R.layout.item_music_search, mMusicBeans) {
             @Override
-            protected void convert(final ViewHolder viewHolder, final MusicBean item, int position) {
+            protected void convert(final ViewHolder viewHolder, final Music item, int position) {
 
-                viewHolder.setText(R.id.news_summary_title_tv, item.getTitle());
-                viewHolder.setText(R.id.news_summary_digest_tv, item.getDigest());
-                viewHolder.setText(R.id.news_summary_ptime_tv, item.getPtime());
+                viewHolder.setText(R.id.tv_name, item.getName());
+                viewHolder.setText(R.id.tv_singer, item.getSinger() + (TextUtils.isEmpty(item.getAlbum()) ? "" : " 《" + item.getAlbum() + "》"));
+                viewHolder.setText(R.id.tv_bitrate, item.getBitrate());
 
                 // gif格式有时会导致整体图片不显示，貌似有冲突
-                Glide.with(getActivity()).load(item.getImgsrc()).asBitmap()
+                /*Glide.with(getActivity()).load(item.getImgsrc()).asBitmap()
                         .format(DecodeFormat.PREFER_ARGB_8888)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.color.white)
                         .error(R.mipmap.ic_launcher_inner)
-                        .into((ImageView) viewHolder.getView(R.id.news_summary_photo_iv));
+                        .into((ImageView) viewHolder.getView(R.id.news_summary_photo_iv));*/
 
-                viewHolder.setOnClickListener(R.id.news_summary_photo_iv, new View.OnClickListener() {
+                /*viewHolder.setOnClickListener(R.id.news_summary_photo_iv, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 共享元素动画
                         Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                        intent.putExtra("url_top", item.getImgsrc());
+                        //intent.putExtra("url_top", item.getAlbum());//===========
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             // 可以实现共享动画
@@ -141,37 +132,74 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                             startActivity(intent);
                         }
                     }
-                });
+                });*/
             }
         };
 
 
-        AnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(mAdapter);
-        animationAdapter.setFirstOnly(true);// 只有第一次有动画
-        animationAdapter.setDuration(1000);
-        animationAdapter.setInterpolator(new OvershootInterpolator(0.5f));
-
-        // AnimationAdapter效果可以叠加
-        //AnimationAdapter scale = new ScaleInAnimationAdapter(animationAdapter);
-        //animationAdapter.setFirstOnly(false);// 不只第一次有动画
-        //animationAdapter.setDuration(800);
-
-        //rv_music.setAdapter(animationAdapter);
-        // 我们已经在MultiItemTypeAdapter使用了item的动画，这里就不使用炫酷的Adapter动画了
         rv_music.setAdapter(mAdapter);
 
         mPresenter = new MusicPresenter(getActivity(), this);
-        mPresenter.getMusic(page);
+        mPresenter.getMusic(position, "推荐", page);
     }
 
     @Override
-    public void onGetMusicSuc(List<MusicBean> beans) {
+    public void onRefresh() {
+        // 下拉刷新
+        page = START_PAGE;
+        mPresenter.getMusic(position, keywords, page);
+    }
+
+    // 搜索按钮是否可见
+    private boolean isSearchVisible;
+
+    public void setSearchVisible(boolean searchVisible) {
+        isSearchVisible = searchVisible;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isSearchVisible) {
+            // 当前是音乐栏并且搜索按钮不可见，则提示用户下拉
+            ToastTool.showShort(getActivity(), "下拉有惊喜哦");
+        }
+    }
+
+    private int position = 7;// 默认是推荐
+    private String keywords;
+    /**
+     * @param position //0关 1虾 2鹅 3云 4酷 5熊 6狗 7推荐
+     * @param keywords
+     */
+    public void getMusic(int position, String keywords) {
+        if (mPresenter == null) {
+            return;
+        }
+
+        this.position = position;
+        this.keywords = keywords;
+        swipe_refresh_layout.setRefreshing(true);
+        // 每次点击都是去拉第一页
+        int preSize = mMusicBeans.size();
+        // 是刷新操作，或者是第一次进来，要清空
+        mMusicBeans.clear();
+        // 在item太短的情况下，不执行这步操作会闪退。
+        //mAdapter.notifyItemRangeRemoved(0, preSize);
+        mAdapter.notifyDataSetChanged();
+        mPresenter.getMusic(position, keywords, START_PAGE);
+    }
+
+    @Override
+    public void onGetMusicSuc(List<Music> beans) {
+
         int preSize = mMusicBeans.size();
         if (page == START_PAGE) {
             // 是刷新操作，或者是第一次进来，要清空
             mMusicBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);// 用这一句会造成item重叠可能与item动画有关，这是recyclerview的一个bug
+            mAdapter.notifyDataSetChanged();
         }
 
         if (beans != null && beans.size() > 0) {
@@ -199,9 +227,6 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
     @Override
     public void onGetMusicFail(String msg) {
-        // 刷新|加载的动作完成了
-        swipe_refresh_layout.setRefreshing(false);
-
 
         // 第一页的数据拉取失败
         if (page < START_PAGE) {
@@ -212,7 +237,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
             // 是刷新操作，或者是第一次进来，要清空
             mMusicBeans.clear();
             // 在item太短的情况下，不执行这步操作会闪退。
-            mAdapter.notifyItemRangeRemoved(0, preSize);
+            //mAdapter.notifyItemRangeRemoved(0, preSize);
+            mAdapter.notifyDataSetChanged();
         } else {
             // 加载更多失败，页数回滚
             page--;
@@ -224,28 +250,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         } else {
             ll_empty.setVisibility(View.VISIBLE);
         }
-    }
 
-    @Override
-    public void onRefresh() {
-        // 下拉刷新
-        page = START_PAGE;
-        mPresenter.getMusic(page);
-    }
-
-    // 搜索按钮是否可见
-    private boolean isSearchVisible;
-
-    public void setSearchVisible(boolean searchVisible) {
-        isSearchVisible = searchVisible;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !isSearchVisible) {
-            // 当前是音乐栏并且搜索按钮不可见，则提示用户下拉
-            ToastTool.showShort(getActivity(), "下拉有惊喜哦");
-        }
+        // 刷新|加载的动作完成了
+        swipe_refresh_layout.setRefreshing(false);
     }
 }

@@ -12,8 +12,6 @@
         android:layout_height="@dimen/height_top_bar"
         android:background="?attr/colorPrimary" />
 
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,8 +22,6 @@
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin"
             android:layout_centerInParent="true">
-
-
 
             <TextView
                 android:clickable="true"
@@ -39,6 +35,7 @@
                 android:id="@+id/tl_open"
                 style="@style/TagLayout.RandomColor"
                 app:tag_layout_fit_num="3"
+                app:tag_view_vertical_padding="@dimen/size_dp_tiny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

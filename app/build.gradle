@@ -95,4 +95,6 @@ dependencies {
 
     /*图片放大缩小*/
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
+
+    compile 'org.xutils:xutils:3.5.0'
 }

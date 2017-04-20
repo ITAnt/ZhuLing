@@ -1,5 +1,8 @@
 package com.itant.zhuling.constant;
 
+import java.net.HttpCookie;
+import java.util.List;
+
 /**
  * Created by Jason on 2017/4/9.
  */
@@ -56,4 +59,41 @@ public class ZhuConstants {
      * 临时头像
      */
     public static final String MEI_ZHI_TEMP = DIRECTORY_ROOT_CACHE + "/meizhi.png";
+
+    /**
+     * 经典路径
+     */
+    public static String DIRECTORY_CLASSIC = DIRECTORY_ROOT_FILE + "/classic";
+
+    /**
+     * 小狗下载地址
+     */
+    public static String PATH_CLASSIC_DOG = DIRECTORY_CLASSIC + "/dog/";
+
+    /**
+     * 凉窝下载地址
+     */
+    public static String PATH_CLASSIC_KWO = DIRECTORY_CLASSIC + "/wo/";
+
+    /**
+     * 企鹅下载地址
+     */
+    public static String PATH_CLASSIC_QIE = DIRECTORY_CLASSIC + "/qie/";
+
+    /**
+     * 白云下载地址
+     */
+    public static String PATH_CLASSIC_YUN = DIRECTORY_CLASSIC + "/yun/";
+
+    /**
+     * 熊掌下载地址
+     */
+    public static String PATH_CLASSIC_XIONG = DIRECTORY_CLASSIC + "/xiong/";
+
+    /**
+     * 龙虾下载地址
+     */
+    public static String PATH_CLASSIC_XIA = DIRECTORY_CLASSIC + "/xia/";
+    public static List<HttpCookie> COOKIE_CONTAINER;
+    public static long TIME_XIA_MI;
 }

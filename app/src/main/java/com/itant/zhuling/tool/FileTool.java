@@ -313,4 +313,16 @@ public class FileTool {
         long availCount = sf.getAvailableBlocks();  
         return (availCount * blockSize) >> 20;
     }
+
+	public static String getUniqueFileName(String father, String fileName, int num) {
+		File file = new File(father + fileName);
+		if (file != null && file.exists()) {
+			int splitIndex = fileName.lastIndexOf(".");
+			String pre = fileName.substring(0, splitIndex);
+			String suf = fileName.substring(splitIndex, fileName.length());
+			return getUniqueFileName(father, pre + "(" + num + ")" + suf, (num+1));
+		} else {
+			return fileName;
+		}
+	}
 }

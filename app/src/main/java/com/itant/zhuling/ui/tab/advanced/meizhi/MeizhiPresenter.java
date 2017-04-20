@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import okhttp3.Request;
 
 
 /**
@@ -34,7 +35,8 @@ public class MeizhiPresenter implements MeizhiContract.Presenter {
 
     @Override
     public void getMeizhi(int page) {
-        ObservableDecorator.decorate(ObservableTool.getGetObFromUrl(mContext, BASE_URL_MEI_ZHI + page)).subscribe(new Observer<String>() {
+        Request request = new Request.Builder().url(BASE_URL_MEI_ZHI + page).get().build();
+        ObservableDecorator.decorate(ObservableTool.getGetObFromUrl(mContext, request)).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
 

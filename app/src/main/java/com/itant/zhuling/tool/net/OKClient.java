@@ -14,16 +14,17 @@ import okhttp3.OkHttpClient;
 public class OKClient {
     private static OKClient instance;
     private OkHttpClient client;
+    private OkHttpClient.Builder builder;
 
     private OKClient(Context context) {
         //缓存文件最大限制大小20M
-        client = new OkHttpClient.Builder()
+        builder = new OkHttpClient.Builder()
                 .readTimeout(15, TimeUnit.SECONDS)
                 .cache(new Cache(context.getCacheDir(), 1024*1024*20))
                 .writeTimeout(15, TimeUnit.SECONDS)//设置写入超时时间
                 .readTimeout(15, TimeUnit.SECONDS)//设置读取数据超时时间
-                .retryOnConnectionFailure(false)//设置不进行连接失败重试
-                .build();
+                .retryOnConnectionFailure(true);//设置进行连接失败重试
+        client = builder.build();
     }
 
     private static synchronized void syncInit(Context context) {
@@ -41,5 +42,9 @@ public class OKClient {
 
     public OkHttpClient getClient() {
         return client;
+    }
+
+    public OkHttpClient.Builder getBuilder() {
+        return builder;
     }
 }

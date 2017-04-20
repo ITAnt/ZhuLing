@@ -2,27 +2,18 @@ package com.itant.zhuling.ui.tab.music;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.itant.zhuling.error.NetError;
-import com.itant.zhuling.tool.net.ObservableDecorator;
+import com.itant.zhuling.ui.tab.music.bean.Music;
+import com.itant.zhuling.ui.tab.music.classic.DogMusic;
+import com.itant.zhuling.ui.tab.music.classic.KmeMusic;
+import com.itant.zhuling.ui.tab.music.classic.QieMusic;
+import com.itant.zhuling.ui.tab.music.classic.XiaMusic;
+import com.itant.zhuling.ui.tab.music.classic.XiongMusic;
+import com.itant.zhuling.ui.tab.music.classic.YunMusic;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 
 /**
@@ -39,69 +30,59 @@ public class MusicPresenter implements MusicContract.Presenter {
         mView = view;
     }
 
-
     @Override
-    public void getMusic(int page) {
-        Observable<List<MusicBean>> observable = Observable.create(new ObservableOnSubscribe<List<MusicBean>>() {
-            @Override
-            //将事件发射出去,持有观察者的对象
-            public void subscribe(final ObservableEmitter<List<MusicBean>> emitter) throws Exception {
-                final Request request = new Request.Builder().url("http://c.m.163.com/nc/article/list/T1348649580692/0-20.html").get().build();
-
-                OkHttpClient httpUtils = new OkHttpClient();
-                httpUtils.newCall(request).enqueue(new Callback() {
-
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        emitter.onError(new NetError());
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) {
-                        if (response.isSuccessful()) {
-                            //拿到结果的一瞬间触发事件，并传递数据给观察者
-                            //把请求结果转化成字节数组
-                            try {
-                                String result = new String(response.body().bytes());
-                                JSONObject jsonObject = new JSONObject(result);
-                                Gson gson = new GsonBuilder().create();
-                                List<MusicBean> musicBeen = gson.fromJson(jsonObject.getString("T1348649580692"),
-                                        new TypeToken<List<MusicBean>>() {}.getType());
-                                // 获取数据成功
-                                emitter.onNext(musicBeen);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                emitter.onError(new NetError());
-                            }
-                        } else {
-                            emitter.onError(new NetError());
-                        }
-                    }
-                });
+    public void getMusic(int position, String keywords, int page) {
+        try {
+            switch (position) {
+                //0关 1虾 2鹅 3云 4我 5熊 6狗 7推荐
+                case 0:
+                    break;
+                case 1:
+                    new XiaMusic(mView, keywords, page).getXiaSongs();
+                    break;
+                case 2:
+                    new QieMusic(mView, keywords, page).getQieSongs();
+                    break;
+                case 3:
+                    new YunMusic(mView, keywords, page).getYunSongs();
+                    break;
+                case 4:
+                    new KmeMusic(mView, keywords, page).getWoSongs();
+                    break;
+                case 5:
+                    new XiongMusic(mContext, mView, keywords, page).getXiongSongs();
+                    break;
+                case 6:
+                    new DogMusic(mView, keywords, page).getDogSongs();
+                    break;
+                case 7:
+                    getRecommendMusic(page);
+                    break;
             }
-        });
+        } catch (Exception e) {
+            mView.onGetMusicFail("获取失败");
+        }
+    }
 
-        ObservableDecorator.decorate(observable).subscribe(new Observer<List<MusicBean>>() {
+    /**
+     * 获取推荐列表
+     * @param page
+     */
+    private void getRecommendMusic(int page) {
+        BmobQuery<Music> query = new BmobQuery<>();
+        query.addWhereNotEqualTo("objectId", "");
+        query.setLimit(10);
+        query.setSkip(10*page);
+        //执行查询方法
+        query.findObjects(mContext, new FindListener<Music>() {
             @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(List<MusicBean> musicBeen) {
-                mView.onGetMusicSuc(musicBeen);
+            public void onSuccess(List<Music> list) {
+                mView.onGetMusicSuc(list);
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(int i, String s) {
                 mView.onGetMusicFail("获取失败");
-            }
-
-            @Override
-            public void onComplete() {
-
             }
         });
     }

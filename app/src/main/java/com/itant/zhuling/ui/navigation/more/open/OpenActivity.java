@@ -19,7 +19,7 @@ public class OpenActivity extends BaseSwipeActivity {
 
     private final String[] opens = {"rxandroid", "nineoldandroids", "daimajia", "smarttablayout",
             "contextmenu", "eventbus", "smooth-app-bar-layout", "circleimageview",
-            "recyclerview-animators", "swipeback", "calligraphy", "CommonAdapter", "TagLayout"};
+            "recyclerview-animators", "swipeback", "calligraphy", "CommonAdapter", "TagLayout", "PhotoView"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
