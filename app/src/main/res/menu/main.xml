@@ -11,6 +11,6 @@
         android:id="@+id/menu_search"
         android:orderInCategory="100"
         android:title="搜索"
-        android:icon="@mipmap/search"
+        android:icon="@mipmap/music_search"
         app:showAsAction="ifRoom"/>-->
 </menu>

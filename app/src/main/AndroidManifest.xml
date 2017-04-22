@@ -30,13 +30,13 @@
 
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".ZhuApplication"
+        android:name=".application.ZhuApplication"
         tools:replace="android:icon">
         <!-- 防止与lib包中的属性冲突 -->
 
         <!-- 欢迎界面 -->
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
             android:theme="@style/AppTheme.TransAppTheme"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
@@ -58,71 +58,78 @@
 
         <!-- 新闻详情 -->
         <activity
-            android:name=".ui.tab.news.detail.NewsDetailActivity"
+            android:name=".ui.main.tab.news.detail.NewsDetailActivity"
             android:theme="@style/AppTheme.ZhuNoActionBar"
             android:screenOrientation="portrait"/>
         <!-- 需要设置主题为没有ActivonBar的，否则在Activity内调用setSupportActionBar(toolbar);会出错 -->
 
 
         <!--通知-->
-        <activity android:name=".ui.navigation.notice.NoticeActivity"
+        <activity android:name=".ui.main.navigation.notice.NoticeActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--反馈界面-->
-        <activity android:name=".ui.navigation.feedback.FeedbackActivity"
+        <activity android:name=".ui.main.navigation.feedback.FeedbackActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!-- ===========更多======== -->
         <activity
-            android:name=".ui.navigation.more.MoreActivity"
+            android:name=".ui.main.navigation.more.MoreActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--开源-->
-        <activity android:name=".ui.navigation.more.open.OpenActivity"
+        <activity android:name=".ui.main.navigation.more.open.OpenActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--更新日志-->
-        <activity android:name=".ui.navigation.more.log.UpdateLogActivity"
+        <activity android:name=".ui.main.navigation.more.log.UpdateLogActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!-- ===========关于========== -->
         <activity
-            android:name=".ui.navigation.about.AboutActivity"
+            android:name=".ui.main.navigation.about.AboutActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!-- 捐助界面 -->
         <activity
-            android:name=".ui.navigation.about.contents.DonateActivity"
+            android:name=".ui.main.navigation.about.contents.DonateActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--微博界面-->
-        <activity android:name=".ui.navigation.about.contents.WeiboActivity"
+        <activity android:name=".ui.main.navigation.about.contents.WeiboActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--使用帮助界面-->
-        <activity android:name=".ui.navigation.about.contents.HelpActivity"
+        <activity android:name=".ui.main.navigation.about.contents.HelpActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
 
         <!--妹纸界面-->
-        <activity android:name=".ui.tab.advanced.meizhi.MeizhiActivity"
+        <activity android:name=".ui.main.tab.advanced.meizhi.MeizhiActivity"
             android:theme="@style/AppTheme.CommonActivityTheme"
             android:screenOrientation="portrait"/>
 
         <!--妹纸详情-->
-        <activity android:name=".ui.tab.advanced.meizhi.MeizhiDetailActivity"
+        <activity android:name=".ui.main.tab.advanced.meizhi.MeizhiDetailActivity"
             android:theme="@style/AppTheme.CommonActivityTheme.MeizhiDetail"
             android:screenOrientation="portrait"/>
 
+        <service android:name=".service.PlayService" />
+
+        <receiver android:name=".receiver.StatusBarReceiver">
+            <intent-filter>
+                <action android:name="me.wcy.music.STATUS_BAR_ACTIONS" />
+            </intent-filter>
+        </receiver>
 
         <!--设置这个provider是由于谷歌的新特性，sdk版本>=24必须设置这个东西才能正常拍照裁剪图片-->
         <provider

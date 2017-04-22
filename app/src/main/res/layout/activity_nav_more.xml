@@ -55,7 +55,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/clean"
+                    android:src="@mipmap/nav_more_clean"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -101,7 +101,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/log"
+                    android:src="@mipmap/nav_more_log"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -176,7 +176,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/open"
+                    android:src="@mipmap/nav_more_open"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -213,7 +213,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/share"
+                    android:src="@mipmap/nav_more_share"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"

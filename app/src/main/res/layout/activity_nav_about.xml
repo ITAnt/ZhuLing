@@ -82,7 +82,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/update"
+                    android:src="@mipmap/nav_about_update"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -121,7 +121,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/help"
+                    android:src="@mipmap/nav_about_help"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -159,7 +159,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/weibo"
+                    android:src="@mipmap/nav_about_weibo"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -195,7 +195,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/join"
+                    android:src="@mipmap/nav_about_join"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"
@@ -231,7 +231,7 @@
                 <ImageView
                     android:layout_width="@dimen/height_more_image"
                     android:layout_height="@dimen/height_more_image"
-                    android:src="@mipmap/donate"
+                    android:src="@mipmap/nav_about_donate"
                     android:scaleType="fitXY"/>
                 <TextView
                     android:layout_marginLeft="@dimen/padding_horizon"

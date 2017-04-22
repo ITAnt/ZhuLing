@@ -10,8 +10,11 @@ import com.itant.zhuling.R;
 
 public class UITool {
 
-
-
+    /**
+     * 获取ToolBar高度
+     * @param context
+     * @return
+     */
     public static int getToolbarHeight(Context context) {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                 new int[]{R.attr.actionBarSize});
@@ -19,6 +22,18 @@ public class UITool {
         styledAttributes.recycle();
 
         return toolbarHeight;
+    }
+
+    /**
+     * 获取状态栏高度
+     */
+    public static int getSystemBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     public static int getTabsHeight(Context context) {
@@ -49,5 +64,10 @@ public class UITool {
             }
         }
         return false;
+    }
+
+    public static int dp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }

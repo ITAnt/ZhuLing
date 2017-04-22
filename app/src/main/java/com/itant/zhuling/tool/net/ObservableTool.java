@@ -31,7 +31,12 @@ public class ObservableTool {
             @Override
             //将事件发射出去,持有观察者的对象
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
-                OkHttpClient client = OKClient.getInstance(context).getClient();
+                OKClient instance = OKClient.getInstance(context);
+                if (instance == null) {
+                    return;
+                }
+
+                OkHttpClient client = instance.getClient();
                 client.newCall(request).enqueue(new Callback() {
 
                     @Override

@@ -33,7 +33,7 @@
                 android:layout_marginRight="50dp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/pay_wechat" />
+                android:src="@mipmap/nav_about_pay_wechat" />
 
             <TextView
                 android:id="@+id/tv_qq_qun"

@@ -33,6 +33,9 @@ public class ToastTool {
             return;
         }
 
+        if (context == null) {
+            return;
+        }
         View view = LayoutInflater.from(context).inflate(R.layout.widget_toast, null);
         TextView tv_toast = (TextView) view.findViewById(R.id.tv_toast);
         tv_toast.setText(text);

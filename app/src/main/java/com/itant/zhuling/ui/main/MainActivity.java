@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -44,6 +45,7 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.adapter.HeadAdapter;
 import com.itant.zhuling.base.IPermission;
 import com.itant.zhuling.constant.ZhuConstants;
+import com.itant.zhuling.event.music.MusicType;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
 import com.itant.zhuling.tool.image.BitmapTool;
@@ -54,17 +56,17 @@ import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.tool.UriTool;
-import com.itant.zhuling.ui.navigation.about.AboutActivity;
-import com.itant.zhuling.ui.navigation.feedback.FeedbackActivity;
-import com.itant.zhuling.ui.navigation.more.MoreActivity;
-import com.itant.zhuling.ui.navigation.notice.NoticeActivity;
-import com.itant.zhuling.ui.tab.advanced.AdvancedFragment;
-import com.itant.zhuling.ui.tab.csdn.CsdnFragment;
-import com.itant.zhuling.ui.tab.github.GithubFragment;
-import com.itant.zhuling.ui.tab.music.MusicFragment;
-import com.itant.zhuling.ui.tab.news.NewsFragment;
-import com.itant.zhuling.ui.tab.sentence.SentenceFragment;
-import com.itant.zhuling.ui.tab.writing.WritingFragment;
+import com.itant.zhuling.ui.main.navigation.about.AboutActivity;
+import com.itant.zhuling.ui.main.navigation.feedback.FeedbackActivity;
+import com.itant.zhuling.ui.main.navigation.more.MoreActivity;
+import com.itant.zhuling.ui.main.navigation.notice.NoticeActivity;
+import com.itant.zhuling.ui.main.tab.advanced.AdvancedFragment;
+import com.itant.zhuling.ui.main.tab.csdn.CsdnFragment;
+import com.itant.zhuling.ui.main.tab.github.GithubFragment;
+import com.itant.zhuling.ui.main.tab.music.MusicFragment;
+import com.itant.zhuling.ui.main.tab.news.NewsFragment;
+import com.itant.zhuling.ui.main.tab.sentence.SentenceFragment;
+import com.itant.zhuling.ui.main.tab.writing.WritingFragment;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItemAdapter;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private MainContract.Presenter presenter;
 
+    private PlayingFragment mPlayFragment;
     private AppBarLayout abl_toolbar_container;
     private Toolbar tb_main;
     private int toolBarHeight;
@@ -296,31 +299,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onMenuItemClick(View clickedView, int position) {
         // 单击右侧菜单
-        if (position == 0) {
-            // 关闭
+        if (position == MusicType.MUSIC_TYPE_CLOSE) {
             return;
         }
-
         switch (position) {
-            case 1:
+            case MusicType.MUSIC_TYPE_XIA:
                 iv_current_music.setImageResource(R.mipmap.music_xia_white);
                 break;
-            case 2:
+            case MusicType.MUSIC_TYPE_QIE:
                 iv_current_music.setImageResource(R.mipmap.music_qie_white);
                 break;
-            case 3:
+            case MusicType.MUSIC_TYPE_YUN:
                 iv_current_music.setImageResource(R.mipmap.music_yun_white);
                 break;
-            case 4:
+            case MusicType.MUSIC_TYPE_KU:
                 iv_current_music.setImageResource(R.mipmap.music_wo_white);
                 break;
-            case 5:
+            case MusicType.MUSIC_TYPE_XIONG:
                 iv_current_music.setImageResource(R.mipmap.music_xiong_white);
                 break;
-            case 6:
+            case MusicType.MUSIC_TYPE_GOU:
                 iv_current_music.setImageResource(R.mipmap.music_gou_white);
                 break;
-            case 7:
+            case MusicType.MUSIC_TYPE_JIAN:
                 iv_current_music.setImageResource(R.mipmap.music_recommend_white);
                 break;
         }
@@ -358,7 +359,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         stl_main = (SmartTabLayout) findViewById(R.id.stl_main);
         stl_main.setOnTabClickListener(this);
 
-
         FragmentPagerItems.Creator creator = FragmentPagerItems.with(this)
                 .add("资讯", NewsFragment.class)
                 .add("悦听", MusicFragment.class)
@@ -373,7 +373,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), creator.create());
 
-
         vp_main.setAdapter(adapter);
         vp_main.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -383,6 +382,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onPageSelected(int position) {
+                currentTabPosition = position;
+
                 if (position == 1) {
                     // 切换到音乐栏的时候，搜索按钮才可见
                     ll_search.setVisibility(View.VISIBLE);
@@ -400,9 +401,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_red_dark));
                         }
                     } else {
-                        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
                         tb_main.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         stl_main.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
                         //getWindow().setNavigationBarColor(getResources().getColor(R.color.color_primary_red));
                     }
                 }
@@ -484,6 +485,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        if (mPlayFragment != null && isPlayFragmentShow) {
+            hidePlayingFragment();
             return;
         }
 
@@ -1081,6 +1087,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment.scrollToTop();
                 }
                 break;
+        }
+    }
+
+    private boolean isPlayFragmentShow = false;
+
+    /**
+     * 点击进入播放音乐界面
+     */
+    public void showPlayingFragment() {
+        if (isPlayFragmentShow) {
+            return;
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.fragment_slide_up, 0);
+        if (mPlayFragment == null) {
+            mPlayFragment = new PlayingFragment();
+            ft.replace(android.R.id.content, mPlayFragment);
+        } else {
+            ft.show(mPlayFragment);
+        }
+        ft.commitAllowingStateLoss();
+        isPlayFragmentShow = true;
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            //tb_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
+            //stl_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
+            // 进入音乐播放界面，让状态栏变透明
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+        }
+    }
+
+    // 当前Tab位置，如果是高级模式，那么隐藏的时候，状态栏变红，其他变绿
+    private int currentTabPosition;
+    private void hidePlayingFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(0, R.anim.fragment_slide_down);
+        ft.hide(mPlayFragment);
+        ft.commitAllowingStateLoss();
+        isPlayFragmentShow = false;
+
+        // 退出音乐播放界面，让状态栏变回原来的颜色
+        if (Build.VERSION.SDK_INT >= 21) {
+            if (currentTabPosition == 6) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_red_dark));
+            } else {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+
         }
     }
 }

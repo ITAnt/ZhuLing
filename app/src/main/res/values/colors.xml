@@ -174,4 +174,20 @@
     <color name="btn_gray_pressed">#666667</color>
     <color name="btn_gray_normal">#c0c0c0</color>
     <color name="btn_red_normal">#eb002f</color>
+
+    <!--音乐-->
+    <color name="grey">#9E9E9E</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_900">#212121</color>
+    <color name="translucent_white">#80FFFFFF</color>
+    <color name="translucent_black">#80000000</color>
+    <color name="translucent_grey">#809E9E9E</color>
+    <color name="translucent_white_8p">#14FFFFFF</color>
+    <color name="translucent_white_16p">#29FFFFFF</color>
+    <color name="translucent_white_24p">#3DFFFFFF</color>
+    <!--play bar-->
+    <color name="translucent_white_96p">#F5FFFFFF</color>
+    <color name="translucent_grey_300_96p">#F5E0E0E0</color>
+    <color name="translucent_grey_900_96p">#F5212121</color>
+    <color name="translucent_grey_700_96p">#F5616161</color>
 </resources>

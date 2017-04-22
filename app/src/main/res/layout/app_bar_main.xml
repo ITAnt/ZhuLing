@@ -72,7 +72,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/search"/>
+                    android:src="@mipmap/music_search"/>
             </LinearLayout>
 
 

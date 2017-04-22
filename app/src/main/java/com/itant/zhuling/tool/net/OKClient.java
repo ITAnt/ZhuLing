@@ -15,6 +15,7 @@ public class OKClient {
     private static OKClient instance;
     private OkHttpClient client;
     private OkHttpClient.Builder builder;
+    private static Context mContext;
 
     private OKClient(Context context) {
         //缓存文件最大限制大小20M
@@ -34,6 +35,11 @@ public class OKClient {
     }
 
     public static OKClient getInstance(Context context) {
+        if (context == null) {
+            return null;
+        }
+
+        mContext = context.getApplicationContext();
         if (instance == null) {
             syncInit(context);
         }
