@@ -1,7 +1,7 @@
 # ZhuLing
 竹翎，一个Material风格的APP
 
-突然想整合一下所学的知识，理一个框架出来，顺带熟悉一下谷歌的Material Design。工作这几年，很遗憾，所在公司都只看重iOS开发，安卓的要按照IOS的设计稿来开发，完全没有安卓的风格，不免扼腕叹息。百忙之中，抽出时间，本来想理一个框架出来，看来还有许多待完善的地方，后面会继续完善。先看效果图吧：[APK下载点这里](http://download.csdn.net/detail/ithouse/9803616) 
+突然想整合一下所学的知识，理一个框架出来，顺带熟悉一下谷歌的Material Design。工作这几年，很遗憾，所在公司都只看重iOS开发，安卓的要按照IOS的设计稿来开发，完全没有安卓的风格，不免扼腕叹息。百忙之中，抽出时间，本来想理一个框架出来，看来还有许多待完善的地方，后面会继续完善。先看效果图吧：[APK下载点这里](https://github.com/ITAnt/ZhuLing/blob/master/apk/竹翎.apk) 
 
 ![](https://raw.githubusercontent.com/ITAnt/ZhuLing/master/image/demo.gif)  
 
@@ -29,7 +29,7 @@ library项目主要放置了鸿洋大神的CommonAdapter
 [多彩资讯客户端](https://github.com/kaku2015/ColorfulNews)
 ```Java
 代码家
-鸿洋大神
+CommonAdapter
 
 /*网络请求*/
 compile 'com.squareup.retrofit2:retrofit:2.2.0'
