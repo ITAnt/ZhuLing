@@ -68,7 +68,7 @@ public class CoverLoader {
         if (TextUtils.isEmpty(path)) {
             bitmap = mThumbnailCache.get(KEY_NULL);
             if (bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(ZhuManager.getContext().getResources(), R.mipmap.default_cover);
+                bitmap = BitmapFactory.decodeResource(ZhuManager.getInstance().getContext().getResources(), R.mipmap.default_cover);
                 mThumbnailCache.put(KEY_NULL, bitmap);
             }
         } else {
@@ -90,7 +90,7 @@ public class CoverLoader {
         if (TextUtils.isEmpty(path)) {
             bitmap = mBlurCache.get(KEY_NULL);
             if (bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(ZhuManager.getContext().getResources(), R.mipmap.play_page_default_bg);
+                bitmap = BitmapFactory.decodeResource(ZhuManager.getInstance().getContext().getResources(), R.mipmap.play_page_default_bg);
                 mBlurCache.put(KEY_NULL, bitmap);
             }
         } else {
@@ -114,8 +114,10 @@ public class CoverLoader {
         if (TextUtils.isEmpty(path)) {
             bitmap = mRoundCache.get(KEY_NULL);
             if (bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(ZhuManager.getContext().getResources(), R.mipmap.play_page_default_cover);
-                bitmap = ImageUtils.resizeImage(bitmap, ScreenUtils.getScreenWidth() / 2, ScreenUtils.getScreenWidth() / 2);
+                bitmap = BitmapFactory.decodeResource(ZhuManager.getInstance().getContext().getResources(),
+                        R.mipmap.play_page_default_cover);
+                bitmap = ImageUtils.resizeImage(bitmap, ScreenUtils.getScreenWidth() / 2,
+                        ScreenUtils.getScreenWidth() / 2);
                 mRoundCache.put(KEY_NULL, bitmap);
             }
         } else {

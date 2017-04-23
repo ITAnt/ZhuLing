@@ -45,6 +45,7 @@
         android:layout_below="@id/news_summary_digest_tv"
         android:layout_marginBottom="4dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/size_sp_small"
         tools:text="05-28 20:09"/>
 
 </RelativeLayout>

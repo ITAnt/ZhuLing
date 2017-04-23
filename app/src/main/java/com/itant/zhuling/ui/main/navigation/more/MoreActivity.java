@@ -125,7 +125,7 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
 
             case R.id.ll_share:
                 // 分享
-                SocialTool.shareApp(this);
+                SocialTool.shareApp(this, "分享竹翎", "我发现了一款非常有趣的应用，你也来下载吧！它的下载地址是https://github.com/ITAnt/ZhuLing");
                 break;
 
             case R.id.ll_open_source:

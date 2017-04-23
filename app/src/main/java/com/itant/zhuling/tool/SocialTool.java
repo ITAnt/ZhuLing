@@ -46,10 +46,21 @@ public class SocialTool {
      * 分享APP
      * @param context
      */
-    public static void shareApp(Context context) {
+    public static void shareApp(Context context, String title, String content) {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_TEXT,"我发现了一款非常有趣的应用，你也来下载吧！它的下载地址是www.qianxueya.com");
-        context.startActivity(Intent.createChooser(share, "分享竹翎"));
+        share.putExtra(Intent.EXTRA_TEXT, content);
+        context.startActivity(Intent.createChooser(share, title));
+    }
+
+    /**
+     * 调用系统浏览器进行下载
+     * @param context
+     */
+    public static void downloadMusic(Context context, String url) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }

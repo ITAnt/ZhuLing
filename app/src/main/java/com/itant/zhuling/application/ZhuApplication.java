@@ -20,7 +20,13 @@ public class ZhuApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        ZhuManager.init(this);
+        /*if (LeakCanary.isInAnalyzerProcess(this)) {
+            // 堆分析专业进程，这里不能写代码
+            return;
+        }
+        LeakCanary.install(this);*/
+
+        ZhuManager.getInstance().onInit(this);
     }
 
     @Override

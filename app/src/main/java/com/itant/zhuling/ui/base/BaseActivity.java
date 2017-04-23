@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
         initView();
     }
 
-    // 在上方三个方法调用，就能找到子类的控件了
+    // 在上方三个方法调用，就能找到子类的控件ToolBar了
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar == null) {

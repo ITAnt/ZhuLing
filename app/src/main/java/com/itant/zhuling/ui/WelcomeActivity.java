@@ -46,7 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.zoomin, 0);
         setContentView(R.layout.activity_welcome);
 
-        if (ZhuManager.getMusicService() == null) {
+        if (ZhuManager.getInstance().getMusicService() == null) {
             // 音乐service挂了，重新启动
             startMusicService();
             initView();
@@ -198,7 +198,7 @@ public class WelcomeActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             // 获得了音乐service对象
             final PlayService playService = ((PlayService.MusicBinder) service).getService();
-            ZhuManager.setMusicService(playService);
+            ZhuManager.getInstance().setMusicService(playService);
         }
 
         @Override

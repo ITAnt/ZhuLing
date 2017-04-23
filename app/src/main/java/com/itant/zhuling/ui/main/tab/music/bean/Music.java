@@ -68,6 +68,8 @@ public class Music extends BmobObject {
     @Column(name = "mvUrl")
     private String mvUrl;// MV地址
 
+    private boolean isPlaying;// 是否为正在播放
+
     /*@Column(name = "engine")
     private String engine;// 引擎*/
 
@@ -229,5 +231,13 @@ public class Music extends BmobObject {
 
     public void setMusicType(Integer musicType) {
         this.musicType = musicType;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 }

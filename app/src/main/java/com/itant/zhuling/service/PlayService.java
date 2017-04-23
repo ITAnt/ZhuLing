@@ -10,30 +10,28 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.itant.zhuling.application.Notifier;
 import com.itant.zhuling.application.ZhuManager;
+import com.itant.zhuling.listener.PlayStateChangeListener;
 import com.itant.zhuling.ui.main.tab.music.bean.Music;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Jason on 2017/4/22.
  */
 
 public class PlayService extends Service implements MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
-    private List<Music> mMusicList;
     private Handler mHandler = new Handler();
     private AudioManager mAudioManager;
     private MediaPlayer mPlayer = new MediaPlayer();
+    private PlayStateChangeListener mPlayStateListener;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mMusicList = ZhuManager.getMusicList();
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mPlayer.setOnCompletionListener(this);
-        Notifier.init(this);
+        //Notifier.init(this);
     }
 
     @Nullable
@@ -75,7 +73,21 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         return START_NOT_STICKY;
     }
 
+    /**
+     * 开始播放
+     * @param music
+     */
     public void play(Music music) {
+        if (music == null) {
+            return;
+        }
+        ZhuManager.getInstance().setmPlayingMusic(music);
+        ZhuManager.getInstance().setMusicPlaying(true);
+        // 正在播放
+        if (mPlayStateListener != null) {
+            mPlayStateListener.onChange(true);
+        }
+
         try {
             mPlayer.reset();
             mPlayer.setDataSource(music.getMp3Url());
@@ -89,6 +101,17 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
             //Notifier.showPlay(music);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 停止播放
+     */
+    public void stop() {
+        mPlayer.stop();
+        ZhuManager.getInstance().setMusicPlaying(false);
+        if (mPlayStateListener != null) {
+            mPlayStateListener.onChange(false);
         }
     }
 
@@ -109,12 +132,24 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        ZhuManager.getInstance().setMusicPlaying(false);
+        // 播放完了
+        if (mPlayStateListener != null) {
+            mPlayStateListener.onChange(false);
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ZhuManager.setMusicService(null);
+        ZhuManager.getInstance().setMusicService(null);
+    }
+
+    public PlayStateChangeListener getmPlayStateListener() {
+        return mPlayStateListener;
+    }
+
+    public void setmPlayStateListener(PlayStateChangeListener mPlayStateListener) {
+        this.mPlayStateListener = mPlayStateListener;
     }
 }

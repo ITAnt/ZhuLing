@@ -43,9 +43,11 @@ import android.widget.TextView;
 
 import com.itant.zhuling.R;
 import com.itant.zhuling.adapter.HeadAdapter;
+import com.itant.zhuling.application.ZhuManager;
 import com.itant.zhuling.base.IPermission;
 import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.event.music.MusicType;
+import com.itant.zhuling.service.PlayService;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
 import com.itant.zhuling.tool.image.BitmapTool;
@@ -121,24 +123,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //第一：默认初始化
         Bmob.initialize(this, ZhuConstants.BMOB_APPLICATION_ID);
+        initAppBarLayout();     // 顶部
+        initNavigationView();   // 左侧
+        initView();             // Tab和ViewPager
+        initSearchBar();        // 初始化搜索栏
+        initMenuFragment();     // 初始化右侧弹出菜单
+        initUpdateInfo();       // 获取更新信息
+    }
 
-        // 顶部
-        initAppBarLayout();
-
-        // 左侧
-        initNavigationView();
-
-        // Tab和ViewPager
-        initView();
-
-        // 初始化搜索栏
-        initSearchBar();
-
-        // 初始化右侧弹出菜单
-        initMenuFragment();
-
+    private void initUpdateInfo() {
         // 获取更新信息
         presenter = new MainPresenter(this, this);
 
@@ -347,6 +341,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         //EventBus.getDefault().unregister(this);
+        if (!ZhuManager.getInstance().isMusicPlaying()) {
+            // 音乐不播放的话，杀掉进程，完全退出
+            stopService(new Intent(this, PlayService.class));
+        }
     }
 
     private SmartTabLayout stl_main;
@@ -532,7 +530,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ActivityTool.startActivity(this, new Intent(this, NoticeActivity.class));
                 break;
 
-            case R.id.nav_download:
+            case R.id.nav_play:
+                // 打开正在播放
+                showPlayingFragment();
                 break;
             case R.id.nav_about:
                 // 打开关于界面
@@ -936,9 +936,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void goMarketUpdate(final boolean force, UpdateInfo updateInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("发现新版本")
-                .setMessage("最新版本："+updateInfo.getVersionName()+"\r\n"+
-                        "新版大小："+updateInfo.getPackageSizeMB()+"M"+"\r\n"
-                        +updateInfo.getUpdateDesc()+ "(如市场不能更新，请到QQ群484111083下载)")
+                .setMessage("最新版本："+updateInfo.getVersionName() + "\r\n" + "新版大小："+updateInfo.getPackageSizeMB()+"M\r\n" + updateInfo.getUpdateDesc())
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -1104,16 +1102,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.setCustomAnimations(R.anim.fragment_slide_up, 0);
         if (mPlayFragment == null) {
             mPlayFragment = new PlayingFragment();
+            // 播放界面监听音乐播放状态
+            ZhuManager.getInstance().getMusicService().setmPlayStateListener(mPlayFragment);
             ft.replace(android.R.id.content, mPlayFragment);
         } else {
             ft.show(mPlayFragment);
+            mPlayFragment.onShowPlaying();
         }
         ft.commitAllowingStateLoss();
         isPlayFragmentShow = true;
 
         if (Build.VERSION.SDK_INT >= 21) {
-            //tb_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
-            //stl_main.setBackgroundColor(getResources().getColor(R.color.color_primary_red));
             // 进入音乐播放界面，让状态栏变透明
             getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
         }
@@ -1121,7 +1120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // 当前Tab位置，如果是高级模式，那么隐藏的时候，状态栏变红，其他变绿
     private int currentTabPosition;
-    private void hidePlayingFragment() {
+    public void hidePlayingFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(0, R.anim.fragment_slide_down);
         ft.hide(mPlayFragment);

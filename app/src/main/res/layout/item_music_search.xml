@@ -18,7 +18,7 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/empty"/>
         <!-- 定义android:transitionName="..."实现共享元素动画-->
 
         <LinearLayout
@@ -59,9 +59,8 @@
 
             </LinearLayout>
 
-
             <LinearLayout
-                android:id="@+id/ll_download"
+                android:id="@+id/ll_more"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -74,13 +73,13 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/nav_download"
+                    android:src="@mipmap/music_item_more"
                     android:layout_marginBottom="4dp"/>
 
                 <TextView
                     android:id="@+id/tv_bitrate"
                     android:layout_width="wrap_content"
-                    android:minWidth="25dp"
+                    android:minWidth="24dp"
                     android:gravity="center"
                     android:layout_height="wrap_content"
                     android:text="无损"

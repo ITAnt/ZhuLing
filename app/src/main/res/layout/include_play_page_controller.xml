@@ -10,7 +10,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_current_time"
@@ -27,8 +28,7 @@
             android:layout_weight="1"
             android:maxHeight="2dp"
             android:minHeight="2dp"
-            android:progressDrawable="@drawable/seek_bar_progress_style"
-            android:thumb="@mipmap/ic_seek_bar_progress_btn" />
+            android:progressDrawable="@drawable/seek_bar_progress_style" />
 
         <TextView
             android:id="@+id/tv_total_time"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/play_mode_level_list" />
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_prev"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/iv_play"
-            android:src="@drawable/play_btn_prev_selector" />
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_play"
@@ -71,6 +71,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_play"
-            android:src="@drawable/play_btn_next_selector" />
+            android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>

@@ -58,7 +58,7 @@ public class WeiboActivity extends BaseActivity {
 
         wv_weibo.setWebChromeClient(new WebChromeClient());
         wv_weibo.setWebViewClient(new WebViewClient() {});//希望点击链接继续在当前browser中响应，必须覆盖 WebViewClient对象。
-        wv_weibo.loadUrl("http://nav_about_weibo.com/u/5040411308");
+        wv_weibo.loadUrl("http://weibo.com/u/5040411308");
 
     }
 

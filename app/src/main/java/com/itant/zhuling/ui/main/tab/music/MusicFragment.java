@@ -1,9 +1,14 @@
 package com.itant.zhuling.ui.main.tab.music;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -13,6 +18,8 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.application.ZhuManager;
 import com.itant.zhuling.event.music.MusicEvent;
 import com.itant.zhuling.event.music.MusicType;
+import com.itant.zhuling.listener.NetStateOnClickListener;
+import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.main.MainActivity;
@@ -105,45 +112,77 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
             }
         });
 
-
         mMusicBeans = new ArrayList<>();
         mAdapter = new CommonAdapter<Music>(getActivity(), R.layout.item_music_search, mMusicBeans) {
             @Override
             protected void convert(final ViewHolder viewHolder, final Music music, final int position) {
-
-                final MainActivity activity = (MainActivity) getActivity();
+                if (music.isPlaying()) {
+                    viewHolder.setBackgroundColor(R.id.ll_music, getResources().getColor(R.color.gray_slight));
+                } else {
+                    viewHolder.setBackgroundColor(R.id.ll_music, getResources().getColor(R.color.colorBg));
+                }
                 viewHolder.setText(R.id.tv_name, music.getName());
                 viewHolder.setText(R.id.tv_singer, music.getSinger() + (TextUtils.isEmpty(music.getAlbum()) ? "" : " 《" + music.getAlbum() + "》"));
                 viewHolder.setText(R.id.tv_bitrate, music.getBitrate());
-
-                viewHolder.setOnClickListener(R.id.ll_music, new View.OnClickListener() {
+                viewHolder.setOnClickListener(R.id.ll_music, new NetStateOnClickListener(getActivity()) {
                     @Override
-                    public void onClick(View v) {
-                        switch (MusicFragment.this.position) {
-                            case MusicType.MUSIC_TYPE_GOU:
-                                // 小狗的下载链接要另外获取
-                                onMusicAction(MusicType.MUSIC_TYPE_GOU, activity, music, MusicEvent.MUSIC_EVENT_PLAY);
-                                break;
-
-                            case MusicType.MUSIC_TYPE_KU:
-                                onMusicAction(MusicType.MUSIC_TYPE_KU, activity, music, MusicEvent.MUSIC_EVENT_PLAY);
-                                break;
-                            default:
-                                // 点击进入播放音乐界面
-                                activity.showPlayingFragment();
-                                ZhuManager.getMusicService().play(music);
-                                break;
-                        }
+                    protected void onContinueAction() {
+                        super.onContinueAction();
+                        // 不管流量，继续
+                        goPlayMusic(position);
+                    }
+                });
+                viewHolder.setOnClickListener(R.id.ll_more, new NetStateOnClickListener(getActivity()){
+                    @Override
+                    protected void onContinueAction() {
+                        super.onContinueAction();
+                        // 弹出对话框
+                        selectActionDialog(position);
                     }
                 });
             }
         };
 
-
         rv_music.setAdapter(mAdapter);
 
         mPresenter = new MusicPresenter(getActivity(), this);
         mPresenter.getMusic(position, "推荐", page);
+    }
+
+    // 当前正在播放的音乐位置
+    private int lastPlayPosition = -1;
+    /**
+     * 开始播放音乐
+     */
+    private void goPlayMusic(int position) {
+        // 上次播放的音乐恢复正常状态
+        if (lastPlayPosition != -1) {
+            mMusicBeans.get(lastPlayPosition).setPlaying(false);
+            mAdapter.notifyItemChanged(lastPlayPosition);
+        }
+
+        // 当前正在播放的音乐为高亮状态
+        Music music = mMusicBeans.get(position);
+        music.setPlaying(true);
+        lastPlayPosition = position;
+        mAdapter.notifyItemChanged(lastPlayPosition);
+
+        MainActivity activity = (MainActivity) getActivity();
+        switch (MusicFragment.this.position) {
+            case MusicType.MUSIC_TYPE_GOU:
+                // 小狗的下载链接要另外获取
+                onMusicAction(MusicType.MUSIC_TYPE_GOU, activity, music, MusicEvent.MUSIC_EVENT_PLAY);
+                break;
+
+            case MusicType.MUSIC_TYPE_KU:
+                onMusicAction(MusicType.MUSIC_TYPE_KU, activity, music, MusicEvent.MUSIC_EVENT_PLAY);
+                break;
+            default:
+                // 点击进入播放音乐界面
+                ZhuManager.getInstance().getMusicService().play(music);
+                activity.showPlayingFragment();
+                break;
+        }
     }
 
     /**
@@ -186,8 +225,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
                         if (action == MusicEvent.MUSIC_EVENT_PLAY) {
                             // 点击进入播放音乐界面
+                            ZhuManager.getInstance().getMusicService().play(music);
                             activity.showPlayingFragment();
-                            ZhuManager.getMusicService().play(music);
                         }
                         break;
 
@@ -195,8 +234,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                         music.setMp3Url(result.trim().replaceAll(" ", ""));
                         if (action == MusicEvent.MUSIC_EVENT_PLAY) {
                             // 点击进入播放音乐界面
+                            ZhuManager.getInstance().getMusicService().play(music);
                             activity.showPlayingFragment();
-                            ZhuManager.getMusicService().play(music);
                         }
                         break;
                 }
@@ -217,6 +256,70 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
             }
         });
+    }
+
+    /**
+     * 点击更多，选择继续进行的操作
+     */
+    private AlertDialog musicActionDialog;
+    private void selectActionDialog(final int position) {
+        final Music music = mMusicBeans.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // setMessage会把item覆盖掉
+
+        musicActionDialog = builder.create();
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_music_action, null);
+        // 播放
+        view.findViewById(R.id.ll_play).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goPlayMusic(position);
+                if (musicActionDialog != null) {
+                    musicActionDialog.dismiss();
+                }
+            }
+        });
+
+        // 复制
+        view.findViewById(R.id.ll_copy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("music", music.getMp3Url());
+                manager.setPrimaryClip(clipData);
+                ToastTool.showShort(getActivity(), "已复制到剪贴板");
+
+                if (musicActionDialog != null) {
+                    musicActionDialog.dismiss();
+                }
+            }
+        });
+
+        // 下载
+        view.findViewById(R.id.ll_download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialTool.downloadMusic(getActivity(), music.getMp3Url());
+                if (musicActionDialog != null) {
+                    musicActionDialog.dismiss();
+                }
+            }
+        });
+
+        // 分享
+        view.findViewById(R.id.ll_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SocialTool.shareApp(getActivity(), "分享音乐", "我发现了一首非常好听的歌曲，你也听听吧！"
+                        + "《" + music.getName() + "》" + music.getMp3Url());
+                if (musicActionDialog != null) {
+                    musicActionDialog.dismiss();
+                }
+            }
+        });
+
+        musicActionDialog.setView(view);
+        musicActionDialog.show();
     }
 
     @Override
@@ -300,6 +403,8 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
         // 刷新|加载的动作完成了
         swipe_refresh_layout.setRefreshing(false);
+
+        lastPlayPosition = -1;
     }
 
     @Override
@@ -330,5 +435,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
         // 刷新|加载的动作完成了
         swipe_refresh_layout.setRefreshing(false);
+
+        lastPlayPosition = -1;
     }
 }

@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.itant.zhuling.constant.Actions;
-import com.itant.zhuling.service.PlayService;
-
 
 /**
  * Created by wcy on 2017/4/18.
@@ -25,10 +22,10 @@ public class StatusBarReceiver extends BroadcastReceiver {
         }
 
         String extra = intent.getStringExtra(EXTRA);
-        if (TextUtils.equals(extra, EXTRA_NEXT)) {
+        /*if (TextUtils.equals(extra, EXTRA_NEXT)) {
             PlayService.startCommand(context, Actions.ACTION_MEDIA_NEXT);
         } else if (TextUtils.equals(extra, EXTRA_PLAY_PAUSE)) {
             PlayService.startCommand(context, Actions.ACTION_MEDIA_PLAY_PAUSE);
-        }
+        }*/
     }
 }
