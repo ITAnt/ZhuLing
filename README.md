@@ -13,7 +13,7 @@
 ![](https://raw.githubusercontent.com/ITAnt/ZhuLing/master/image/3.gif) 
 
 ### 你可以窃玉偷香 ###
-作为一个老司机，你可以进入“关于”界面，连续点击10次LOGO即可开启高级模式，浏览高清妹子美图（还有隐藏的功能，咳咳，我不敢开放，哈哈）。
+作为一个老司机，你可以进入“关于”界面，连续点击10次LOGO即可开启高级模式，浏览高清妹子美图（还有隐藏的功能，咳咳，我不敢开放，哈哈）。<br/>
 ![](https://raw.githubusercontent.com/ITAnt/ZhuLing/master/image/4.gif) 
 
 
