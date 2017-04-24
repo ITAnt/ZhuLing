@@ -4,11 +4,11 @@ import java.net.HttpCookie;
 import java.util.List;
 
 /**
- * Created by Jason on 2017/4/9.
+ * Created by iTant on 2017/4/9.
  */
 
 public class ZhuConstants {
-    public static final boolean DEBUG = true;// 打包的时候，设为false以节省系统资源
+    public static final boolean DEBUG = false;// 打包的时候，设为false以节省系统资源
     public static boolean musicEnable = true;// 音乐开关，默认可以搜听音乐
 
     public static final String BMOB_APPLICATION_ID = "dd9f50028de2404b3bdf6356e6798327";

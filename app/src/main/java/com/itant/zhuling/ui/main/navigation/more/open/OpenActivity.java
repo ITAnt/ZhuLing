@@ -11,21 +11,21 @@ import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  * 开源
  */
 
 public class OpenActivity extends BaseSwipeActivity {
-
     private final String[] opens = {"rxandroid", "nineoldandroids", "daimajia", "smarttablayout",
             "contextmenu", "eventbus", "smooth-app-bar-layout", "circleimageview",
-            "recyclerview-animators", "swipeback", "calligraphy", "CommonAdapter", "TagLayout", "PhotoView"};
+            "recyclerview-animators", "swipeback", "calligraphy", "CommonAdapter",
+            "TagLayout", "PhotoView", "xUtils", "umeng"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_more_open);
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("开源");
 

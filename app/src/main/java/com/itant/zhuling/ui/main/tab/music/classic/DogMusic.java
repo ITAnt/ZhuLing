@@ -20,11 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 詹子聪 on 2016/11/15.
+ * Created by iTant on 2016/11/15.
  * 小狗音乐
  */
 public class DogMusic {
-
     private MusicContract.View view;
     private String keyWords;
     private int page;
@@ -77,7 +76,6 @@ public class DogMusic {
             view.onGetMusicFail("暂无结果");
             return;
         }
-
 
         JSONObject jsonObject = null;
         try {
@@ -186,7 +184,6 @@ public class DogMusic {
             music.setFilePath(ZhuConstants.PATH_CLASSIC_DOG + music.getFileName());
             musics.add(music);
         }
-
         view.onGetMusicSuc(musics);
     }
 }

@@ -17,8 +17,6 @@ import java.io.IOException;
  *
  */
 public final class ImageTool {
-
-
 	//==============================压缩图片开始===========================
 	/**
 	 * Get bitmap from specified image path
@@ -85,7 +83,7 @@ public final class ImageTool {
 		// 开始压缩图片，注意此时已经把options.inJustDecodeBounds 设回false了
 		bitmap = BitmapFactory.decodeFile(imgPath, newOpts);
 		// 压缩好比例大小后再进行质量压缩
-//        return compress(bitmap, maxSize); // 这里再进行质量压缩的意义不大，反而耗资源，删除
+		//return compress(bitmap, maxSize); // 这里再进行质量压缩的意义不大，反而耗资源，删除
 		return bitmap;
 	}
 
@@ -129,7 +127,7 @@ public final class ImageTool {
 		is = new ByteArrayInputStream(os.toByteArray());
 		bitmap = BitmapFactory.decodeStream(is, null, newOpts);
 		//压缩好比例大小后再进行质量压缩
-//	    return compress(bitmap, maxSize); // 这里再进行质量压缩的意义不大，反而耗资源，删除
+		//return compress(bitmap, maxSize); // 这里再进行质量压缩的意义不大，反而耗资源，删除
 		return bitmap;
 	}
 
@@ -264,7 +262,7 @@ public final class ImageTool {
 		newOpts.inInputShareable = true;//。当系统内存不够时候图片自动被回收
 
 		bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
-//		return compressBmpFromBmp(bitmap);//原来的方法调用了这个方法企图进行二次压缩
+		//return compressBmpFromBmp(bitmap);//原来的方法调用了这个方法企图进行二次压缩
 		//其实是无效的,大家尽管尝试
 		return bitmap;
 	}

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.itant.zhuling.R;
 
 /**
- * Created by Jason on 2017/4/8.
+ * Created by iTant on 2017/4/8.
  */
 
 public class ActivityTool {
@@ -20,6 +20,15 @@ public class ActivityTool {
      */
     public static void startActivity(Activity activity, Intent intent) {
         activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.anim_slide_right_in, R.anim.anim_slide_left_out);
+    }
+
+    /**
+     * Activity从右边往左边进，配合BaseActivity.finish()方法实现从左边往右边销毁
+     * @param activity
+     */
+    public static void startActivity(Activity activity, Class clazz) {
+        activity.startActivity(new Intent(activity, clazz));
         activity.overridePendingTransition(R.anim.anim_slide_right_in, R.anim.anim_slide_left_out);
     }
 

@@ -17,6 +17,7 @@ import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.main.tab.advanced.meizhi.MeizhiActivity;
+import com.itant.zhuling.ui.main.tab.advanced.torrent.TorrentActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +26,14 @@ import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  * 书法
  */
 
 public class AdvancedFragment extends BaseFragment implements AdvancedContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, View.OnLongClickListener {
-
     private int page;// 分页页码
-
+    private static final int START_PAGE = 0;
     private AdvancedContract.Presenter mPresenter;
-
     private RecyclerView rv_news;
     private List<AdvancedBean> mAdvancedBeans;
     private CommonAdapter<AdvancedBean> mAdapter;
@@ -43,8 +42,6 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
     private LinearLayoutManager mLayoutManager;
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
-
-    private static final int START_PAGE = 0;
 
     @Override
     public int getLayoutId() {
@@ -106,7 +103,6 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
             }
         });
 
-
         mAdvancedBeans = new ArrayList<>();
         mAdapter = new CommonAdapter<AdvancedBean>(getActivity(), R.layout.item_advanced, mAdvancedBeans) {
             @Override
@@ -119,6 +115,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
                         if (TextUtils.equals(item.getObjectId(), "u0zBJJJV")) {
                             // 妹纸
                             ActivityTool.startActivity(getActivity(), new Intent(getActivity(), MeizhiActivity.class));
+                        } else if (TextUtils.equals(item.getObjectId(), "NLvk222j")) {
+                            ActivityTool.startActivity(getActivity(), TorrentActivity.class);
                         } else {
                             // 用浏览器打开
                             Intent intent = new Intent();
@@ -195,7 +193,6 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
         // 刷新|加载的动作完成了
         swipe_refresh_layout.setRefreshing(false);
 
-
         // 第一页的数据拉取失败
         if (page < START_PAGE) {
             page = START_PAGE;
@@ -240,7 +237,8 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.ll_empty:
-                // 跳到磁力链接界面=====
+                // 跳到磁力链接界面
+                //ActivityTool.startActivity(getActivity(), TorrentActivity.class);
                 break;
         }
 

@@ -27,23 +27,12 @@ import java.util.Random;
  * 翎羽飘落
  */
 public class FloatLeafLayout extends RelativeLayout {
-
     private static final String TAG = FloatLeafLayout.class.getSimpleName();
-
-    // 树叶种类的数组
-    private Drawable mLeafDrawable;
-
-    // 补间器种类的数组
-    private Interpolator mInterpolator;
-
-    // view宽度
-    private int mWidthSize;
-
-    // view高度
-    private int mHeightSize;
-
-    // 动画合集
-    private ArrayList<AnimatorSet> mAnimatorSets;
+    private Drawable mLeafDrawable;     // 树叶种类的数组
+    private Interpolator mInterpolator; // 补间器种类的数组
+    private int mWidthSize;             // view宽度
+    private int mHeightSize;            // view高度
+    private ArrayList<AnimatorSet> mAnimatorSets;// 动画合集
 
     private int tempX;
     private int tempY;
@@ -104,7 +93,6 @@ public class FloatLeafLayout extends RelativeLayout {
         int startX =  random.nextInt(mWidthSize-2);
         int startY = 1;
 
-
         final ImageView mLeaf = new ImageView(getContext());
         mLeaf.setImageDrawable(mLeafDrawable);
         // 设置落叶起点，添加到布局
@@ -122,7 +110,6 @@ public class FloatLeafLayout extends RelativeLayout {
         set.playTogether(alpha, scaleX, scaleY, rotate);
         set.setDuration(700);
 
-
         // 树叶落下的起点，必须在顶部，即假定Y坐标为1，X坐标为0到mWidthSize-2的范围
         final PointF pointF0 = new PointF(startX, startY);
         // 树叶落下经过的第二个点，横坐标任意，纵坐标不能大于 mHeightSize/2
@@ -135,7 +122,6 @@ public class FloatLeafLayout extends RelativeLayout {
         tempY = random.nextInt(mHeightSize/2);
         // 树叶落下经过的第四个点，横坐标任意，纵坐标不能大于 mHeightSize/2
         final PointF pointF3 = new PointF(tempX, tempY);
-
 
         // 通过自定义的贝塞尔估值器算出途经的点的x，y坐标
         final BazierTypeEvaluator bazierTypeEvaluator = new BazierTypeEvaluator(pointF1, pointF2);
@@ -192,7 +178,6 @@ public class FloatLeafLayout extends RelativeLayout {
             }
         }, 700);
 
-
         // 将动画添加进列表，方便移除
         if (mAnimatorSets == null) {
             mAnimatorSets = new ArrayList<>();
@@ -202,7 +187,6 @@ public class FloatLeafLayout extends RelativeLayout {
 
     // 值动画更新监听
     private class BazierUpdateListener implements ValueAnimator.AnimatorUpdateListener {
-
         View target;
 
         public BazierUpdateListener(View target) {

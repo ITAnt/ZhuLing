@@ -18,10 +18,9 @@ import cn.bmob.v3.listener.FindListener;
 
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 public class MusicPresenter implements MusicContract.Presenter {
-
     private Context mContext;
     private MusicContract.View mView;
 

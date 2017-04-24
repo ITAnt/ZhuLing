@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class DonateActivity extends BaseSwipeActivity implements View.OnLongClickListener {
@@ -35,7 +35,7 @@ public class DonateActivity extends BaseSwipeActivity implements View.OnLongClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_about_donate);
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("捐助");
 
@@ -58,8 +58,6 @@ public class DonateActivity extends BaseSwipeActivity implements View.OnLongClic
 
     @Override
     public boolean onLongClick(View v) {
-
-
         FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
 
         Bitmap srcBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.nav_about_pay_wechat);

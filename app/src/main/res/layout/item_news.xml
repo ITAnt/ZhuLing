@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_news_item"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/news_summary_photo_iv"
@@ -11,18 +13,22 @@
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:scaleType="centerCrop"
-        tools:src="@mipmap/ic_launcher"/>
+        tools:src="@mipmap/ic_launcher"
+        android:clickable="false"/>
     <!-- 定义android:transitionName="..."实现共享元素动画-->
 
     <TextView
         android:id="@+id/news_summary_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/size_sp_big"
         android:layout_alignTop="@id/news_summary_photo_iv"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@+id/news_summary_photo_iv"
         android:lines="2"
-        tools:text="习近平:吹响建设科技强国号角国号角国号角"/>
+        android:textColor="@color/txt_black"
+        tools:text="习近平:吹响建设科技强国号角国号角国号角"
+        android:clickable="false"/>
 
     <TextView
         android:id="@+id/news_summary_digest_tv"
@@ -35,7 +41,8 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        tools:text="科技是国之利器，中国人民生活要好，必须有强大科技。"/>
+        tools:text="科技是国之利器，中国人民生活要好，必须有强大科技。"
+        android:clickable="false"/>
 
     <TextView
         android:id="@+id/news_summary_ptime_tv"
@@ -46,6 +53,15 @@
         android:layout_marginBottom="4dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:textSize="@dimen/size_sp_small"
-        tools:text="05-28 20:09"/>
+        tools:text="05-28 20:09"
+        android:clickable="false"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/padding_horizon"
+        android:layout_marginRight="@dimen/padding_horizon"
+        android:layout_height="@dimen/size_divider_height"
+        android:background="@color/gray_slight"
+        android:clickable="false"/>
 </RelativeLayout>

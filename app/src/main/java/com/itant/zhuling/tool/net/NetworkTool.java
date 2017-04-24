@@ -93,7 +93,6 @@ public class NetworkTool {
      * @return 有IP的话返回IP，否则返回"IP not found"
      */
     public String getLocalIpAddress() {
-
         try {
             Enumeration<NetworkInterface> networkInterfaceEnumeration = NetworkInterface.getNetworkInterfaces();
             while (networkInterfaceEnumeration.hasMoreElements()) {
@@ -150,7 +149,6 @@ public class NetworkTool {
 
         return invokeStatus;
     }
-
 
     /*****************************供接收者使用***************************************/
     // 加密类型，分为三种情况：1.没有密码	2.用WEP加密	3.用WPA加密，我们这里只用到了第3种

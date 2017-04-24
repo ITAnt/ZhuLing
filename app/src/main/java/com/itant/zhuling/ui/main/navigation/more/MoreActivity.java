@@ -30,11 +30,10 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
 import java.text.DecimalFormat;
 
 /**
- * Created by Jason on 2017/4/4.
+ * Created by iTant on 2017/4/4.
  */
 
 public class MoreActivity extends BaseSwipeActivity implements View.OnClickListener, View.OnTouchListener, CompoundButton.OnCheckedChangeListener {
-
     private DecimalFormat format;
 
     private TextView tv_cache;
@@ -44,7 +43,7 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_more);
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
 
         setTitle("更多");
@@ -62,15 +61,6 @@ public class MoreActivity extends BaseSwipeActivity implements View.OnClickListe
 
         // 顶部
         ll_top = (LinearLayout) findViewById(R.id.ll_top);
-        /*ll_top.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                // 我们必须等view加载之后才开始动画，否则取到的宽高为0
-                ll_top.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                showTopLayout(ll_top.getWidth()/2, ll_top.getHeight()/2);
-            }
-        });*/
         ll_top.setOnTouchListener(this);
 
         // 分享

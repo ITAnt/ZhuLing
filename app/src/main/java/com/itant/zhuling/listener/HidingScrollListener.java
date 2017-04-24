@@ -11,7 +11,6 @@ import com.itant.zhuling.tool.UITool;
 * views when list is scrolled.
 * */
 public abstract class HidingScrollListener extends RecyclerView.OnScrollListener {
-
     private static final float HIDE_THRESHOLD = 10;
     private static final float SHOW_THRESHOLD = 70;
 
@@ -47,7 +46,6 @@ public abstract class HidingScrollListener extends RecyclerView.OnScrollListener
                 }
             }
         }
-
     }
 
     @Override

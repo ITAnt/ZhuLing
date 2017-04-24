@@ -10,11 +10,10 @@ import android.widget.Toast;
 import com.itant.zhuling.R;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class ToastTool {
-
     private static long mShortMillis;
     private static String mLastShortText;
 
@@ -55,7 +54,6 @@ public class ToastTool {
      * @param text
      */
     public static void showShortRed(Context context, String text) {
-
         if (TextUtils.equals(text, mLastShortText) && System.currentTimeMillis()-mShortMillis < 3000) {
             // 防止频繁Toast
             return;
@@ -80,7 +78,6 @@ public class ToastTool {
      * @param text
      */
     public static void showLong(Context context, String text) {
-
         if (TextUtils.equals(text, mLastLongText) && System.currentTimeMillis()-mLongMillis < 5000) {
             // 防止频繁Toast
             return;

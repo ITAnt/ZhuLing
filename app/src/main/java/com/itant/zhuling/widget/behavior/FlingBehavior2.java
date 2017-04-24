@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by Jason on 2017/3/31.
+ * Created by iTant on 2017/3/31.
  * 解决CoordinatorLayout嵌套NestedScrollView时AppBarLayout不响应Fling事件的bug
  * 在AppBarLayout中添加属性app:layout_behavior="com.itant.home.widget.FlingBehavior2"即可
  */

@@ -14,7 +14,6 @@ import android.graphics.PointF;
  * 更新描述:
  */
 public class BazierTypeEvaluator implements TypeEvaluator<PointF> {
-
     /**
      * 三次方贝塞尔曲线
      * B(t)=P0*(1-t)^3+3*P1*t*(1-t)^2+3*P2*t^2*(1-t)+P3*t^3,t∈[0,1]

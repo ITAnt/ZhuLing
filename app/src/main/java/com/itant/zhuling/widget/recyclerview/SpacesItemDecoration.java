@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-
     private int spanCount;
     private int spacing;
     private boolean includeEdge;

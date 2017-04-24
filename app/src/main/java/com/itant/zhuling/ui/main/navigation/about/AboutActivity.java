@@ -34,7 +34,7 @@ import java.lang.reflect.Field;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
- * Created by Jason on 2017/4/4.
+ * Created by iTant on 2017/4/4.
  */
 
 public class AboutActivity extends BaseSwipeActivity implements View.OnClickListener, MainContract.View {
@@ -45,7 +45,7 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_about);
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
 
         setTitle("关于");
@@ -76,7 +76,6 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
         // 点击头像
         findViewById(R.id.iv_logo).setOnClickListener(this);
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -134,6 +133,7 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
             try {
                 int serverVersionCode = Integer.parseInt(updateInfo.getVersionCode());
                 if (AppTool.getVersionCode(this) >= serverVersionCode) {
+                    ToastTool.showShort(this, "当前已经是最新版本啦");
                     return;
                 }
 

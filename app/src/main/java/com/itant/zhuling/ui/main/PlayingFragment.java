@@ -14,7 +14,7 @@ import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.main.tab.music.bean.Music;
 
 /**
- * Created by Jason on 2017/4/21.
+ * Created by iTant on 2017/4/21.
  * 正在播放的界面
  */
 
@@ -70,7 +70,7 @@ public class PlayingFragment extends BaseFragment implements View.OnClickListene
                 if (ZhuManager.getInstance().isMusicPlaying()) {
                     ZhuManager.getInstance().getMusicService().stop();
                 } else {
-                    ZhuManager.getInstance().getMusicService().play(ZhuManager.getInstance().getmPlayingMusic());
+                    ZhuManager.getInstance().getMusicService().play(ZhuManager.getInstance().getPlayingMusic());
                 }
                 break;
         }
@@ -97,7 +97,7 @@ public class PlayingFragment extends BaseFragment implements View.OnClickListene
             iv_play.setImageResource(R.drawable.play_btn_play_selector);
         }
 
-        Music music = ZhuManager.getInstance().getmPlayingMusic();
+        Music music = ZhuManager.getInstance().getPlayingMusic();
         if (music == null) {
             return;
         }

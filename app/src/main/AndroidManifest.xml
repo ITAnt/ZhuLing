@@ -123,6 +123,11 @@
             android:theme="@style/AppTheme.CommonActivityTheme.MeizhiDetail"
             android:screenOrientation="portrait"/>
 
+        <!--磁链-->
+        <activity android:name=".ui.main.tab.advanced.torrent.TorrentActivity"
+            android:theme="@style/AppTheme.CommonActivityTheme"
+            android:screenOrientation="portrait"/>
+
         <service android:name=".service.PlayService" />
 
         <receiver android:name=".receiver.StatusBarReceiver">
@@ -144,6 +149,9 @@
 
         <meta-data android:name="com.itant.zhuling.tool.image.glide.CustomCachingGlideModule"
             android:value="GlideModule"/>
+
+        <meta-data android:value="58fdd00745297d1f580018df" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Open" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

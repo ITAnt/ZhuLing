@@ -21,11 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 詹子聪 on 2016/11/15.
+ * Created by iTant on 2016/11/15.
  * 龙虾音乐
  */
 public class XiaMusic {
-
     private MusicContract.View view;
     private String keyWords;
     private int page;
@@ -316,8 +315,6 @@ public class XiaMusic {
                 String fileName = music.getName() + "-" + music.getSinger() + format;
                 String uniFileName = FileTool.getUniqueFileName(ZhuConstants.PATH_CLASSIC_XIA, fileName, 1);
                 music.setFileName(uniFileName);// 文件名
-
-
                 // 文件路径
                 music.setFilePath(ZhuConstants.PATH_CLASSIC_XIA + music.getFileName());
                 musics.add(music);
@@ -376,8 +373,6 @@ public class XiaMusic {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                 }
 
                 @Override

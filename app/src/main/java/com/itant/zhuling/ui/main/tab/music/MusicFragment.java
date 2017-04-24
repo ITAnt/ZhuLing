@@ -34,12 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class MusicFragment extends BaseFragment implements MusicContract.View, SwipeRefreshLayout.OnRefreshListener {
-
     private int page;// 分页页码
+    private static final int START_PAGE = 0;
 
     private MusicContract.Presenter mPresenter;
 
@@ -51,8 +51,6 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     private LinearLayoutManager mLayoutManager;
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
-
-    private static final int START_PAGE = 0;
 
     @Override
     public int getLayoutId() {
@@ -409,7 +407,6 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
     @Override
     public void onGetMusicFail(String msg) {
-
         // 第一页的数据拉取失败
         if (page < START_PAGE) {
             page = START_PAGE;

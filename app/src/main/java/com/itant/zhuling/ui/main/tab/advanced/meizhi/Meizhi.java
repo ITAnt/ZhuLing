@@ -23,19 +23,6 @@ import android.support.annotation.Keep;
  */
 @Keep
 public class Meizhi {
-
-    /**
-     * _id : 58f5649b421aa9544825f89f
-     * createdAt : 2017-04-18T08:58:03.511Z
-     * desc : 4-18
-     * publishedAt : 2017-04-18T11:34:29.203Z
-     * source : chrome
-     * type : 福利
-     * url : http://7xi8d6.com1.z0.glb.clouddn.com/2017-04-18-17882540_190116561497334_440657494176432128_n.jpg
-     * used : true
-     * who : 带马甲
-     */
-
     private String _id;
     private String createdAt;
     private String desc;

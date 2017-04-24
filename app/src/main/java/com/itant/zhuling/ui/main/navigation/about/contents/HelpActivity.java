@@ -10,16 +10,15 @@ import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class HelpActivity extends BaseSwipeActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_about_help);
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("帮助");
 

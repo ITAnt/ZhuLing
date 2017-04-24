@@ -6,7 +6,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.GetListener;
 
 /**
- * Created by Jason on 2017/4/16.
+ * Created by iTant on 2017/4/16.
  */
 
 public class MainPresenter implements MainContract.Presenter {

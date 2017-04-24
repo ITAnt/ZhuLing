@@ -8,23 +8,22 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 /**
- * Created by Jason on 2017/4/18.
+ * Created by iTant on 2017/4/18.
  */
 
 public class OKClient {
     private static OKClient instance;
     private OkHttpClient client;
     private OkHttpClient.Builder builder;
-    private static Context mContext;
 
     private OKClient(Context context) {
         //缓存文件最大限制大小20M
         builder = new OkHttpClient.Builder()
-                .readTimeout(15, TimeUnit.SECONDS)
                 .cache(new Cache(context.getCacheDir(), 1024*1024*20))
-                .writeTimeout(15, TimeUnit.SECONDS)//设置写入超时时间
-                .readTimeout(15, TimeUnit.SECONDS)//设置读取数据超时时间
-                .retryOnConnectionFailure(true);//设置进行连接失败重试
+                .writeTimeout(15, TimeUnit.SECONDS) // 设置写入超时时间
+                .readTimeout(15, TimeUnit.SECONDS)  // 设置读取数据超时时间
+                //.followRedirects(true)
+                .retryOnConnectionFailure(true);    // 设置是否进行连接失败重试
         client = builder.build();
     }
 
@@ -39,7 +38,6 @@ public class OKClient {
             return null;
         }
 
-        mContext = context.getApplicationContext();
         if (instance == null) {
             syncInit(context);
         }

@@ -4,13 +4,11 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
-import com.itant.zhuling.BuildConfig;
-
 import org.xutils.DbManager;
 import org.xutils.x;
 
 /**
- * Created by Jason on 2017/4/9.
+ * Created by iTant on 2017/4/9.
  */
 
 public class ZhuApplication extends MultiDexApplication {
@@ -36,12 +34,13 @@ public class ZhuApplication extends MultiDexApplication {
         MultiDex.install(this);
 
         x.Ext.init(this);
-        x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
-
+        // 是否输出debug日志, 开启debug会影响性能.
+        //x.Ext.setDebug(BuildConfig.DEBUG);
         DbManager.DaoConfig daoConfig = new DbManager.DaoConfig()
                 .setDbName("music.db")
                 // 不设置dbDir时, 默认存储在app的私有目录.
-                //.setDbDir(new File("/sdcard")) // "sdcard"的写法并非最佳实践, 这里为了简单, 先这样写了.
+                //.setDbDir(new File("/sdcard"))
+                // "sdcard"的写法并非最佳实践, 这里为了简单, 先这样写了.
                 .setDbVersion(2)
                 .setDbOpenListener(new DbManager.DbOpenListener() {
                     @Override

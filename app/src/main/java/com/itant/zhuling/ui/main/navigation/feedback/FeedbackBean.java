@@ -3,7 +3,7 @@ package com.itant.zhuling.ui.main.navigation.feedback;
 import cn.bmob.v3.BmobObject;
 
 /**
- * Created by Jason on 2017/4/17.
+ * Created by iTant on 2017/4/17.
  */
 
 public class FeedbackBean extends BmobObject {

@@ -13,7 +13,8 @@ import com.itant.zhuling.R;
 import java.util.List;
 
 /**
- * Created by Jason on 2017/4/18.
+ * Created by iTant on 2017/4/18.
+ * 选择设置头像的方式-item
  */
 
 public class HeadAdapter implements ListAdapter {

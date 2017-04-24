@@ -19,11 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 詹子聪 on 2016/11/15.
+ * Created by iTant on 2016/11/15.
  * 凉窝音乐
  */
 public class KmeMusic {
-
     private MusicContract.View view;
     private String keyWords;
     private int page;
@@ -185,7 +184,6 @@ public class KmeMusic {
             music.setFilePath(ZhuConstants.PATH_CLASSIC_KWO + music.getFileName());
             musics.add(music);
         }
-
         view.onGetMusicSuc(musics);
     }
 }

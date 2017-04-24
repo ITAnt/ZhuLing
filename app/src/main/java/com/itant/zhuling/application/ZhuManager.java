@@ -6,7 +6,7 @@ import com.itant.zhuling.service.PlayService;
 import com.itant.zhuling.ui.main.tab.music.bean.Music;
 
 /**
- * Created by Jason on 2017/4/22.
+ * Created by iTant on 2017/4/22.
  * 应用管理者，主要维护一些全局的对象，如音乐service
  */
 
@@ -49,11 +49,11 @@ public class ZhuManager {
         return getInstance().mContext;
     }
 
-    public Music getmPlayingMusic() {
+    public Music getPlayingMusic() {
         return mPlayingMusic;
     }
 
-    public void setmPlayingMusic(Music mPlayingMusic) {
+    public void setPlayingMusic(Music mPlayingMusic) {
         this.mPlayingMusic = mPlayingMusic;
     }
 

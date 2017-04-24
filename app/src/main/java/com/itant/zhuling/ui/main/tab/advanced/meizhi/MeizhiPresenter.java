@@ -18,11 +18,10 @@ import okhttp3.Request;
 
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class MeizhiPresenter implements MeizhiContract.Presenter {
-
     private Context mContext;
     private MeizhiContract.View mView;
     // 每页20个数据

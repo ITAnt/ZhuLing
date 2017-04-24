@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.umeng.analytics.MobclickAgent;
+
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public abstract class BaseFragment extends Fragment {
@@ -27,5 +29,15 @@ public abstract class BaseFragment extends Fragment {
             initViews(mView);
         }
         return mView;
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("BaseFragment"); //统计页面，"MainScreen"为页面名称，可自定义
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("BaseFragment");
     }
 }

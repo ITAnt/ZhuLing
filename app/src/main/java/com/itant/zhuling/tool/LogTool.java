@@ -5,7 +5,7 @@ import android.util.Log;
 import com.itant.zhuling.constant.ZhuConstants;
 
 /**
- * Created by Jason on 2017/4/9.
+ * Created by iTant on 2017/4/9.
  */
 
 public class LogTool {

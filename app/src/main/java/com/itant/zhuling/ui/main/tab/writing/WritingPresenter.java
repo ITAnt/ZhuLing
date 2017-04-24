@@ -9,11 +9,10 @@ import cn.bmob.v3.listener.FindListener;
 
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class WritingPresenter implements WritingContract.Presenter {
-
     private Context mContext;
     private WritingContract.View mView;
 
@@ -21,7 +20,6 @@ public class WritingPresenter implements WritingContract.Presenter {
         mContext = context;
         mView = view;
     }
-
 
     @Override
     public void getWriting(int page) {

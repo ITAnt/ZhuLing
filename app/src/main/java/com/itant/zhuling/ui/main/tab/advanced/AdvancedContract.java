@@ -6,7 +6,7 @@ import com.itant.zhuling.ui.base.IBaseView;
 import java.util.List;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public interface AdvancedContract {

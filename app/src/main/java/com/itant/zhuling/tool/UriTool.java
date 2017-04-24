@@ -8,7 +8,7 @@ import android.support.v4.content.FileProvider;
 import java.io.File;
 
 /**
- * Created by Jason on 2017/4/14.
+ * Created by iTant on 2017/4/14.
  */
 
 public class UriTool {

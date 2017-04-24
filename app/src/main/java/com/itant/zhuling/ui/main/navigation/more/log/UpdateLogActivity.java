@@ -16,11 +16,10 @@ import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class UpdateLogActivity extends BaseSwipeActivity implements UpdateLogContract.View, SwipeRefreshLayout.OnRefreshListener {
-
     private LinearLayout ll_empty;
 
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -31,7 +30,7 @@ public class UpdateLogActivity extends BaseSwipeActivity implements UpdateLogCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_more_update_log);
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("日志");
 

@@ -1,7 +1,7 @@
 package com.itant.zhuling.event.music;
 
 /**
- * Created by Jason on 2017/4/22.
+ * Created by iTant on 2017/4/22.
  * 0关闭 1龙虾 2企鹅 3白云 4酷啊 5熊掌 6小狗 7推荐
  */
 public class MusicType {

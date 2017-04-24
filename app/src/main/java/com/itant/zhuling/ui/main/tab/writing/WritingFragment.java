@@ -22,12 +22,11 @@ import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  * 书法
  */
 
 public class WritingFragment extends BaseFragment implements WritingContract.View, SwipeRefreshLayout.OnRefreshListener {
-
     private int page;// 分页页码
 
     private WritingContract.Presenter mPresenter;
@@ -180,7 +179,6 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
     public void onGetWritingFail(String msg) {
         // 刷新|加载的动作完成了
         swipe_refresh_layout.setRefreshing(false);
-
 
         // 第一页的数据拉取失败
         if (page < START_PAGE) {

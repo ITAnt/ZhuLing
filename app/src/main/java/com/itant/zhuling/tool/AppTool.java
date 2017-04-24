@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 /**
- * Created by Jason on 2017/4/12.
+ * Created by iTant on 2017/4/12.
  */
 
 public class AppTool {

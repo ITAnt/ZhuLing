@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 /**
- * Created by Jason on 2017/4/8.
+ * Created by iTant on 2017/4/8.
  * 社会分享工具类
  */
 

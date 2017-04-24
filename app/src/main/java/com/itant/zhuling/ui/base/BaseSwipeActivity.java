@@ -6,9 +6,10 @@ import android.view.MenuItem;
 
 import com.itant.zhuling.R;
 import com.liuguangqiang.swipeback.SwipeBackActivity;
+import com.umeng.analytics.MobclickAgent;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class BaseSwipeActivity extends SwipeBackActivity {
@@ -50,5 +51,15 @@ public class BaseSwipeActivity extends SwipeBackActivity {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);       //统计时长
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

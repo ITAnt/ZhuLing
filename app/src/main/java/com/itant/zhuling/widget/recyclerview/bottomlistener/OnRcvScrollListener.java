@@ -11,7 +11,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
  * @date 2015/4/6
  */
 public class OnRcvScrollListener extends RecyclerView.OnScrollListener implements OnBottomListener {
-
     private String TAG = getClass().getSimpleName();
 
     public static enum LAYOUT_MANAGER_TYPE {

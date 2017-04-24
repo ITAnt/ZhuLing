@@ -9,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.itant.zhuling.R;
+import com.umeng.analytics.MobclickAgent;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class BaseActivity extends AppCompatActivity {
@@ -66,5 +67,15 @@ public class BaseActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);       //统计时长
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

@@ -7,12 +7,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by 詹子聪 on 2016/10/19.
+ * Created by iTant on 2016/10/19.
  */
 public class SecureTool {
     /**
      * 加密base 64
-     *
      * @param str
      * @return
      */
@@ -183,6 +182,4 @@ public class SecureTool {
         } catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
         return null;
     }
-
-
 }

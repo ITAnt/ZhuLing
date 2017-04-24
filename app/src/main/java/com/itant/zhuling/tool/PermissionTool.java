@@ -15,7 +15,7 @@ import com.itant.zhuling.base.IPermission;
 import java.util.List;
 
 /**
- * Created by Jason on 2017/4/9.
+ * Created by iTant on 2017/4/9.
  */
 
 public class PermissionTool {

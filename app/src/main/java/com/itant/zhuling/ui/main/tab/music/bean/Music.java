@@ -6,7 +6,7 @@ import org.xutils.db.annotation.Table;
 import cn.bmob.v3.BmobObject;
 
 /**
- * Created by Jason on 2016/11/13.
+ * Created by iTant on 2016/11/13.
  */
 @Table(name = "music")
 public class Music extends BmobObject {

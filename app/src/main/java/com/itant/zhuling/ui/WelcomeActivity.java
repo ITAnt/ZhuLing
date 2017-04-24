@@ -22,6 +22,7 @@ import com.itant.zhuling.application.ZhuManager;
 import com.itant.zhuling.service.PlayService;
 import com.itant.zhuling.ui.main.MainActivity;
 import com.itant.zhuling.widget.leaf.FloatLeafLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +34,6 @@ import io.reactivex.schedulers.Schedulers;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class WelcomeActivity extends AppCompatActivity {
-
     private ImageView iv_launcher_inner;
     private TextView tv_app_name;
     boolean isShowingRubberEffect = false;
@@ -226,5 +226,14 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);       //统计时长
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

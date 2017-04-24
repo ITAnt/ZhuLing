@@ -18,7 +18,7 @@ import com.itant.zhuling.ui.base.BaseSwipeActivity;
 import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 /**
- * Created by Jason on 2017/4/4.
+ * Created by iTant on 2017/4/4.
  */
 
 public class FeedbackActivity extends BaseSwipeActivity implements FeedbackContract.View, View.OnClickListener {
@@ -30,7 +30,7 @@ public class FeedbackActivity extends BaseSwipeActivity implements FeedbackContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_feedback);
 
-        // 右划删除
+        // 右划关闭
         setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         setTitle("反馈");
 

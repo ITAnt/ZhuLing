@@ -72,6 +72,7 @@ import com.itant.zhuling.ui.main.tab.writing.WritingFragment;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItemAdapter;
 import com.itant.zhuling.widget.smarttab.v4.FragmentPagerItems;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.umeng.analytics.MobclickAgent;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
@@ -780,7 +781,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 直接输出的图片大小会很大，所以和从相册选择一样，我们要编辑一下
      */
     private void editCameraImage() {
-
         Intent intent = new Intent("com.android.camera.action.CROP");
 
         // 编辑头像的数据来源于temphead.jpeg缓存文件
@@ -1103,7 +1103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mPlayFragment == null) {
             mPlayFragment = new PlayingFragment();
             // 播放界面监听音乐播放状态
-            ZhuManager.getInstance().getMusicService().setmPlayStateListener(mPlayFragment);
+            ZhuManager.getInstance().getMusicService().setPlayStateListener(mPlayFragment);
             ft.replace(android.R.id.content, mPlayFragment);
         } else {
             ft.show(mPlayFragment);
@@ -1136,5 +1136,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);       //统计时长
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

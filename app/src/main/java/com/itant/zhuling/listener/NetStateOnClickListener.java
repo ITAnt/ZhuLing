@@ -17,7 +17,7 @@ import com.itant.zhuling.tool.net.NetworkTool;
 import java.lang.reflect.Field;
 
 /**
- * Created by Jason on 2017/4/23.
+ * Created by iTant on 2017/4/23.
  * 响应点击事件之前要提示是否使用移动流量继续
  */
 

@@ -23,6 +23,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_divider_height"
+        android:layout_marginLeft="@dimen/padding_horizon"
+        android:layout_marginRight="@dimen/padding_horizon"
         android:background="@color/gray_slight"/>
 
 </LinearLayout>

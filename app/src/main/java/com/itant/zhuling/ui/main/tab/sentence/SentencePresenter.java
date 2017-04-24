@@ -9,11 +9,10 @@ import cn.bmob.v3.listener.FindListener;
 
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class SentencePresenter implements SentenceContract.Presenter {
-
     private Context mContext;
     private SentenceContract.View mView;
 

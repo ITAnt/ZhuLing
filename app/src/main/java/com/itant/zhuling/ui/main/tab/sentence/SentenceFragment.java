@@ -23,13 +23,13 @@ import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  * 诗句
  */
 
 public class SentenceFragment extends BaseFragment implements SentenceContract.View, SwipeRefreshLayout.OnRefreshListener {
-
     private int page;// 分页页码
+    private static final int START_PAGE = 0;
 
     private SentenceContract.Presenter mPresenter;
 
@@ -41,8 +41,6 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
     private LinearLayoutManager mLayoutManager;
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
-
-    private static final int START_PAGE = 0;
 
     @Override
     public int getLayoutId() {

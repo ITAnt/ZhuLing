@@ -11,11 +11,10 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.ui.base.BaseFragment;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-
     private SwipeRefreshLayout swipe_refresh_layout;
     private WebView wv_github;
 
@@ -27,7 +26,6 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void initViews(View view) {
-
         wv_github = (WebView) view.findViewById(R.id.wv_github);
         swipe_refresh_layout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipe_refresh_layout.setColorSchemeResources(
@@ -41,12 +39,10 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
         WebSettings settings = wv_github.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
-
         // 设置显示完整网页
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
         // 加快WebView速度
         // 提高渲染的优先级
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
@@ -75,7 +71,6 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             swipe_refresh_layout.setRefreshing(false);
         }
-
     }
 
     @Override

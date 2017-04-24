@@ -5,32 +5,23 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.itant.zhuling.error.NetError;
-import com.itant.zhuling.tool.net.ObservableDecorator;
 
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
-import java.io.IOException;
 import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class NewsPresenter implements NewsContract.Presenter {
-
+    private static final String URL_NEWS_PREFIX = "http://c.m.163.com/nc/article/list/T1348649580692/";
+    private String urlSuffix;// 请求后缀
+    private static final int SIZE_PAGE = 20;// 一页获取的数量
     private Context mContext;
     private NewsContract.View mView;
 
@@ -39,70 +30,85 @@ public class NewsPresenter implements NewsContract.Presenter {
         mView = view;
     }
 
-
     @Override
     public void getNews(int page) {
-        Observable<List<NewsBean>> observable = Observable.create(new ObservableOnSubscribe<List<NewsBean>>() {
+        urlSuffix = page * SIZE_PAGE + "-20.html";
+        String url = URL_NEWS_PREFIX + urlSuffix;
+        RequestParams params = new RequestParams(url);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+
             @Override
-            //将事件发射出去,持有观察者的对象
-            public void subscribe(final ObservableEmitter<List<NewsBean>> emitter) throws Exception {
-                final Request request = new Request.Builder().url("http://c.m.163.com/nc/article/list/T1348649580692/0-20.html").get().build();
-
-                OkHttpClient httpUtils = new OkHttpClient();
-                httpUtils.newCall(request).enqueue(new Callback() {
-
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        emitter.onError(new NetError());
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) {
-                        if (response.isSuccessful()) {
-                            //拿到结果的一瞬间触发事件，并传递数据给观察者
-                            //把请求结果转化成字节数组
-                            try {
-                                String result = new String(response.body().bytes());
-                                JSONObject jsonObject = new JSONObject(result);
-                                Gson gson = new GsonBuilder().create();
-                                List<NewsBean> musicBeen = gson.fromJson(jsonObject.getString("T1348649580692"),
-                                        new TypeToken<List<NewsBean>>() {}.getType());
-                                // 获取数据成功
-                                emitter.onNext(musicBeen);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                emitter.onError(new NetError());
-                            }
-                        } else {
-                            emitter.onError(new NetError());
-                        }
-                    }
-                });
-            }
-        });
-
-        ObservableDecorator.decorate(observable).subscribe(new Observer<List<NewsBean>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
+            public void onSuccess(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    Gson gson = new GsonBuilder().create();
+                    List<NewsBean> musicBeen = gson.fromJson(jsonObject.getString("T1348649580692"),
+                            new TypeToken<List<NewsBean>>() {}.getType());
+                    // 获取数据成功
+                    mView.onGetNewsSuc(musicBeen);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mView.onGetNewsFail("获取失败");
+                }
             }
 
             @Override
-            public void onNext(List<NewsBean> musicBeen) {
-                mView.onGetNewsSuc(musicBeen);
-            }
-
-            @Override
-            public void onError(Throwable e) {
+            public void onError(Throwable ex, boolean isOnCallback) {
                 mView.onGetNewsFail("获取失败");
             }
 
             @Override
-            public void onComplete() {
+            public void onCancelled(CancelledException cex) {
+                mView.onGetNewsFail("获取失败");
+            }
 
+            @Override
+            public void onFinished() {
             }
         });
     }
+
+    // 使用okhttp会出现请求失败的情况，似乎在请求完成之后，并没有关闭请求，网上的处理方案是：
+    // 1.addHeader("Connection", "close")
+    // 2.retryOnConnectionFailure(true)
+    // 3.response.body().close();
+    // 就本应用而言，以上三种方案均不能很好解决403禁止访问的问题，有待深究。
+    /*Request request = new Request.Builder()
+            .url(URL_NEWS_PREFIX + urlSuffix)
+            .get()
+            .addHeader("Content-Type", "application/json;charset=utf-8")
+            .addHeader("Cache-Control", "max-age=60")
+            .addHeader("Connection", "close")
+            .build();
+        ObservableDecorator.decorate(ObservableTool.getGetObFromUrl(mContext, request)).subscribe(new Observer<String>() {
+        @Override
+        public void onSubscribe(Disposable d) {
+
+        }
+
+        @Override
+        public void onNext(String result) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                Gson gson = new GsonBuilder().create();
+                List<NewsBean> musicBeen = gson.fromJson(jsonObject.getString("T1348649580692"),
+                        new TypeToken<List<NewsBean>>() {}.getType());
+                // 获取数据成功
+                mView.onGetNewsSuc(musicBeen);
+            } catch (Exception e) {
+                e.printStackTrace();
+                mView.onGetNewsFail("获取失败");
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mView.onGetNewsFail("获取失败");
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+    });*/
 }

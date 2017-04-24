@@ -3,26 +3,24 @@ package com.itant.zhuling.tool.net;
 import android.content.Context;
 
 import com.itant.zhuling.error.NetError;
-
-import java.io.IOException;
+import com.itant.zhuling.tool.PrintTool;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import okhttp3.Call;
-import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by Jason on 2017/4/18.
+ * Created by iTant on 2017/4/18.
  */
 
 public class ObservableTool {
 
     /**
-     * 发送get请求
+     * 发送同步get请求
      * @param context
      * @return
      */
@@ -37,31 +35,25 @@ public class ObservableTool {
                 }
 
                 OkHttpClient client = instance.getClient();
-                client.newCall(request).enqueue(new Callback() {
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                    String result = new String(response.body().bytes());
+                    emitter.onNext(result);
 
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                        emitter.onError(new NetError());
+                    // 打印响应header信息
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0; i < responseHeaders.size(); i++) {
+                        PrintTool.i("response header", responseHeaders.name(i) + ": " + responseHeaders.value(i));
                     }
-
-                    @Override
-                    public void onResponse(Call call, Response response) {
-                        if (response.isSuccessful()) {
-                            //拿到结果的一瞬间触发事件，并传递数据给观察者
-                            try {
-                                // 获取数据成功
-                                String result = new String(response.body().bytes());
-                                emitter.onNext(result);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                emitter.onError(new NetError());
-                            }
-                        } else {
-                            emitter.onError(new NetError());
-                        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    emitter.onError(new NetError());
+                } finally {
+                    if (response != null) {
+                        response.body().close();
                     }
-                });
+                }
             }
         });
         return observable;

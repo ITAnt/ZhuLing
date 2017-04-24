@@ -4,8 +4,10 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+/**
+ * 均等分割线
+ */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
-
     private int halfSpace;
 
     public DividerItemDecoration(int space) {

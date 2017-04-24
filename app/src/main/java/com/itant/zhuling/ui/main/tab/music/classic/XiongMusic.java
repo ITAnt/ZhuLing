@@ -27,11 +27,10 @@ import io.reactivex.disposables.Disposable;
 import okhttp3.Request;
 
 /**
- * Created by 詹子聪 on 2016/11/15.
+ * Created by iTant on 2016/11/15.
  * 熊掌音乐
  */
 public class XiongMusic {
-
     private Context context;
     private MusicContract.View view;
     private String keyWords;

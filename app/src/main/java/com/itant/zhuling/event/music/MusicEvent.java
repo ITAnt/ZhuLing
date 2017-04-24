@@ -1,7 +1,7 @@
 package com.itant.zhuling.event.music;
 
 /**
- * Created by Jason on 2017/4/22.
+ * Created by iTant on 2017/4/22.
  */
 
 public class MusicEvent {

@@ -37,14 +37,14 @@ import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class MeizhiActivity extends BaseActivity implements MeizhiContract.View, SwipeRefreshLayout.OnRefreshListener {
-    private static final int START_PAGE = 1;// 分页起始页
-    private static final int SPAN_COUNT = 2;// 列数
-    private static final int SPACE_LINES = SPAN_COUNT + 1;// 空隙列数
-    private static final int SPACE_WIDTH_DP = 6;// 空隙宽度
+    private static final int START_PAGE = 1;                // 分页起始页
+    private static final int SPAN_COUNT = 2;                // 列数
+    private static final int SPACE_LINES = SPAN_COUNT + 1;  // 空隙列数
+    private static final int SPACE_WIDTH_DP = 6;            // 空隙宽度
 
     private MeizhiContract.Presenter presenter;
     private RecyclerView rv_meizhi;
@@ -82,7 +82,6 @@ public class MeizhiActivity extends BaseActivity implements MeizhiContract.View,
 
 
     public void initView() {
-
         swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipe_refresh_layout.setColorSchemeResources(
                 R.color.colorPrimary,

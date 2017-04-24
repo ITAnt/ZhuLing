@@ -31,5 +31,5 @@
     <string name="square_green_name">square_green</string>
     <string name="transition_reveal1">transition_reveal1</string>
     <string name="sample_blue_title">sample_blue_title</string>
-    <string name="transition_name_news_to_detail">bbb</string>
+    <string name="transition_name_news_to_detail">news</string>
 </resources>

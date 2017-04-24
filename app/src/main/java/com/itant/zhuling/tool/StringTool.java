@@ -3,7 +3,7 @@ package com.itant.zhuling.tool;
 import java.net.URLDecoder;
 
 /**
- * Created by 詹子聪 on 2016/11/16.
+ * Created by iTant on 2016/11/16.
  */
 public class StringTool {
 
@@ -42,7 +42,6 @@ public class StringTool {
                     startIndex = startIndex+length-1;
                 }
             }
-
 
             StringBuilder builder = new StringBuilder();
             if (num2 == 0) {

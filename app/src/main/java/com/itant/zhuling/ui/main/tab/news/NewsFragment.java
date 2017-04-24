@@ -2,18 +2,20 @@ package com.itant.zhuling.ui.main.tab.news;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
@@ -29,12 +31,12 @@ import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class NewsFragment extends BaseFragment implements NewsContract.View, SwipeRefreshLayout.OnRefreshListener {
-
     private int page;// 分页页码
+    private static final int START_PAGE = 0;
 
     private NewsContract.Presenter mPresenter;
 
@@ -46,8 +48,6 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
     private LinearLayoutManager mLayoutManager;
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
-
-    private static final int START_PAGE = 0;
 
     @Override
     public int getLayoutId() {
@@ -118,20 +118,40 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                 viewHolder.setText(R.id.news_summary_digest_tv, item.getDigest());
                 viewHolder.setText(R.id.news_summary_ptime_tv, item.getPtime());
 
-                // gif格式有时会导致整体图片不显示，貌似有冲突
-                Glide.with(getActivity()).load(item.getImgsrc()).asBitmap()
-                        .format(DecodeFormat.PREFER_ARGB_8888)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.color.white)
-                        .error(R.mipmap.empty)
-                        .into((ImageView) viewHolder.getView(R.id.news_summary_photo_iv));
+                final ImageView iv_news_summary = viewHolder.getView(R.id.news_summary_photo_iv);
+                if (!TextUtils.isEmpty(item.getImgsrc())) {
+                    final String tag = (String) iv_news_summary.getTag(R.id.news_summary_photo_iv);
+                    final String uri = item.getImgsrc();
+                    if (!uri.equals(tag)) {
+                        // 设置默认图片
+                        iv_news_summary.setImageResource(R.mipmap.empty);
+                    }
 
-                viewHolder.setOnClickListener(R.id.news_summary_photo_iv, new View.OnClickListener() {
+                    Glide.with(mContext)
+                            .load(item.getImgsrc())
+                            .asBitmap()
+                            .placeholder(R.mipmap.empty)
+                            .error(R.mipmap.empty)
+                            .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
+                                glideAnimation) {
+                            iv_news_summary.setTag(item.getImgsrc());
+                            iv_news_summary.setImageBitmap(resource);
+                        }
+                    });
+                } else {
+                    // 设置默认图片
+                    iv_news_summary.setImageResource(R.mipmap.empty);
+                }
+
+                viewHolder.setOnClickListener(R.id.rl_news_item, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 共享元素动画
                         Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                         intent.putExtra("url_top", item.getImgsrc());
+                        intent.putExtra("postId", item.getPostid());
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             // 可以实现共享动画
@@ -147,7 +167,6 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                 });
             }
         };
-
 
         AnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(mAdapter);
         animationAdapter.setFirstOnly(false);// 不只第一次有动画

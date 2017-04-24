@@ -11,11 +11,10 @@ import com.itant.zhuling.R;
 import com.itant.zhuling.ui.base.BaseFragment;
 
 /**
- * Created by Jason on 2017/3/26.
+ * Created by iTant on 2017/3/26.
  */
 
 public class CsdnFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-
     private WebView wv_csdn;
     private SwipeRefreshLayout swipe_refresh_layout;
 

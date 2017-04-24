@@ -1,12 +1,10 @@
 package com.itant.zhuling.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -17,11 +15,10 @@ import com.itant.zhuling.ui.main.tab.music.bean.Music;
 import java.io.IOException;
 
 /**
- * Created by Jason on 2017/4/22.
+ * Created by iTant on 2017/4/22.
  */
 
 public class PlayService extends Service implements MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
-    private Handler mHandler = new Handler();
     private AudioManager mAudioManager;
     private MediaPlayer mPlayer = new MediaPlayer();
     private PlayStateChangeListener mPlayStateListener;
@@ -38,12 +35,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     @Override
     public IBinder onBind(Intent intent) {
         return new MusicBinder();
-    }
-
-    public static void startCommand(Context context, String action) {
-        Intent intent = new Intent(context, PlayService.class);
-        intent.setAction(action);
-        context.startService(intent);
     }
 
     public class MusicBinder extends Binder {
@@ -81,7 +72,7 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         if (music == null) {
             return;
         }
-        ZhuManager.getInstance().setmPlayingMusic(music);
+        ZhuManager.getInstance().setPlayingMusic(music);
         ZhuManager.getInstance().setMusicPlaying(true);
         // 正在播放
         if (mPlayStateListener != null) {
@@ -93,11 +84,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
             mPlayer.setDataSource(music.getMp3Url());
             mPlayer.prepareAsync();
             mPlayer.setOnPreparedListener(mPreparedListener);
-            /*isPreparing = true;
-
-            if (mListener != null) {
-                mListener.onChange(music);
-            }*/
             //Notifier.showPlay(music);
         } catch (IOException e) {
             e.printStackTrace();
@@ -145,11 +131,11 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         ZhuManager.getInstance().setMusicService(null);
     }
 
-    public PlayStateChangeListener getmPlayStateListener() {
+    public PlayStateChangeListener getPlayStateListener() {
         return mPlayStateListener;
     }
 
-    public void setmPlayStateListener(PlayStateChangeListener mPlayStateListener) {
+    public void setPlayStateListener(PlayStateChangeListener mPlayStateListener) {
         this.mPlayStateListener = mPlayStateListener;
     }
 }

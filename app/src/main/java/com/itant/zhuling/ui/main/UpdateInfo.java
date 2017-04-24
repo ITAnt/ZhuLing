@@ -3,7 +3,7 @@ package com.itant.zhuling.ui.main;
 import cn.bmob.v3.BmobObject;
 
 /**
- * Created by Jason on 2017/4/16.
+ * Created by iTant on 2017/4/16.
  * 更新接口对应的bean
  */
 

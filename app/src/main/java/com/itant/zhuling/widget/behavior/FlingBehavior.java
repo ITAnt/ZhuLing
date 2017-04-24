@@ -14,7 +14,6 @@ import android.view.View;
  * 在AppBarLayout中添加属性app:layout_behavior="com.itant.home.widget.FlingBehavior"即可
  */
 public final class FlingBehavior extends AppBarLayout.Behavior {
-
     private static final String TAG = FlingBehavior.class.getName();
     private static final int TOP_CHILD_FLING_THRESHOLD = 1;
     private static final float OPTIMAL_FLING_VELOCITY = 3500;

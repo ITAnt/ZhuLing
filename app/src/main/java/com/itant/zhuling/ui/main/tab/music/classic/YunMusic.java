@@ -22,11 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 詹子聪 on 2016/11/15.
+ * Created by iTant on 2016/11/15.
  * 白云音乐
  */
 public class YunMusic {
-
     private MusicContract.View view;
     private List<Music> musics;
     private String keyWords;
