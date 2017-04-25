@@ -123,7 +123,11 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
                             intent.setAction("android.intent.action.VIEW");
                             Uri content_url = Uri.parse(item.getUrl());
                             intent.setData(content_url);
-                            startActivity(intent);
+                            try {
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                ToastTool.showShort(getActivity(), "未找到浏览器");
+                            }
                         }
                     }
                 });
