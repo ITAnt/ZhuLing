@@ -53,7 +53,7 @@
 
                 <EditText
                     android:id="@+id/et_search"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:gravity="center_vertical|left"
                     android:layout_height="wrap_content"
                     android:hint="请输入关键字"
@@ -69,8 +69,8 @@
                     android:imeOptions="actionSearch"/>
                 <ImageView
                     android:id="@+id/iv_search"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/music_search"/>
             </LinearLayout>
