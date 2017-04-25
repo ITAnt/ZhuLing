@@ -50,14 +50,15 @@ import com.itant.zhuling.event.music.MusicType;
 import com.itant.zhuling.service.PlayService;
 import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
-import com.itant.zhuling.tool.image.BitmapTool;
 import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.PermissionTool;
 import com.itant.zhuling.tool.PreferencesTool;
+import com.itant.zhuling.tool.ServiceTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.tool.UriTool;
+import com.itant.zhuling.tool.image.BitmapTool;
 import com.itant.zhuling.ui.main.navigation.about.AboutActivity;
 import com.itant.zhuling.ui.main.navigation.feedback.FeedbackActivity;
 import com.itant.zhuling.ui.main.navigation.more.MoreActivity;
@@ -1094,6 +1095,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 点击进入播放音乐界面
      */
     public void showPlayingFragment() {
+        if (ZhuManager.getInstance().getMusicService() == null) {
+            ToastTool.showShort(this, "请稍候");
+            ServiceTool.startMusicService(this);
+            return;
+        }
         if (isPlayFragmentShow) {
             return;
         }

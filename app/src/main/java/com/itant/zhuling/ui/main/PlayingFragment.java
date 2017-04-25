@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.itant.zhuling.R;
 import com.itant.zhuling.application.ZhuManager;
 import com.itant.zhuling.listener.PlayStateChangeListener;
+import com.itant.zhuling.tool.ServiceTool;
+import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.main.tab.music.bean.Music;
@@ -59,6 +61,12 @@ public class PlayingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        if (ZhuManager.getInstance().getMusicService() == null) {
+            ToastTool.showShort(getActivity(), "请稍候");
+            ServiceTool.startMusicService(getActivity());
+            return;
+        }
+
         switch (v.getId()) {
             case R.id.iv_back:
                 // 退出正在播放

@@ -20,6 +20,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.itant.zhuling.R;
 import com.itant.zhuling.application.ZhuManager;
 import com.itant.zhuling.service.PlayService;
+import com.itant.zhuling.tool.ServiceTool;
 import com.itant.zhuling.ui.main.MainActivity;
 import com.itant.zhuling.widget.leaf.FloatLeafLayout;
 import com.umeng.analytics.MobclickAgent;
@@ -48,7 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         if (ZhuManager.getInstance().getMusicService() == null) {
             // 音乐service挂了，重新启动
-            startMusicService();
+            ServiceTool.startMusicService(this);
             initView();
             initAnimation();
         } else {

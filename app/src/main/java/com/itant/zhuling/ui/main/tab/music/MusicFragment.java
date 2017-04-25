@@ -19,6 +19,7 @@ import com.itant.zhuling.application.ZhuManager;
 import com.itant.zhuling.event.music.MusicEvent;
 import com.itant.zhuling.event.music.MusicType;
 import com.itant.zhuling.listener.NetStateOnClickListener;
+import com.itant.zhuling.tool.ServiceTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
 import com.itant.zhuling.ui.base.BaseFragment;
@@ -177,6 +178,11 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                 break;
             default:
                 // 点击进入播放音乐界面
+                if (ZhuManager.getInstance().getMusicService() == null) {
+                    ToastTool.showShort(getActivity(), "请稍候");
+                    ServiceTool.startMusicService(getActivity());
+                    return;
+                }
                 ZhuManager.getInstance().getMusicService().play(music);
                 activity.showPlayingFragment();
                 break;
@@ -223,6 +229,11 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
                         if (action == MusicEvent.MUSIC_EVENT_PLAY) {
                             // 点击进入播放音乐界面
+                            if (ZhuManager.getInstance().getMusicService() == null) {
+                                ToastTool.showShort(getActivity(), "请稍候");
+                                ServiceTool.startMusicService(getActivity());
+                                return;
+                            }
                             ZhuManager.getInstance().getMusicService().play(music);
                             activity.showPlayingFragment();
                         }
@@ -232,6 +243,11 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                         music.setMp3Url(result.trim().replaceAll(" ", ""));
                         if (action == MusicEvent.MUSIC_EVENT_PLAY) {
                             // 点击进入播放音乐界面
+                            if (ZhuManager.getInstance().getMusicService() == null) {
+                                ToastTool.showShort(getActivity(), "请稍候");
+                                ServiceTool.startMusicService(getActivity());
+                                return;
+                            }
                             ZhuManager.getInstance().getMusicService().play(music);
                             activity.showPlayingFragment();
                         }
