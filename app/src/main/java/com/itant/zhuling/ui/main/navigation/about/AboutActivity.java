@@ -159,7 +159,6 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
         }
     }
 
-
     /**
      * 更新
      * @param force

@@ -74,7 +74,7 @@ public class AdvancedFragment extends BaseFragment implements AdvancedContract.V
         swipe_refresh_layout.setRefreshing(true);
         swipe_refresh_layout.setOnRefreshListener(this);
 
-        rv_news = (RecyclerView) view.findViewById(R.id.rv_music);
+        rv_news = (RecyclerView) view.findViewById(R.id.rv_news);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv_news.setLayoutManager(mLayoutManager);
         //rv_news.setHasFixedSize(true);如果加了这一句，又运用了开源动画库的话，那么第一次加载RecyclerView没有内容，也没有动画

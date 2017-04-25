@@ -71,7 +71,7 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
         swipe_refresh_layout.setRefreshing(true);
         swipe_refresh_layout.setOnRefreshListener(this);
 
-        rv_news = (RecyclerView) view.findViewById(R.id.rv_music);
+        rv_news = (RecyclerView) view.findViewById(R.id.rv_news);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv_news.setLayoutManager(mLayoutManager);
         //rv_news.setHasFixedSize(true);如果加了这一句，又运用了开源动画库的话，那么第一次加载RecyclerView没有内容，也没有动画
@@ -114,7 +114,11 @@ public class WritingFragment extends BaseFragment implements WritingContract.Vie
                         intent.setAction("android.intent.action.VIEW");
                         Uri content_url = Uri.parse(item.getUrl());
                         intent.setData(content_url);
-                        startActivity(intent);
+                        try {
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            ToastTool.showShort(getActivity(), "未找到浏览器");
+                        }
                     }
                 });
             }

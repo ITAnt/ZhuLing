@@ -78,7 +78,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
         swipe_refresh_layout.setRefreshing(true);
         swipe_refresh_layout.setOnRefreshListener(this);
 
-        rv_news = (RecyclerView) view.findViewById(R.id.rv_music);
+        rv_news = (RecyclerView) view.findViewById(R.id.rv_news);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv_news.setLayoutManager(mLayoutManager);
         rv_news.setItemAnimator(new DefaultItemAnimator());

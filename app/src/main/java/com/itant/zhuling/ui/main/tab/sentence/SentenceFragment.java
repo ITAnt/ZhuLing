@@ -33,7 +33,7 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
 
     private SentenceContract.Presenter mPresenter;
 
-    private RecyclerView rv_news;
+    private RecyclerView rv_sentence;
     private List<SentenceBean> mSentences;
     private CommonAdapter<SentenceBean> mAdapter;
 
@@ -71,14 +71,14 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
         swipe_refresh_layout.setRefreshing(true);
         swipe_refresh_layout.setOnRefreshListener(this);
 
-        rv_news = (RecyclerView) view.findViewById(R.id.rv_music);
+        rv_sentence = (RecyclerView) view.findViewById(R.id.rv_sentence);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        rv_news.setLayoutManager(mLayoutManager);
-        //rv_news.setHasFixedSize(true);如果加了这一句，又运用了开源动画库的话，那么第一次加载RecyclerView没有内容，也没有动画
+        rv_sentence.setLayoutManager(mLayoutManager);
+        //rv_sentence.setHasFixedSize(true);如果加了这一句，又运用了开源动画库的话，那么第一次加载RecyclerView没有内容，也没有动画
         // 在这里，无论是上拉加载更多还是下拉刷新我们用的都是SwipeRefreshLayout的加载动画，我们也很想集成强大的XRecyclerView和
         // LoadMoreRecyclerView，可是很遗憾，我两种都尝试过了，会和我们的AppBarLayout以及SwipeRefreshLayout有冲突，同学们可以
         // 尝试一下，我没有成功，或许是我的用法不对吧。
-        rv_news.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv_sentence.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -130,9 +130,9 @@ public class SentenceFragment extends BaseFragment implements SentenceContract.V
         animationAdapter.setFirstOnly(true);// 只有第一次有动画
         //animationAdapter.setDuration(800);
 
-        //rv_news.setAdapter(animationAdapter);
+        //rv_sentence.setAdapter(animationAdapter);
         // 我们已经在MultiItemTypeAdapter使用了item的动画，这里就不使用炫酷的Adapter动画了
-        rv_news.setAdapter(mAdapter);
+        rv_sentence.setAdapter(mAdapter);
 
         mPresenter = new SentencePresenter(getActivity(), this);
         mPresenter.getSentences(page);

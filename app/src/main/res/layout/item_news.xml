@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_news_item"
-    android:clickable="true">
+    android:clickable="true"
+    android:background="@drawable/ripple_item">
 
     <ImageView
         android:id="@+id/news_summary_photo_iv"

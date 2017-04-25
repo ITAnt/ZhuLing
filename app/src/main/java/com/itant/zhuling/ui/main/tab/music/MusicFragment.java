@@ -369,7 +369,6 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
     @Override
     public void onGetMusicSuc(List<Music> beans) {
-
         int preSize = mMusicBeans.size();
         if (page == START_PAGE) {
             // 是刷新操作，或者是第一次进来，要清空

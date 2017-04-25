@@ -19,7 +19,11 @@ public class SocialTool {
         Uri uri = Uri.parse("market://details?id="+context.getPackageName());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            ToastTool.showShort(context, "未安装应用市场");
+        }
     }
 
     /**
@@ -38,6 +42,7 @@ public class SocialTool {
             return true;
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
+            ToastTool.showShort(context, "未安装QQ或安装的版本不支持");
             return false;
         }
     }
@@ -50,7 +55,11 @@ public class SocialTool {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, content);
-        context.startActivity(Intent.createChooser(share, title));
+        try {
+            context.startActivity(Intent.createChooser(share, title));
+        } catch (Exception e) {
+            ToastTool.showShort(context, "未找到分享工具");
+        }
     }
 
     /**
@@ -61,6 +70,10 @@ public class SocialTool {
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            ToastTool.showShort(context, "未找到下载工具");
+        }
     }
 }

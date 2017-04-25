@@ -56,7 +56,7 @@
                     android:layout_width="150dp"
                     android:gravity="center_vertical|left"
                     android:layout_height="wrap_content"
-                    android:hint="请输入歌名"
+                    android:hint="请输入关键字"
                     android:textColorHint="@color/gray"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
