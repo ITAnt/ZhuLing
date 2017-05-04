@@ -94,7 +94,7 @@ public class MeizhiDetailActivity extends BaseSwipeActivity implements View.OnCl
         File file = new File(fullPath);
         Uri uri = UriTool.getUriFromFile(this, ZhuConstants.NAME_PROVIDE, file);
 
-        try {
+       try {
             MediaStore.Images.Media.insertImage(getContentResolver(), fullPath, picName, null);
             // 通知相册更新
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));

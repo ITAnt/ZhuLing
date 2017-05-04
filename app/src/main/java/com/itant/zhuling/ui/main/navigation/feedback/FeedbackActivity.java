@@ -44,7 +44,9 @@ public class FeedbackActivity extends BaseSwipeActivity implements FeedbackContr
             toolbar.setTitleTextColor(Color.WHITE);
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         et_feedback = (EditText) findViewById(R.id.et_feedback);
         findViewById(R.id.btn_submit).setOnClickListener(this);

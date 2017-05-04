@@ -9,4 +9,5 @@
     https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en-->
 
     <external-path name="my_images" path="Android/data/com.itant.zhuling" />
+    <external-path name="my_musics" path="zmusic" />
 </paths>

@@ -60,12 +60,11 @@ import com.itant.zhuling.tool.UITool;
 import com.itant.zhuling.tool.UriTool;
 import com.itant.zhuling.tool.image.BitmapTool;
 import com.itant.zhuling.ui.main.navigation.about.AboutActivity;
+import com.itant.zhuling.ui.main.navigation.download.DownloadActivity;
 import com.itant.zhuling.ui.main.navigation.feedback.FeedbackActivity;
 import com.itant.zhuling.ui.main.navigation.more.MoreActivity;
 import com.itant.zhuling.ui.main.navigation.notice.NoticeActivity;
 import com.itant.zhuling.ui.main.tab.advanced.AdvancedFragment;
-import com.itant.zhuling.ui.main.tab.csdn.CsdnFragment;
-import com.itant.zhuling.ui.main.tab.github.GithubFragment;
 import com.itant.zhuling.ui.main.tab.music.MusicFragment;
 import com.itant.zhuling.ui.main.tab.news.NewsFragment;
 import com.itant.zhuling.ui.main.tab.sentence.SentenceFragment;
@@ -91,6 +90,9 @@ import java.util.List;
 import cn.bmob.v3.Bmob;
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import zlc.season.rxdownload2.RxDownload;
+
+import static com.itant.zhuling.constant.ZhuConstants.DIRECTORY_ROOT_FILE_MUSIC;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         OnMenuItemClickListener, OnMenuItemLongClickListener, View.OnClickListener,
@@ -303,8 +305,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 iv_current_music.setImageResource(R.mipmap.music_xia_white);
                 break;
             case MusicType.MUSIC_TYPE_QIE:
-                iv_current_music.setImageResource(R.mipmap.music_qie_white);
-                break;
+                //iv_current_music.setImageResource(R.mipmap.music_qie_white);
+                ToastTool.showShort(this, "企鹅不听话了");
+                return;
             case MusicType.MUSIC_TYPE_YUN:
                 iv_current_music.setImageResource(R.mipmap.music_yun_white);
                 break;
@@ -364,12 +367,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .add("悦听", MusicFragment.class)
                 .add("美句", SentenceFragment.class)
                 .add("书法", WritingFragment.class)
-                .add("开源", GithubFragment.class)
-                .add("博客", CsdnFragment.class);
+                //.add("开源", GithubFragment.class)
+                //.add("博客", CsdnFragment.class)
+                .add("高级", AdvancedFragment.class);
 
-        if (PreferencesTool.getBoolean(this, "advanced")) {
+        /*if (PreferencesTool.getBoolean(this, "advanced")) {
             creator.add("高级", AdvancedFragment.class);
-        }
+        }*/
 
         adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), creator.create());
 
@@ -382,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onPageSelected(int position) {
-                currentTabPosition = position;
+                //currentTabPosition = position;
 
                 if (position == 1) {
                     // 切换到音乐栏的时候，搜索按钮才可见
@@ -392,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (position == 6) {
                         // 切换到高级模式了
                         if (Build.VERSION.SDK_INT >= 21) {
@@ -406,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
                         //getWindow().setNavigationBarColor(getResources().getColor(R.color.color_primary_red));
                     }
-                }
+                }*/
             }
 
             @Override
@@ -536,6 +540,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // 打开正在播放
                 showPlayingFragment();
                 break;
+
+            case R.id.nav_download:
+                // 打开下载界面
+                ActivityTool.startActivity(this, new Intent(this, DownloadActivity.class));
+                break;
+
             case R.id.nav_about:
                 // 打开关于界面
                 ActivityTool.startActivity(this, new Intent(this, AboutActivity.class));
@@ -613,6 +623,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_FILE_IMAGES);
         // 缓存目录
         FileTool.initDirectory(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_CACHE);
+        // 下载目录
+        FileTool.initDirectory(Environment.getExternalStorageDirectory() + DIRECTORY_ROOT_FILE_MUSIC);
+        RxDownload.getInstance(this)
+                //.retrofit(myRetrofit)             //若需要自己的retrofit客户端,可在这里指定
+                .defaultSavePath(Environment.getExternalStorageDirectory() + DIRECTORY_ROOT_FILE_MUSIC) //设置默认的下载路径
+                .maxThread(3)                       //设置最大线程
+                .maxRetryCount(3)                   //设置下载失败重试次数
+                .maxDownloadNumber(5);              //Service同时下载数量
     }
 
     private AlertDialog headDialog;
@@ -1125,7 +1143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // 当前Tab位置，如果是高级模式，那么隐藏的时候，状态栏变红，其他变绿
-    private int currentTabPosition;
+    //private int currentTabPosition;
     public void hidePlayingFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(0, R.anim.fragment_slide_down);
@@ -1134,14 +1152,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         isPlayFragmentShow = false;
 
         // 退出音乐播放界面，让状态栏变回原来的颜色
-        if (Build.VERSION.SDK_INT >= 21) {
+        /*if (Build.VERSION.SDK_INT >= 21) {
             if (currentTabPosition == 6) {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.color_primary_red_dark));
             } else {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
             }
-
-        }
+        }*/
     }
 
     public void onResume() {

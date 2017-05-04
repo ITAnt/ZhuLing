@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!--音乐下载列表-->
+    <LinearLayout
+        android:id="@+id/ll_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/size_dp_mini"
+        android:paddingBottom="@dimen/size_dp_mini"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:text="真的爱你"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:textColor="@color/txt_black"/>
+
+            <TextView
+                android:id="@+id/tv_singer"
+                android:text="Beyond"
+                android:textSize="@dimen/size_sp_small"
+                android:textColor="@color/gray"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/music_item_more"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tv_bitrate"
+                android:layout_width="wrap_content"
+                android:minWidth="24dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="未知"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:textSize="9sp"
+                android:clickable="false"
+                android:background="@drawable/shape_textview_radius"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/number_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_horizon"
+        android:layout_marginRight="@dimen/padding_horizon"
+        android:layout_marginTop="@dimen/size_dp_micro"
+        android:layout_marginBottom="@dimen/size_dp_micro"
+        app:progress_max="100"
+        app:progress_current="0"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_divider_height"
+        android:layout_marginLeft="@dimen/padding_horizon"
+        android:layout_marginRight="@dimen/padding_horizon"
+        android:background="@color/gray_slight"/>
+</LinearLayout>

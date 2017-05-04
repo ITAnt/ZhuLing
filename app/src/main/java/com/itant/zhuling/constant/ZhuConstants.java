@@ -21,17 +21,24 @@ public class ZhuConstants {
     /**
      * 应用外部根目录
      */
-    public static final String DIRECTORY_ROOT = "/Android/data/com.itant.zhuling";
+    private static final String DIRECTORY_ROOT = "/Android/data/com.itant.zhuling";
 
     /**
      * 文件根目录
      */
-    public static final String DIRECTORY_ROOT_FILE = DIRECTORY_ROOT + "/files";
+    private static final String DIRECTORY_ROOT_FILE = DIRECTORY_ROOT + "/files";
 
     /**
      * 图片根目录
      */
     public static final String DIRECTORY_ROOT_FILE_IMAGES = DIRECTORY_ROOT_FILE + "/images";
+
+    /**
+     * 音乐根目录
+     * 没有系统签名的应用不能直接访问根目录下的music文件夹
+     * http://stackoverflow.com/questions/28104934/environment-getexternalstoragepublicdirectoryenvironment-directory-music-is-re
+     */
+    public static final String DIRECTORY_ROOT_FILE_MUSIC = "/zmusic";
 
     /**
      * 缓存目录

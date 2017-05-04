@@ -5,16 +5,19 @@
         不放在group里就不会有选中颜色
     </group>-->
     <item
+        android:id="@+id/nav_notice"
+        android:icon="@mipmap/nav_notice"
+        android:title="通知" />
+
+    <item
         android:id="@+id/nav_play"
         android:icon="@mipmap/music_item_play"
         android:title="播放" />
 
     <item
-        android:id="@+id/nav_notice"
-        android:icon="@mipmap/nav_notice"
-        android:title="通知" />
-
-
+        android:id="@+id/nav_download"
+        android:icon="@mipmap/nav_download"
+        android:title="下载" />
 
     <item
         android:id="@+id/nav_about"

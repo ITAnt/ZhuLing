@@ -3,6 +3,7 @@ package com.itant.zhuling.ui.main.tab.music;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,12 +17,14 @@ import com.itant.library.recyclerview.CommonAdapter;
 import com.itant.library.recyclerview.base.ViewHolder;
 import com.itant.zhuling.R;
 import com.itant.zhuling.application.ZhuManager;
+import com.itant.zhuling.constant.ZhuConstants;
 import com.itant.zhuling.event.music.MusicEvent;
 import com.itant.zhuling.event.music.MusicType;
 import com.itant.zhuling.listener.NetStateOnClickListener;
 import com.itant.zhuling.tool.ServiceTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
+import com.itant.zhuling.tool.UriTool;
 import com.itant.zhuling.ui.base.BaseFragment;
 import com.itant.zhuling.ui.main.MainActivity;
 import com.itant.zhuling.ui.main.tab.music.bean.Music;
@@ -31,8 +34,18 @@ import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.x;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import zlc.season.rxdownload2.RxDownload;
+import zlc.season.rxdownload2.entity.DownloadBean;
+import zlc.season.rxdownload2.entity.DownloadEvent;
+import zlc.season.rxdownload2.entity.DownloadFlag;
+import zlc.season.rxdownload2.entity.DownloadRecord;
 
 /**
  * Created by iTant on 2017/3/26.
@@ -52,6 +65,9 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     private LinearLayoutManager mLayoutManager;
     private int mLastVisibleItem;
     private LinearLayout ll_empty;
+
+    // 后台监听下载进度
+    private List<Disposable> disposables;
 
     @Override
     public int getLayoutId() {
@@ -100,7 +116,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                     swipe_refresh_layout.setRefreshing(true);
                     // 加载更多
                     page++;
-                    mPresenter.getMusic(position, keywords, page);
+                    mPresenter.getMusic(musicTypePosition, keywords, page);
                 }
             }
 
@@ -128,7 +144,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                     protected void onContinueAction() {
                         super.onContinueAction();
                         // 不管流量，继续
-                        goPlayMusic(position);
+                        goPlayMusic(position, MusicEvent.MUSIC_EVENT_PLAY);
                     }
                 });
                 viewHolder.setOnClickListener(R.id.ll_more, new NetStateOnClickListener(getActivity()){
@@ -145,7 +161,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         rv_music.setAdapter(mAdapter);
 
         mPresenter = new MusicPresenter(getActivity(), this);
-        mPresenter.getMusic(position, "推荐", page);
+        mPresenter.getMusic(musicTypePosition, "推荐", page);
     }
 
     // 当前正在播放的音乐位置
@@ -153,7 +169,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     /**
      * 开始播放音乐
      */
-    private void goPlayMusic(int position) {
+    private void goPlayMusic(int position, int musicEvent) {
         // 上次播放的音乐恢复正常状态
         if (lastPlayPosition != -1) {
             mMusicBeans.get(lastPlayPosition).setPlaying(false);
@@ -165,18 +181,34 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         music.setPlaying(true);
         lastPlayPosition = position;
         mAdapter.notifyItemChanged(lastPlayPosition);
+        getDownloadUrl(position, musicEvent);
+    }
 
+    /**
+     * 准备下载音乐
+     */
+    private void getDownloadUrl(int position, int musicEvent) {
+        Music music = mMusicBeans.get(position);
         MainActivity activity = (MainActivity) getActivity();
-        switch (MusicFragment.this.position) {
+        switch (MusicFragment.this.musicTypePosition) {
             case MusicType.MUSIC_TYPE_GOU:
                 // 小狗的下载链接要另外获取
-                onMusicAction(MusicType.MUSIC_TYPE_GOU, activity, music, MusicEvent.MUSIC_EVENT_PLAY);
+                dealSpecialMusic(MusicType.MUSIC_TYPE_GOU, activity, music, musicEvent);
                 break;
 
             case MusicType.MUSIC_TYPE_KU:
-                onMusicAction(MusicType.MUSIC_TYPE_KU, activity, music, MusicEvent.MUSIC_EVENT_PLAY);
+                // 酷的下载链接也要另外获取
+                dealSpecialMusic(MusicType.MUSIC_TYPE_KU, activity, music, musicEvent);
                 break;
             default:
+                dealCommonMusic(activity, music, musicEvent);
+                break;
+        }
+    }
+
+    private void dealCommonMusic(final MainActivity activity, final Music music, final int action) {
+        switch (action) {
+            case MusicEvent.MUSIC_EVENT_PLAY:
                 // 点击进入播放音乐界面
                 if (ZhuManager.getInstance().getMusicService() == null) {
                     ToastTool.showShort(getActivity(), "请稍候");
@@ -186,21 +218,76 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                 ZhuManager.getInstance().getMusicService().play(music);
                 activity.showPlayingFragment();
                 break;
+
+            case MusicEvent.MUSIC_EVENT_COPY:
+                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("music", music.getMp3Url());
+                manager.setPrimaryClip(clipData);
+                ToastTool.showShort(getActivity(), "已复制到剪贴板");
+                break;
+
+            case MusicEvent.MUSIC_EVENT_DOWNLOAD_BROWSER:
+                // 浏览器下载
+                SocialTool.downloadMusic(getActivity(), music.getMp3Url());
+                break;
+
+            case MusicEvent.MUSIC_EVENT_DOWNLOAD:
+                DownloadBean bean = new DownloadBean();
+                //bean.setSavePath(Environment.getExternalStorageDirectory() + ZhuConstants.DIRECTORY_ROOT_FILE_MUSIC);
+                bean.setUrl(music.getMp3Url());
+                String fileName = music.getFileName();
+
+                String suffixName;
+                if (!TextUtils.isEmpty(fileName)) {
+                    int suffixIndex = fileName.lastIndexOf(".");
+                    if (suffixIndex == -1) {
+                        suffixName = ".mp3";
+                    } else {
+                        suffixName = fileName.substring(suffixIndex);
+                    }
+                } else {
+                    suffixName = ".mp3";
+                }
+
+                bean.setSaveName(music.getName() + "-" + music.getSinger() + suffixName);
+                bean.setExtra1(music.getName());
+                bean.setExtra2(music.getSinger());
+                bean.setExtra3(music.getBitrate());
+                // 本应用下载
+                RxDownload.getInstance(getActivity())
+                        .serviceDownload(bean)   // 添加一个下载任务
+                        .subscribe(new Consumer<Object>() {
+                            @Override
+                            public void accept(Object o) throws Exception {
+                                ToastTool.showShort(getActivity(), "下载" + "《" + music.getName() + "》");
+                                onProgressChanged();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                ToastTool.showShort(getActivity(), "添加任务失败");
+                            }
+                        });
+                break;
+
+            case MusicEvent.MUSIC_EVENT_SHARE:
+                SocialTool.shareApp(getActivity(), "分享音乐", "我发现了一首非常好听的歌曲，你也听听吧！"
+                        + "《" + music.getName() + "》" + music.getMp3Url());
+                break;
         }
     }
 
-    /**
-     * 获取真正下载地址
-     * @param activity
-     * @param music
-     */
-    private void onMusicAction(final int type, final MainActivity activity, final Music music, final int action) {
+    private void dealSpecialMusic(final int type, final MainActivity activity, final Music music, final int action) {
         org.xutils.http.RequestParams params = new org.xutils.http.RequestParams(music.getMp3Url());
         params.setCancelFast(true);
 
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                if (TextUtils.isEmpty(result)) {
+                    ToastTool.showShort(getActivity(), "没有相应的下载地址");
+                    return;
+                }
                 switch (type) {
                     case MusicType.MUSIC_TYPE_GOU:
 
@@ -221,43 +308,34 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        if (!TextUtils.isEmpty(url)) {
-                            music.setMp3Url(url);
+                        if (TextUtils.isEmpty(url)) {
                             ToastTool.showShort(getActivity(), "没有找到下载地址");
                             return;
                         }
 
-                        if (action == MusicEvent.MUSIC_EVENT_PLAY) {
-                            // 点击进入播放音乐界面
-                            if (ZhuManager.getInstance().getMusicService() == null) {
-                                ToastTool.showShort(getActivity(), "请稍候");
-                                ServiceTool.startMusicService(getActivity());
-                                return;
-                            }
-                            ZhuManager.getInstance().getMusicService().play(music);
-                            activity.showPlayingFragment();
-                        }
+                        Music tempGouMusic = new Music();
+                        tempGouMusic.setMp3Url(url);
+                        tempGouMusic.setName(music.getName());
+                        tempGouMusic.setSinger(music.getSinger());
+
+                        // 转化为普通任务
+                        dealCommonMusic(activity, tempGouMusic, action);
                         break;
 
                     case MusicType.MUSIC_TYPE_KU:
-                        music.setMp3Url(result.trim().replaceAll(" ", ""));
-                        if (action == MusicEvent.MUSIC_EVENT_PLAY) {
-                            // 点击进入播放音乐界面
-                            if (ZhuManager.getInstance().getMusicService() == null) {
-                                ToastTool.showShort(getActivity(), "请稍候");
-                                ServiceTool.startMusicService(getActivity());
-                                return;
-                            }
-                            ZhuManager.getInstance().getMusicService().play(music);
-                            activity.showPlayingFragment();
-                        }
+                        Music tempKuMusic = new Music();
+                        tempKuMusic.setMp3Url(result.trim().replaceAll(" ", ""));
+                        tempKuMusic.setName(music.getName());
+                        tempKuMusic.setSinger(music.getSinger());
+                        // 转化为普通任务
+                        dealCommonMusic(activity, tempKuMusic, action);
                         break;
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                ToastTool.showShort(getActivity(), "这首歌不能下载了");
+                ToastTool.showShort(getActivity(), "这首歌已下架");
             }
 
             @Override
@@ -277,17 +355,16 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
      */
     private AlertDialog musicActionDialog;
     private void selectActionDialog(final int position) {
-        final Music music = mMusicBeans.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // setMessage会把item覆盖掉
 
         musicActionDialog = builder.create();
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_music_action, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_music_search_action, null);
         // 播放
         view.findViewById(R.id.ll_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goPlayMusic(position);
+                goPlayMusic(position, MusicEvent.MUSIC_EVENT_PLAY);
                 if (musicActionDialog != null) {
                     musicActionDialog.dismiss();
                 }
@@ -298,22 +375,29 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         view.findViewById(R.id.ll_copy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("music", music.getMp3Url());
-                manager.setPrimaryClip(clipData);
-                ToastTool.showShort(getActivity(), "已复制到剪贴板");
-
+                getDownloadUrl(position, MusicEvent.MUSIC_EVENT_COPY);
                 if (musicActionDialog != null) {
                     musicActionDialog.dismiss();
                 }
             }
         });
 
-        // 下载
-        view.findViewById(R.id.ll_download).setOnClickListener(new View.OnClickListener() {
+        // 使用本应用下载(如果已经在列表中则不下载)
+        view.findViewById(R.id.ll_download_zhuling).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialTool.downloadMusic(getActivity(), music.getMp3Url());
+                getDownloadUrl(position, MusicEvent.MUSIC_EVENT_DOWNLOAD);
+                if (musicActionDialog != null) {
+                    musicActionDialog.dismiss();
+                }
+            }
+        });
+
+        // 用浏览器下载
+        view.findViewById(R.id.ll_download_browser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDownloadUrl(position, MusicEvent.MUSIC_EVENT_DOWNLOAD_BROWSER);
                 if (musicActionDialog != null) {
                     musicActionDialog.dismiss();
                 }
@@ -324,8 +408,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         view.findViewById(R.id.ll_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SocialTool.shareApp(getActivity(), "分享音乐", "我发现了一首非常好听的歌曲，你也听听吧！"
-                        + "《" + music.getName() + "》" + music.getMp3Url());
+                getDownloadUrl(position, MusicEvent.MUSIC_EVENT_SHARE);
                 if (musicActionDialog != null) {
                     musicActionDialog.dismiss();
                 }
@@ -340,7 +423,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
     public void onRefresh() {
         // 下拉刷新
         page = START_PAGE;
-        mPresenter.getMusic(position, keywords, page);
+        mPresenter.getMusic(musicTypePosition, keywords, page);
     }
 
     // 搜索按钮是否可见
@@ -359,7 +442,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         }
     }
 
-    private int position = MusicType.MUSIC_TYPE_JIAN;// 默认是推荐
+    private int musicTypePosition = MusicType.MUSIC_TYPE_JIAN;// 默认是推荐
     private String keywords;
     /**
      * @param position //0关 1虾 2鹅 3云 4酷 5熊 6狗 7推荐
@@ -370,7 +453,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
             return;
         }
 
-        this.position = position;
+        this.musicTypePosition = position;
         this.keywords = keywords;
         swipe_refresh_layout.setRefreshing(true);
         // 每次点击都是去拉第一页
@@ -449,5 +532,82 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
         swipe_refresh_layout.setRefreshing(false);
 
         lastPlayPosition = -1;
+    }
+
+    /**
+     * 监听下载进度
+     */
+    private void onProgressChanged() {
+        // 获取所有的下载任务
+        RxDownload.getInstance(getActivity()).getTotalDownloadRecords().subscribe(new Consumer<List<DownloadRecord>>() {
+            @Override
+            public void accept(@NonNull List<DownloadRecord> downloadRecords) throws Exception {
+                // 接收事件可以在任何地方接收，不管该任务是否开始下载均可接收.
+                disposables = new ArrayList<>();
+                for (int i = 0, j = downloadRecords.size(); i < j; i++) {
+                    final DownloadRecord record = downloadRecords.get(i);
+                    // 只监听未完成的
+                    if (record.getFlag() != DownloadFlag.COMPLETED) {
+                        Disposable disposable =  RxDownload.getInstance(getActivity()).receiveDownloadStatus(record.getUrl())
+                                .subscribe(new Consumer<DownloadEvent>() {
+                                    @Override
+                                    public void accept(DownloadEvent event) throws Exception {
+                                        //当事件为Failed时, 才会有异常信息, 其余时候为null.
+                                        if (event.getFlag() == DownloadFlag.FAILED) {
+
+                                        }
+
+                                        if (event.getFlag() == DownloadFlag.COMPLETED) {
+                                            ToastTool.showShort(getActivity(), "《" + record.getExtra1() + "》" + "下载完成");
+
+                                            //利用url获取
+                                            File[] files = RxDownload.getInstance(getActivity()).getRealFiles(record.getUrl());
+                                            if (files != null) {
+                                                File file = files[0];
+                                                if (file == null || file.length() <= 0) {
+                                                    return;
+                                                }
+
+                                                try {
+                                                    // 通知媒体中心更新列表(只用下面这一句也可以，而且很及时，插入即可在媒体中心列表出现。但是详细信息比如艺术家、标题是由媒体中心自己插入)
+                                                    getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                                            UriTool.getUriFromFile(getActivity(), ZhuConstants.NAME_PROVIDE, file)));
+
+                                                /*ContentValues contentValues = new ContentValues();
+                                                contentValues.put(MediaStore.Audio.AudioColumns.DATA, file.getAbsolutePath());
+                                                contentValues.put(MediaStore.Audio.AudioColumns.TITLE, record.getExtra1());
+                                                contentValues.put(MediaStore.Audio.AudioColumns.DISPLAY_NAME, record.getExtra1());
+                                                contentValues.put(MediaStore.Audio.AudioColumns.ARTIST, record.getExtra2());
+                                                contentValues.put(MediaStore.Audio.AudioColumns.ALBUM, "竹翎");
+                                                // more columns should be filled from here
+                                                Uri uri = getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, contentValues);
+
+                                                // 通知媒体中心更新列表
+                                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));*/
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                        disposables.add(disposable);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (disposables == null) {
+            return;
+        }
+        for (Disposable disposable : disposables) {
+            if (disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
     }
 }

@@ -13,4 +13,5 @@ public class MusicType {
     public static final int MUSIC_TYPE_XIONG    = 5;// 熊
     public static final int MUSIC_TYPE_GOU      = 6;// 狗
     public static final int MUSIC_TYPE_JIAN     = 7;// 推荐
+    public static final int MUSIC_TYPE_COMMON   = 8;// 链接可以直接下载的
 }

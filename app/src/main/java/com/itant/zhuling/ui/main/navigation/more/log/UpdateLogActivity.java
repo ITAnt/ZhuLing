@@ -46,7 +46,9 @@ public class UpdateLogActivity extends BaseSwipeActivity implements UpdateLogCon
             toolbar.setTitleTextColor(Color.WHITE);
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         ll_empty = (LinearLayout) findViewById(R.id.ll_empty);
 

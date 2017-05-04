@@ -7,8 +7,8 @@ android {
         applicationId "com.itant.zhuling"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // 导包一时爽，方法数超标了
@@ -121,4 +121,10 @@ dependencies {
 
     // 友盟统计
     compile 'com.umeng.analytics:analytics:latest.integration'
+
+    // 进度条
+    compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+
+    // rxdownload
+    compile 'zlc.season:rxdownload2:2.0.0-beta4'
 }

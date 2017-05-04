@@ -46,7 +46,9 @@ public class DonateActivity extends BaseSwipeActivity implements View.OnLongClic
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         findViewById(R.id.iv_money).setOnLongClickListener(this);
     }

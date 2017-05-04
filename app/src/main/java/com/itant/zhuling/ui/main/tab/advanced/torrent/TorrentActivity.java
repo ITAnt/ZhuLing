@@ -46,7 +46,9 @@ public class TorrentActivity extends BaseActivity implements TorrentContract.Vie
             toolbar.setTitleTextColor(Color.WHITE);
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         tv_log = (TextView) findViewById(R.id.tv_log);
 

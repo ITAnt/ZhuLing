@@ -58,7 +58,9 @@ public class AboutActivity extends BaseSwipeActivity implements View.OnClickList
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         TextView tv_version = (TextView) findViewById(R.id.tv_version);
         tv_version.setText("竹翎 V" + AppTool.getVersionName(this));

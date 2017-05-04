@@ -48,7 +48,9 @@ public class NoticeActivity extends BaseSwipeActivity implements NoticeContract.
             toolbar.setTitleTextColor(Color.WHITE);
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         tv_notice = (TextView) findViewById(R.id.tv_notice);
         tv_title = (TextView) findViewById(R.id.tv_title);

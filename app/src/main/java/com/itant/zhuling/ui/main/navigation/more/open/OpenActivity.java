@@ -19,7 +19,7 @@ public class OpenActivity extends BaseSwipeActivity {
     private final String[] opens = {"rxandroid", "nineoldandroids", "daimajia", "smarttablayout",
             "contextmenu", "eventbus", "smooth-app-bar-layout", "circleimageview",
             "recyclerview-animators", "swipeback", "calligraphy", "CommonAdapter",
-            "TagLayout", "PhotoView", "xUtils", "umeng"};
+            "TagLayout", "PhotoView", "xUtils", "umeng", "RxDownload", "NumberProgressBar"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,9 @@ public class OpenActivity extends BaseSwipeActivity {
             toolbar.setTitleTextColor(Color.WHITE);
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         TagLayout tl_open = (TagLayout) findViewById(R.id.tl_open);
         for (String open : opens) {

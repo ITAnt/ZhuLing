@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.itant.library.recyclerview.CommonAdapter;
@@ -130,8 +131,10 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                     Glide.with(mContext)
                             .load(item.getImgsrc())
                             .asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)// 缓存所有尺寸的图片
                             .placeholder(R.mipmap.empty)
                             .error(R.mipmap.empty)
+                            .override(256, 256)
                             .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>

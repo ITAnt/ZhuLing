@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.itant.zhuling.R;
 import com.umeng.analytics.MobclickAgent;
 
@@ -57,8 +59,12 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
         ImageView iv_top = (ImageView) findViewById(R.id.iv_top);
         // 加了placeholder可以解决match_parent不全屏的bug
         Glide.with(this).load(url)
-                .placeholder(R.mipmap.empty)
-                .error(R.mipmap.empty)
+                //.placeholder(R.mipmap.empty)
+                //.error(R.mipmap.empty)
+                .priority(Priority.HIGH)
+                .override(256, 256)// 两边都使用override方法可以让过渡非常流畅
+                .diskCacheStrategy(DiskCacheStrategy.ALL)// 缓存所有尺寸的图片
+                .dontAnimate()
                 .into(iv_top);
 
         ll_scroll = (LinearLayout) findViewById(R.id.ll_scroll);
@@ -72,7 +78,9 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
         // 沉浸式状态栏下面这三句话让顶部出现返回按钮
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
 
         // 给页面设置工具栏
