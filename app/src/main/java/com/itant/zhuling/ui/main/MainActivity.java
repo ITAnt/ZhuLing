@@ -52,7 +52,6 @@ import com.itant.zhuling.tool.ActivityTool;
 import com.itant.zhuling.tool.AppTool;
 import com.itant.zhuling.tool.FileTool;
 import com.itant.zhuling.tool.PermissionTool;
-import com.itant.zhuling.tool.PreferencesTool;
 import com.itant.zhuling.tool.ServiceTool;
 import com.itant.zhuling.tool.SocialTool;
 import com.itant.zhuling.tool.ToastTool;
@@ -146,17 +145,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 直接获取更新信息
             presenter.getUpdateInfo();
         } else {
-            boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
-            if (!hasGranted) {
-                // 申请权限
-                PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
-            } else {
-                // 初始化必要的目录
-                initDirectory();
-                // 直接获取更新信息
-                presenter.getUpdateInfo();
-            }
+            // 有一些6.0以上的手机是不需要动态申请权限的，比如nubia，所以我们先检查是否有权限
+            // 申请权限
+            PermissionTool.initPermission(this, PERMISSIONS_NECESSARY, REQUEST_NECESSARY_PERMISSIONS);
         }
+
+        // 初始化必要的目录
+        try {
+            initDirectory();
+        } catch (Exception e) {
+            e.printStackTrace();
+            onPermissionFail(REQUEST_NECESSARY_PERMISSIONS);
+        }
+
+        // 获取更新信息
+        presenter.getUpdateInfo();
     }
 
     /**
@@ -395,7 +398,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     ll_search.setVisibility(View.GONE);
                 }
 
-
                 /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (position == 6) {
                         // 切换到高级模式了
@@ -581,16 +583,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onPermissionSuccess(int requestCode) {
-        // 已经赋予过权限了
-        boolean hasGranted = PreferencesTool.getBoolean(this, "hasGranted");
-        if (!hasGranted) {
-            // 第一次被赋予权限
-            PreferencesTool.putBoolean(this, "hasGranted", true);
-
-            ToastTool.showLong(this, "若不能正常加载请退出重新打开");
-            // 重新启动Activity
-            recreate();
-        }
+        ToastTool.showLong(this, "若不能正常加载请退出重新打开");
+        // 重新启动Activity
+        recreate();
     }
 
     @Override
