@@ -57,15 +57,39 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
 
         String url = getIntent().getStringExtra("url_top");
         ImageView iv_top = (ImageView) findViewById(R.id.iv_top);
-        // 加了placeholder可以解决match_parent不全屏的bug
+
+        // 加placeholder可以解决match_parent不全屏的bug，我们这里用override可以不加
         Glide.with(this).load(url)
                 //.placeholder(R.mipmap.empty)
                 //.error(R.mipmap.empty)
                 .priority(Priority.HIGH)
                 .override(256, 256)// 两边都使用override方法可以让过渡非常流畅
-                .diskCacheStrategy(DiskCacheStrategy.ALL)// 缓存所有尺寸的图片
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存所有尺寸的图片
                 .dontAnimate()
                 .into(iv_top);
+
+        Glide.with(this).load(url)
+                .priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存所有尺寸的图片
+                .into(iv_top);
+
+        /*Glide.with(this)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                   Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        NewsDetailActivity.this.supportStartPostponedEnterTransition();
+                        return false;
+                    }
+                })
+                .into(iv_top);*/
 
         ll_scroll = (LinearLayout) findViewById(R.id.ll_scroll);
         String postId = getIntent().getStringExtra("postId");

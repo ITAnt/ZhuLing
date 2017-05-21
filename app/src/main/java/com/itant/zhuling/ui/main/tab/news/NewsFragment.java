@@ -128,10 +128,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                         iv_news_summary.setImageResource(R.mipmap.empty);
                     }
 
+                    // 关于glide跨activity加载图片造成transition动画不流畅的解决办法参考：
+                    // http://myhexaville.com/2017/01/23/android-make-shared-transition-faster-better/
                     Glide.with(mContext)
                             .load(item.getImgsrc())
                             .asBitmap()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)// 缓存所有尺寸的图片
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存所有尺寸的图片
                             .placeholder(R.mipmap.empty)
                             .error(R.mipmap.empty)
                             .override(256, 256)
@@ -143,6 +145,15 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                             iv_news_summary.setImageBitmap(resource);
                         }
                     });
+                    /*Glide.with(mContext)
+                            .load(item.getImgsrc()).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(new ImageViewTarget<GlideDrawable>(iv_news_summary) {
+                                @Override
+                                protected void setResource(GlideDrawable resource) {
+                                    // 还可以动态设置背景和字体颜色，参考：https://github.com/IhorKlimov/Immersive-app
+                                    iv_news_summary.setImageDrawable(resource.getCurrent());
+                                }
+                            });*/
                 } else {
                     // 设置默认图片
                     iv_news_summary.setImageResource(R.mipmap.empty);
@@ -160,8 +171,8 @@ public class NewsFragment extends BaseFragment implements NewsContract.View, Swi
                             // 可以实现共享动画
                             View sharedView = viewHolder.getView(R.id.news_summary_photo_iv);
                             String transitionName = getString(R.string.transition_name_news_to_detail);
-                            ActivityOptions transitionActivityOptions = null;
-                            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName);
+                            ActivityOptions transitionActivityOptions =
+                                    ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, transitionName);
                             startActivity(intent, transitionActivityOptions.toBundle());
                         } else {
                             ActivityTool.startActivity(getActivity(), intent);
