@@ -77,6 +77,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
 
     @Override
     public void initViews(View view) {
+        disposables = new ArrayList<>();
         ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
 
         swipe_refresh_layout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
@@ -317,6 +318,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                         tempGouMusic.setMp3Url(url);
                         tempGouMusic.setName(music.getName());
                         tempGouMusic.setSinger(music.getSinger());
+                        tempGouMusic.setBitrate(music.getBitrate());
 
                         // 转化为普通任务
                         dealCommonMusic(activity, tempGouMusic, action);
@@ -327,6 +329,7 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
                         tempKuMusic.setMp3Url(result.trim().replaceAll(" ", ""));
                         tempKuMusic.setName(music.getName());
                         tempKuMusic.setSinger(music.getSinger());
+                        tempKuMusic.setBitrate(music.getBitrate());
                         // 转化为普通任务
                         dealCommonMusic(activity, tempKuMusic, action);
                         break;
@@ -543,7 +546,6 @@ public class MusicFragment extends BaseFragment implements MusicContract.View, S
             @Override
             public void accept(@NonNull List<DownloadRecord> downloadRecords) throws Exception {
                 // 接收事件可以在任何地方接收，不管该任务是否开始下载均可接收.
-                disposables = new ArrayList<>();
                 for (int i = 0, j = downloadRecords.size(); i < j; i++) {
                     final DownloadRecord record = downloadRecords.get(i);
                     // 只监听未完成的
