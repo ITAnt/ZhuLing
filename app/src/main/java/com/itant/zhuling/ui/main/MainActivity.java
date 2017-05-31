@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.CALL_PHONE
     };
     private CircleImageView civ_head;
 

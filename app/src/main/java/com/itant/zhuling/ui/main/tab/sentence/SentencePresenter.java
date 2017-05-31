@@ -28,7 +28,9 @@ public class SentencePresenter implements SentenceContract.Presenter {
         query.addWhereNotEqualTo("objectId", "");
         query.setLimit(10);
         query.setSkip(10*page);
-        //执行查询方法
+        // 根据创建时间排序
+        query.order("createdAt");
+        // 执行查询方法
         query.findObjects(mContext, new FindListener<SentenceBean>() {
             @Override
             public void onSuccess(List<SentenceBean> list) {
