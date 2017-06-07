@@ -103,4 +103,19 @@
     <style name="BoldText">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="AppTheme.ZhuNoActionBar">
+        <!-- 允许使用transitions -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="colorPrimary">@color/transparent</item>-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+
+        <item name="colorPrimary">#4caf50</item>
+        <item name="colorPrimaryDark">#388e3c</item>
+        <!--改变下面这个颜色可以改变返回按钮的颜色-->
+        <item name="android:textColorSecondary">#ffffff</item>
+    </style>
 </resources>

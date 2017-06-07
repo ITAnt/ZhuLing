@@ -31,12 +31,12 @@
                 android:gravity="center_vertical"
                 android:visibility="gone"
                 android:paddingRight="@dimen/activity_horizontal_margin">
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="竹翎"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/size_sp_huge"/>
+                    android:textSize="@dimen/size_sp_huge"/>-->
 
                 <View
                     android:layout_width="0dp"
