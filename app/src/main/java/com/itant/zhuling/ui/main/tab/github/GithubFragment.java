@@ -58,6 +58,8 @@ public class GithubFragment extends BaseFragment implements SwipeRefreshLayout.O
         // 根据网络连接情况，设置缓存模式，
         // 可以读取文件缓存(manifest生效)
         settings.setAllowFileAccess(true);
+        // 开启 DOM storage API 功能（极大加快WebView加载速度）
+        settings.setDomStorageEnabled(true);
 
         wv_github.setWebChromeClient(new WebChromeClient());
         wv_github.setWebViewClient(new MyClient() {});//希望点击链接继续在当前browser中响应，必须覆盖 WebViewClient对象。
