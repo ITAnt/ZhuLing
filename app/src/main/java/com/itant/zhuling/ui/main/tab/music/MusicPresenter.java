@@ -1,6 +1,7 @@
 package com.itant.zhuling.ui.main.tab.music;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.itant.zhuling.event.music.MusicType;
 import com.itant.zhuling.ui.main.tab.music.bean.Music;
@@ -30,7 +31,16 @@ public class MusicPresenter implements MusicContract.Presenter {
     }
 
     @Override
-    public void getMusic(int position, String keywords, int page) {
+    public void getMusic(int position, String words, int page) {
+        String keywords = words;
+        if (position != MusicType.MUSIC_TYPE_JIAN) {
+            keywords = words.replaceAll(" ", "");
+            if (TextUtils.isEmpty(keywords)) {
+                mView.onGetMusicFail("关键字不能为空");
+                return;
+            }
+        }
+
         try {
             switch (position) {
                 case MusicType.MUSIC_TYPE_CLOSE:
