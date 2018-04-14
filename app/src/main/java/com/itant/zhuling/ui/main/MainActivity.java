@@ -736,7 +736,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 case REQUEST_CODE_ALBUMS:
                     // 编辑一下从本地选择的图片，以减少大小
-                    editAlbumsImage(data);
+                    int result = editAlbumsImage(data);
+                    if (result == -1) {
+                        ToastTool.showShort(this, "获取图片失败");
+                    }
                     break;
 
                 case REQUEST_CODE_IMAGE_EDITED:
@@ -766,29 +769,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * 编辑从相册选择的图片，以压缩图片大小（仍然可以保持高质量），压缩速度也还不错
      * @param data
+     * @return -1: 获取图片文件失败
      */
-    private void editAlbumsImage(Intent data) {
-        Uri tempUri = data.getData();
-        if (tempUri == null) {
-            return;
+    private int editAlbumsImage(Intent data) {
+        Uri fromTempUri = data.getData();
+        if (fromTempUri == null) {
+            return -1;
         }
 
-        // 编辑头像的数据来源于选择的图片
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(tempUri, "image/*");
+        // 小米Android 8.0.0不能直接修改原相册的图片，需要复制到临时文件destTempFile，然后将destTempFile交给系统裁剪工具处理
+        File destTempFile = FileTool.createTempImageFile(this);
+        Uri toTempUri = FileTool.getTempImageUri(this, fromTempUri, destTempFile);
 
-        // 这里是个大坑！！！！！！！输出文件的URI必须是Uri.fromFile获取得到的，不管sdk版本为多少，这估计是谷歌开发者的一个bug
-        File realFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ZhuConstants.HEAD_FULL_NAME);
-        Uri realUri = Uri.fromFile(realFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, realUri);
+        if (toTempUri == null) {
+            return -1;
+        }
 
-        //将存储图片的uri读写权限授权给剪裁工具应用，数据来源和出处都要授权
-        PermissionTool.grantUriPermission(this, intent, tempUri);
-        PermissionTool.grantUriPermission(this, intent, realUri);
+        // 临时头像的输入路径同时也是输出路径
+        Intent croppingImageIntent = getIntentOfCroppingImage(toTempUri);
+        PermissionTool.grantUriPermission(this, croppingImageIntent, toTempUri);
+        if (croppingImageIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(croppingImageIntent, REQUEST_CODE_IMAGE_EDITED);
+        } else {
+            return -1;
+        }
 
-        setIntentParams(intent);
+        return 0;
+    }
 
-        startActivityForResult(intent, REQUEST_CODE_IMAGE_EDITED);
+    public static Intent getIntentOfCroppingImage(@NonNull Uri imageUri) {
+        Intent croppingImageIntent = new Intent("com.android.camera.action.CROP");
+        croppingImageIntent.setDataAndType(imageUri, "image/*");
+        croppingImageIntent.putExtra("crop", "true");
+        //crop into circle image
+//        croppingImageIntent.putExtra("circleCrop", "true");
+        //The proportion of the crop box is 1:1
+        croppingImageIntent.putExtra("aspectX", 1);
+        croppingImageIntent.putExtra("aspectY", 1);
+        //Crop the output image size
+        croppingImageIntent.putExtra("outputX", 256);//输出的最终图片文件的尺寸, 单位是pixel
+        croppingImageIntent.putExtra("outputY", 256);
+        //scale selected content
+        croppingImageIntent.putExtra("scale", true);
+        //image type
+        croppingImageIntent.putExtra("outputFormat", "JPEG");
+        croppingImageIntent.putExtra("noFaceDetection", true);
+        //false - don't return uri |  true - return uri
+        croppingImageIntent.putExtra("return-data", true);//
+        croppingImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        return croppingImageIntent;
     }
 
     /**

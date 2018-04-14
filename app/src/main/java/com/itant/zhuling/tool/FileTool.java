@@ -2,9 +2,14 @@ package com.itant.zhuling.tool;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
+import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+
+import com.itant.zhuling.constant.ZhuConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 /**
@@ -324,5 +330,67 @@ public class FileTool {
 		} else {
 			return fileName;
 		}
+	}
+
+	public static File createTempImageFile(@NonNull Context context) {
+		return new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ ZhuConstants.HEAD_FULL_NAME);
+	}
+
+	public static Uri getTempImageUri(Context context, Uri sourceTempUri, File destTempFile) {
+		Uri destTempUri = null;
+
+		FileInputStream inputStream = null;
+		FileChannel inputChannel = null;
+		FileOutputStream outputStream = null;
+		FileChannel outputChannel = null;
+		try {
+			inputStream = ((FileInputStream) context.getContentResolver().openInputStream(sourceTempUri));
+			if (inputStream == null) {
+				return null;
+			}
+			inputChannel = inputStream.getChannel();
+			if (inputChannel == null) {
+				return null;
+			}
+
+			outputStream = new FileOutputStream(destTempFile);
+			outputChannel = outputStream.getChannel();
+			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+
+			destTempUri = FileProvider.getUriForFile(context, ZhuConstants.NAME_PROVIDE, destTempFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (inputChannel != null) {
+				try {
+					inputChannel.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (outputStream != null) {
+				try {
+					outputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (outputChannel != null) {
+				try {
+					outputChannel.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return destTempUri;
 	}
 }
