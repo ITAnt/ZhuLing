@@ -105,4 +105,13 @@ public class MeizhiDetailActivity extends BaseSwipeActivity implements View.OnCl
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bitmap != null) {
+            bitmap.recycle();
+            bitmap = null;
+        }
+    }
 }
