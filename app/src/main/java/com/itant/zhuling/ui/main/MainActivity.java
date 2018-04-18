@@ -743,7 +743,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
 
                 case REQUEST_CODE_IMAGE_EDITED:
-                    // 由于也编辑的时候设置了MediaStore.EXTRA_OUTPUT，会直接保存到我们的文件夹里，直接设置头像即可
+                    // 由于在编辑的时候设置了MediaStore.EXTRA_OUTPUT，会直接保存到我们的文件夹里，直接设置头像即可
                     setHeadImage();
                     break;
             }
@@ -807,8 +807,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         croppingImageIntent.putExtra("aspectX", 1);
         croppingImageIntent.putExtra("aspectY", 1);
         //Crop the output image size
-        croppingImageIntent.putExtra("outputX", 256);//输出的最终图片文件的尺寸, 单位是pixel
-        croppingImageIntent.putExtra("outputY", 256);
+        croppingImageIntent.putExtra("outputX", 512);//输出的最终图片文件的尺寸, 单位是pixel
+        croppingImageIntent.putExtra("outputY", 512);
         //scale selected content
         croppingImageIntent.putExtra("scale", true);
         //image type

@@ -12,7 +12,6 @@
         android:layout_height="@dimen/height_top_bar"
         android:background="?attr/colorPrimary" />
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
