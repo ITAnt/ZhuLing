@@ -3,6 +3,7 @@ package com.itant.zhuling.ui.main.tab.news.detail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -54,6 +55,8 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
         }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
+        ActivityCompat.postponeEnterTransition(this);
+        ActivityCompat.startPostponedEnterTransition(this);
 
         String url = getIntent().getStringExtra("url_top");
         ImageView iv_top = (ImageView) findViewById(R.id.iv_top);
@@ -65,13 +68,14 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
                 .priority(Priority.HIGH)
                 .override(256, 256)// 两边都使用override方法可以让过渡非常流畅
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存所有尺寸的图片
-                .dontAnimate()
+                .dontAnimate()// 重要：加入这一句，可以修复转场动画ImageView 宽度match_parent时边上有间隙的bug
+                .dontTransform()
                 .into(iv_top);
 
-        Glide.with(this).load(url)
+        /*Glide.with(this).load(url)
                 .priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存所有尺寸的图片
-                .into(iv_top);
+                .into(iv_top);*/
 
         /*Glide.with(this)
                 .load(url)
