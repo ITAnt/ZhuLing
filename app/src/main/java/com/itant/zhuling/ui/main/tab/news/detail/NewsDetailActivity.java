@@ -68,8 +68,8 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsDetailC
                 .priority(Priority.HIGH)
                 .override(256, 256)// 两边都使用override方法可以让过渡非常流畅
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存所有尺寸的图片
-                .dontAnimate()// 重要：加入这一句，可以修复转场动画ImageView 宽度match_parent时边上有间隙的bug
-                .dontTransform()
+                .dontAnimate()
+                .dontTransform()// 重要：加入这一句，可以修复转场动画ImageView 宽度match_parent时边上有间隙的bug
                 .into(iv_top);
 
         /*Glide.with(this).load(url)
