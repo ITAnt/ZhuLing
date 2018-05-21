@@ -109,9 +109,9 @@ public class MeizhiDetailActivity extends BaseSwipeActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bitmap != null) {
+        /*if (bitmap != null) {
             bitmap.recycle();
             bitmap = null;
-        }
+        }*/
     }
 }
