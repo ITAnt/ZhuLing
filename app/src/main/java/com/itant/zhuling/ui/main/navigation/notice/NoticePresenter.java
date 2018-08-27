@@ -12,7 +12,7 @@ import cn.bmob.v3.listener.GetListener;
 public class NoticePresenter implements NoticeContract.Presenter {
     private Context context;
     private NoticeContract.View view;
-    private static final String UPDATE_LOG_ID = "Ew3N2224";
+    private static final String UPDATE_LOG_ID = "EqWV888i";
 
     public NoticePresenter(Context context, NoticeContract.View view) {
         this.context = context;
